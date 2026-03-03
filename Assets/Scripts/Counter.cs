@@ -19,7 +19,7 @@ public class Counter : MonoBehaviour
         Merge.Merged += OnVeggiesMerged;
     }
 
-    private void OnDestroy() => Merge.Merged -= OnVeggiesMerged;
+    private void OnDestroy() { Merge.Merged -= OnVeggiesMerged; }
 
     private void OnVeggiesMerged(int level)
     {
