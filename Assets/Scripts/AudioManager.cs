@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private Drag drag;
     private AudioSource source;
-    public static bool isMuted;
+    public static bool isMuted= false;
     public static event Action Muted;
     void Awake()
     {
@@ -27,7 +27,7 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         source = GetComponent<AudioSource>();
-        isMuted=source.mute;
+        source.mute= isMuted;
         Subscribe();
     }
 
