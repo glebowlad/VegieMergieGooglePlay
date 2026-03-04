@@ -447,9 +447,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 291603533}
+      - m_Target: {fileID: 2113414909}
         m_TargetAssemblyTypeName: SoundToggle, Assembly-CSharp
-        m_MethodName: ToggleSound
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2445,7 +2445,10 @@ MonoBehaviour:
   mergeSounds:
   - {fileID: 8300000, guid: 042fa51cd37b1924d977da52270976c4, type: 3}
   dropSounds:
-  - {fileID: 8300000, guid: 5e3042e6031d0ff4091af6db4756df51, type: 3}
+  - {fileID: 8300000, guid: 46756a477a24d384e8fd8dbd54e228e8, type: 3}
+  - {fileID: 8300000, guid: 9a7d3dbadb29c6a4da745a1abeb7b95f, type: 3}
+  - {fileID: 8300000, guid: be880bc33d0bfbd40b2245d037d73ae9, type: 3}
+  - {fileID: 8300000, guid: 4a1fc03821eabd1498803f76b7eb2bce, type: 3}
   drag: {fileID: 1944206786}
 --- !u!82 &2113414911
 AudioSource:
