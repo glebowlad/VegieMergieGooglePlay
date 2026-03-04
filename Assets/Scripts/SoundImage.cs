@@ -14,11 +14,10 @@ public class SoundImage : MonoBehaviour
 
     }
 
-    private void OnDestroy()
+    public void Mute()
     {
-        AudioManager.Muted -= UpdateAppearance;
+        AudioManager.Instance.Mute();
     }
-
     void UpdateAppearance()
     {
         if (AudioManager.isMuted)
@@ -30,4 +29,10 @@ public class SoundImage : MonoBehaviour
             buttonImage.sprite = soundOnSprite;
         }
     }
+    private void OnDestroy()
+    {
+        AudioManager.Muted -= UpdateAppearance;
+    }
+
+    
 }

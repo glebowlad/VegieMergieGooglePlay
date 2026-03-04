@@ -447,8 +447,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2113414910}
-        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+      - m_Target: {fileID: 291603533}
+        m_TargetAssemblyTypeName: SoundImage, Assembly-CSharp
         m_MethodName: Mute
         m_Mode: 1
         m_Arguments:
