@@ -65,6 +65,7 @@ public class Drag : MonoBehaviour
                 YG2.InterstitialAdvShow();
             }
             OnDragFinished?.Invoke();
+            AudioManager.Instance.PlayDropSound();
         }
     }
 

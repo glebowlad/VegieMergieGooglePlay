@@ -33,7 +33,7 @@ public class AudioManager : MonoBehaviour
 
     private void Subscribe()
     {
-        drag.OnDragFinished += PlayDropSound;
+        
         Merge.Merged += PlayMergeSound;
     }
 
@@ -65,7 +65,7 @@ public class AudioManager : MonoBehaviour
     }
     private void OnDestroy()
     {
-        drag.OnDragFinished -= PlayDropSound;
+        
         Merge.Merged -= PlayMergeSound;
     }
 }
