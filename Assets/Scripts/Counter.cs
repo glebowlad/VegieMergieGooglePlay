@@ -4,7 +4,7 @@ using System.Collections;
 
 public class Counter : MonoBehaviour
 {
-    private TextMeshProUGUI scoreText;
+    public TextMeshProUGUI scoreText;
     private int displayedScore = 0;
     public static int totalScore = 0;
     public static int totalMergedItems = 0;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using YG;
 public class Vegetable : MonoBehaviour
@@ -8,6 +9,7 @@ public class Vegetable : MonoBehaviour
     private Rigidbody2D rb; 
     private GameObject gameOverLine;
     private GameObject gameOverPanel;
+    private TextMeshProUGUI scoreText;
 
     public float radiusOffset = 0f;
 
@@ -62,8 +64,9 @@ public class Vegetable : MonoBehaviour
 
     private void GameOver()
     {
-       
         Debug.Log("GAME OVER");
+        scoreText = gameOverPanel.transform.GetChild(1).GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
+        scoreText.text = Counter.totalScore.ToString();
         gameOverPanel.SetActive(true);
         drag.enabled = false;
     }

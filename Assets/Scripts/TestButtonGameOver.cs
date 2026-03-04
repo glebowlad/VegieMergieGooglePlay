@@ -5,6 +5,7 @@ public class ToggleObject : MonoBehaviour
 {
     public GameObject targetObject;
     public TextMeshProUGUI textScore; // Сюда перетащишь текстовый объект с окна финала
+    [SerializeField] private Drag drag;
 
     private void Awake()
     {
@@ -17,7 +18,7 @@ public class ToggleObject : MonoBehaviour
         {
             bool isActive = targetObject.activeSelf;
             targetObject.SetActive(!isActive);
-
+            drag.enabled = isActive;
             // Если окно открывается (становится активным)
             if (targetObject.activeSelf)
             {
