@@ -11,6 +11,8 @@ public class Spawner : MonoBehaviour
     [SerializeField]
     private GameObject gameOverLine;
     [SerializeField]
+    private GameObject gameOverPanel;
+    [SerializeField]
     private Image nextItemImage;
 
     private GameObject itemToSpawn;
@@ -26,6 +28,7 @@ public class Spawner : MonoBehaviour
     private void Awake()
     {
         spawnerRect = gameObject.GetComponent<RectTransform>();
+        gameOverPanel.SetActive(false);
         nextItemImage.enabled = false;
         pool = new PrefabPool(vegPrefabs,10);
         drag = GetComponent<Drag>();
@@ -68,7 +71,7 @@ public class Spawner : MonoBehaviour
 
         // Получаем скрипт овоща для инициализации и доступа к его настройкам
         var itemVeg = itemToSpawn.GetComponent<Vegetable>();
-        itemVeg.Initialize(drag, gameOverLine);
+        itemVeg.Initialize(drag, gameOverLine, gameOverPanel);
 
         // Рассчитываем ширину с учетом индивидуального отступа овоща
         // Если овощ "цепляет" стенку — в инспекторе префаба ставим radiusOffset больше 0

@@ -7,6 +7,8 @@ public class Vegetable : MonoBehaviour
     private Drag drag;
     private Rigidbody2D rb; 
     private GameObject gameOverLine;
+    private GameObject gameOverPanel;
+
     public float radiusOffset = 0f;
 
     private void Awake()
@@ -15,8 +17,9 @@ public class Vegetable : MonoBehaviour
         rb.simulated = false;
     }
 
-    public void Initialize(Drag _drag, GameObject _gameOverLine)
+    public void Initialize(Drag _drag, GameObject _gameOverLine, GameObject _gameOverPanel)
     {
+        gameOverPanel = _gameOverPanel;
         gameOverLine = _gameOverLine;
         drag = _drag;
         if (drag != null)
@@ -53,8 +56,15 @@ public class Vegetable : MonoBehaviour
         yield return new WaitForSeconds(2f);
         if (gameObject.transform.position.y > gameOverLine.transform.position.y)
         {
-            Debug.Log("GAME OVER");
-            YG2.InterstitialAdvShow();
+            GameOver();
         }
+    }
+
+    private void GameOver()
+    {
+       
+        Debug.Log("GAME OVER");
+        gameOverPanel.SetActive(true);
+        drag.enabled = false;
     }
 }

@@ -24,6 +24,7 @@ public class Drag : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         line = transform.GetChild(0);
         line.gameObject.SetActive(false);
+       
     }
 
     private void Update()
