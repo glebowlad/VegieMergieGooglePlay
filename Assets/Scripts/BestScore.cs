@@ -30,8 +30,9 @@ public class BestScore : MonoBehaviour
 
     private void ShowBestScore()
     {
-        bestScoreSceneText.text = bestScore.ToString();
-        bestScoreGOText.text = bestScore.ToString();
+        bestScoreSceneText.text = bestScore.ToString().PadLeft(5, '0');
+        bestScoreGOText.text = bestScore.ToString().PadLeft(5, '0');
+        
     }
     private void SaveBestScore()
     {

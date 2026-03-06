@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro; // Добавь это, чтобы работать с TextMeshPro
 
-public class ToggleObject : MonoBehaviour
+public class TestButtonGameOver : MonoBehaviour
 {
     public GameObject targetObject;
     public TextMeshProUGUI textScore; // Сюда перетащишь текстовый объект с окна финала

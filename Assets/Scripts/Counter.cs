@@ -49,7 +49,6 @@ public class Counter : MonoBehaviour
             scoreText.text = displayedScore.ToString().PadLeft(5, '0');
             yield return null;
         }
-       // displayedScore = targetScore;
-        ///scoreText.text = displayedScore.ToString().PadLeft(5, '0');
+       
     }
 }

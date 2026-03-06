@@ -886,9 +886,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 599106524}
-        m_TargetAssemblyTypeName: BestScore, Assembly-CSharp
-        m_MethodName: ResetScore
+      - m_Target: {fileID: 453721390}
+        m_TargetAssemblyTypeName: TestButtonGameOver, Assembly-CSharp
+        m_MethodName: Toggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
