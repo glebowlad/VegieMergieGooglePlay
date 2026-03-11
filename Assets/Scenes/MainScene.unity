@@ -1077,7 +1077,7 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_Antialiasing: 0
+  m_Antialiasing: 2
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -3392,6 +3392,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9a7d3dbadb29c6a4da745a1abeb7b95f, type: 3}
   - {fileID: 8300000, guid: be880bc33d0bfbd40b2245d037d73ae9, type: 3}
   - {fileID: 8300000, guid: 4a1fc03821eabd1498803f76b7eb2bce, type: 3}
+  shakeSound: {fileID: 0}
   drag: {fileID: 0}
 --- !u!82 &2113414911
 AudioSource:
