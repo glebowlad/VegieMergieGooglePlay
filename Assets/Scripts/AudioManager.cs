@@ -5,17 +5,23 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance = null;
     [SerializeField]
+    private AudioClip bgSound;
+    [SerializeField]
     private AudioClip[] mergeSounds;
     [SerializeField]
     private AudioClip[] dropSounds;
 
     [SerializeField] 
     private AudioClip shakeSound;
-    [SerializeField]
-    private Drag drag;
-    private AudioSource source;
+    [SerializeField] private Drag drag;
+
+    public static AudioSource source;
     public static bool isMuted= false;
     public static event Action Muted;
+    private static bool isStart = true;
+
+    [SerializeField] private GameObject startPanel;
+   
     void Awake()
     {
 
@@ -26,12 +32,34 @@ public class AudioManager : MonoBehaviour
         else 
         { 
             Destroy(gameObject); 
+            return; 
         }
         DontDestroyOnLoad(gameObject);
 
         source = GetComponent<AudioSource>();
-        source.mute= isMuted;
+        source.clip= bgSound;
         Subscribe();
+    }
+    void Start()
+    {
+        startPanel.SetActive(isStart);
+        drag.enabled = false;
+        if(!isStart) { return; }
+        AudioListener.pause = true;
+        if (source.isPlaying) { source.Stop(); }
+    }
+
+    public void StartGame()
+    {
+        isStart = false;
+        AudioListener.pause = false;
+        if (!source.isPlaying)
+        {
+            source.Play();
+        }
+        startPanel.SetActive(isStart);
+        drag.enabled = true;
+
     }
 
     private void Subscribe()
@@ -39,7 +67,8 @@ public class AudioManager : MonoBehaviour
         
         Merge.Merged += PlayMergeSound;
     }
-
+  
+    
     public void Mute()
     {
         isMuted = !isMuted;

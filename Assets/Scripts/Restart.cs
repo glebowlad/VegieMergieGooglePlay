@@ -4,6 +4,7 @@ using YG;
 public class RestartGame : MonoBehaviour
 {
     [SerializeField] private BestScore bestScore;
+    
     public void Restart()
     {
         if (bestScore != null) { bestScore.CheckBestScore(); }
