@@ -16,6 +16,7 @@ public class Drag : MonoBehaviour
     public event Action OnDragFinished;
 
     private bool isDragging = false;
+    private int numberOfClicks = 0;
 
     private void Awake()
     {
@@ -59,9 +60,10 @@ public class Drag : MonoBehaviour
 
         if (isDragging && Input.GetMouseButtonUp(0))
         {
+            numberOfClicks++;
             isDragging = false;
             line.gameObject.SetActive(false);
-            if(Counter.totalMergedItems == 30)
+            if(numberOfClicks != 0 && numberOfClicks %30==0)
             {
                 YG2.InterstitialAdvShow();
             }
