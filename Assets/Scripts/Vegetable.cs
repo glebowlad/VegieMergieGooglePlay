@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using YG;
 public class Vegetable : MonoBehaviour
 {
     private Drag drag;

@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using YG;
+
 public class RestartGame : MonoBehaviour
 {
     [SerializeField] private BestScore bestScore;
@@ -9,6 +9,7 @@ public class RestartGame : MonoBehaviour
     {
         if (bestScore != null) { bestScore.CheckBestScore(); }
         SceneManager.LoadScene(0);
-        YG2.InterstitialAdvShow();
+        // реклама
+        //InterstitialAdvShow();
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using TMPro;
-using YG;
+
 
 public class Shaker : MonoBehaviour
 {
@@ -74,11 +74,12 @@ public class Shaker : MonoBehaviour
     }
     private void MyRewardAdvShow()
     {
-        YG2.RewardedAdvShow(rewardID, () =>
-        {
-            currentShakeCount += maxShakes;
-            UpdateCounter();
-        });
+        // Реклама за награду
+        //YG2.RewardedAdvShow(rewardID, () =>
+        //{
+        //    currentShakeCount += maxShakes;
+        //    UpdateCounter();
+        //});
     }
 
     private void HideAdvImage()

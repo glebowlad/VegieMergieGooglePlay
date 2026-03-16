@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using YG;
 
 public class Drag : MonoBehaviour
 {
@@ -65,7 +64,8 @@ public class Drag : MonoBehaviour
             line.gameObject.SetActive(false);
             if(numberOfClicks != 0 && numberOfClicks %30==0)
             {
-                YG2.InterstitialAdvShow();
+                // Реклама
+               //InterstitialAdvShow();
             }
             OnDragFinished?.Invoke();
             AudioManager.Instance.PlayDropSound();

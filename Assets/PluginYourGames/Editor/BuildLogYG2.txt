@@ -1,3 +1,0 @@
-﻿Build path: C:/Users/glebo/Vegie/Build
-Build number: 7
-PluginYG version: 2.008

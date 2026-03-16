@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using System.Collections;
-using YG;
 
 public class Counter : MonoBehaviour
 {
