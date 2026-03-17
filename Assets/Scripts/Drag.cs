@@ -10,12 +10,13 @@ public class Drag : MonoBehaviour
     private Spawner spawner;
     public RectTransform leftWall;
     public RectTransform rightWall;
-    
+
     public event Action WhileDrag;
     public event Action OnDragFinished;
 
     private bool isDragging = false;
     private int numberOfClicks = 0;
+    private int currentTouchId = -1;
 
     private void Awake()
     {
@@ -24,60 +25,82 @@ public class Drag : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         line = transform.GetChild(0);
         line.gameObject.SetActive(false);
-       
     }
 
     private void Update()
     {
         if (!Spawner.IsSpawned) return;
 
-        if (Input.touchCount > 0)
+        // Обрабатываем все касания
+        for (int i = 0; i < Input.touchCount; i++)
         {
+            Touch touch = Input.GetTouch(i);
 
-             Touch touch= Input.GetTouch(0);
-            if (touch.phase== TouchPhase.Began)
+            // Если уже есть активный драг, работаем только с ним
+            if (isDragging)
             {
-                // Проверяем, кликнули ли мы по кнопкам
+                // Проверяем, что это именно наше касание
+                if (touch.fingerId == currentTouchId)
+                {
+                    // Обрабатываем движение
+                    if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
+                    {
+                        MoveSpawner();
+                        WhileDrag?.Invoke();
+                    }
+
+                    // Обрабатываем окончание касания
+                    if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
+                    {
+                        FinishDrag();
+                    }
+                }
+                
+            }
+
+            // Если драга нет, проверяем начало нового касания
+            if (touch.phase == TouchPhase.Began)
+            {
+                // Проверяем, кликнули ли мы по UI элементу
                 if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
                 {
-                    // Получаем объект, по которому кликнули
                     GameObject clickedObject = EventSystem.current.currentSelectedGameObject;
-                
-                    // Если кликнули по UI, и это НЕ наша зона ввода — игнорируем (выходим)
-                    // Здесь замени "InputArea" на точное имя твоего объекта в иерархии
-                    if (clickedObject != null && clickedObject.name != "InputArea") 
+
+                    // Если это кнопка - игнорируем это касание
+                    if (clickedObject != null && clickedObject.CompareTag("Buttons"))
                     {
-                        return;
+                        continue; // Пропускаем это касание, но продолжаем проверять другие
                     }
                 }
 
-                isDragging = true;
-                line.gameObject.SetActive(true);
+                // Если дошли сюда - касание не по кнопке, начинаем драг
+                StartDrag(touch.fingerId);
             }
-
-            if (isDragging && (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary))
-            {
-                MoveSpawner();
-                WhileDrag?.Invoke();
-            }
-
-            if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
-            {
-                numberOfClicks++;
-                isDragging = false;
-                line.gameObject.SetActive(false);
-                if(numberOfClicks != 0 && numberOfClicks %30==0)
-                {
-                    // Реклама
-                   //InterstitialAdvShow();
-                }
-                OnDragFinished?.Invoke();
-                AudioManager.Instance.PlayDropSound();
-            }
-            }
-
+        }
     }
 
+    private void StartDrag(int fingerId)
+    {
+        isDragging = true;
+        currentTouchId = fingerId;
+        line.gameObject.SetActive(true);
+    }
+
+    private void FinishDrag()
+    {
+        numberOfClicks++;
+        isDragging = false;
+        currentTouchId = -1;
+        line.gameObject.SetActive(false);
+
+        if (numberOfClicks != 0 && numberOfClicks % 30 == 0)
+        {
+            // Реклама
+            //InterstitialAdvShow();
+        }
+        OnDragFinished?.Invoke();
+        AudioManager.Instance.PlayDropSound();
+    }
 
     private void MoveSpawner()
     {
@@ -90,17 +113,14 @@ public class Drag : MonoBehaviour
         Vector2 leftWallLocal = canvas.transform.InverseTransformPoint(leftWall.position);
         Vector2 rightWallLocal = canvas.transform.InverseTransformPoint(rightWall.position);
 
-        // Берем половину ширины овоща. Если овоща нет, отступ 0.
         float halfWidth = (spawner != null) ? spawner.CurrentItemWidth / 2f : 0;
 
         float clampedX = Mathf.Clamp(
             localPoint.x,
-            leftWallLocal.x + halfWidth, 
+            leftWallLocal.x + halfWidth,
             rightWallLocal.x - halfWidth
         );
 
         rectTransform.localPosition = new Vector3(clampedX, rectTransform.localPosition.y, rectTransform.localPosition.z);
     }
-
-
 }
