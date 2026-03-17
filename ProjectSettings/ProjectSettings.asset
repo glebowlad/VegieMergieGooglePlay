@@ -162,7 +162,8 @@ PlayerSettings:
   resetResolutionOnWindowResize: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Android: com.MojoGames.VegieMerge
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -171,7 +172,7 @@ PlayerSettings:
   overrideDefaultApplicationIdentifier: 0
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 22
-  AndroidTargetSdkVersion: 0
+  AndroidTargetSdkVersion: 34
   AndroidPreferredInstallLocation: 1
   aotOptions: 
   stripEngineCode: 1
@@ -262,7 +263,7 @@ PlayerSettings:
   useCustomGradlePropertiesTemplate: 0
   useCustomGradleSettingsTemplate: 0
   useCustomProguardFile: 0
-  AndroidTargetArchitectures: 1
+  AndroidTargetArchitectures: 2
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
@@ -661,7 +662,7 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: PLUGIN_YG_2;TMP_YG2;InterstitialAdv_yg;RewardedAdv_yg;RU_YG2;Localization_yg;AutoTranslateLangs_yg;YandexGamesPlatform_yg
+    Android: 
     LinuxHeadlessSimulation: PLUGIN_YG_2;TMP_YG2;InterstitialAdv_yg;RewardedAdv_yg;RU_YG2;Localization_yg;AutoTranslateLangs_yg;YandexGamesPlatform_yg
     Nintendo Switch: PLUGIN_YG_2;TMP_YG2;InterstitialAdv_yg;RewardedAdv_yg;RU_YG2;Localization_yg;AutoTranslateLangs_yg;YandexGamesPlatform_yg
     PS4: PLUGIN_YG_2;TMP_YG2;InterstitialAdv_yg;RewardedAdv_yg;RU_YG2;Localization_yg;AutoTranslateLangs_yg;YandexGamesPlatform_yg
@@ -674,7 +675,8 @@ PlayerSettings:
     tvOS: PLUGIN_YG_2;TMP_YG2;InterstitialAdv_yg;RewardedAdv_yg;RU_YG2;Localization_yg;AutoTranslateLangs_yg;YandexGamesPlatform_yg
   additionalCompilerArguments: {}
   platformArchitecture: {}
-  scriptingBackend: {}
+  scriptingBackend:
+    Android: 1
   il2cppCompilerConfiguration: {}
   il2cppCodeGeneration: {}
   managedStrippingLevel:
