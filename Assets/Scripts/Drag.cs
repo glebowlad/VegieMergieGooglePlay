@@ -31,45 +31,51 @@ public class Drag : MonoBehaviour
     {
         if (!Spawner.IsSpawned) return;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.touchCount > 0)
         {
-            // Проверяем, кликнули ли мы по кнопкам
-            if (EventSystem.current.IsPointerOverGameObject())
+
+             Touch touch= Input.GetTouch(0);
+            if (touch.phase== TouchPhase.Began)
             {
-                // Получаем объект, по которому кликнули
-                GameObject clickedObject = EventSystem.current.currentSelectedGameObject;
-                
-                // Если кликнули по UI, и это НЕ наша зона ввода — игнорируем (выходим)
-                // Здесь замени "InputArea" на точное имя твоего объекта в иерархии
-                if (clickedObject != null && clickedObject.name != "InputArea") 
+                // Проверяем, кликнули ли мы по кнопкам
+                if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
                 {
-                    return;
+                    // Получаем объект, по которому кликнули
+                    GameObject clickedObject = EventSystem.current.currentSelectedGameObject;
+                
+                    // Если кликнули по UI, и это НЕ наша зона ввода — игнорируем (выходим)
+                    // Здесь замени "InputArea" на точное имя твоего объекта в иерархии
+                    if (clickedObject != null && clickedObject.name != "InputArea") 
+                    {
+                        return;
+                    }
                 }
+
+                isDragging = true;
+                line.gameObject.SetActive(true);
             }
 
-            isDragging = true;
-            line.gameObject.SetActive(true);
-        }
-
-        if (isDragging && Input.GetMouseButton(0))
-        {
-            MoveSpawner();
-            WhileDrag?.Invoke();
-        }
-
-        if (isDragging && Input.GetMouseButtonUp(0))
-        {
-            numberOfClicks++;
-            isDragging = false;
-            line.gameObject.SetActive(false);
-            if(numberOfClicks != 0 && numberOfClicks %30==0)
+            if (isDragging && (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary))
             {
-                // Реклама
-               //InterstitialAdvShow();
+                MoveSpawner();
+                WhileDrag?.Invoke();
             }
-            OnDragFinished?.Invoke();
-            AudioManager.Instance.PlayDropSound();
-        }
+
+            if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
+            {
+                numberOfClicks++;
+                isDragging = false;
+                line.gameObject.SetActive(false);
+                if(numberOfClicks != 0 && numberOfClicks %30==0)
+                {
+                    // Реклама
+                   //InterstitialAdvShow();
+                }
+                OnDragFinished?.Invoke();
+                AudioManager.Instance.PlayDropSound();
+            }
+            }
+
     }
 
 
