@@ -92,7 +92,7 @@ public class Drag : MonoBehaviour
         currentTouchId = -1;
         line.gameObject.SetActive(false);
 
-        if (numberOfClicks != 0 && numberOfClicks % 60 == 0)
+        if (numberOfClicks != 0 && numberOfClicks % 70 == 0)
         {
             // Реклама
             AdsManager.Instance.interstitialAds.ShowInterstitialAd();
