@@ -47,7 +47,9 @@ public class Shaker : MonoBehaviour
         }
         else
         {
-            MyRewardAdvShow();
+           AdsManager.Instance.rewardedAds.ShowRewardedAd();
+            currentShakeCount += maxShakes;
+            UpdateCounter();
         }
 
     }
@@ -72,15 +74,7 @@ public class Shaker : MonoBehaviour
         if (counterObject != null) counterObject.SetActive(false);
         AddVideo.SetActive(true);
     }
-    private void MyRewardAdvShow()
-    {
-        // Реклама за награду
-        //YG2.RewardedAdvShow(rewardID, () =>
-        //{
-        //    currentShakeCount += maxShakes;
-        //    UpdateCounter();
-        //});
-    }
+    
 
     private void HideAdvImage()
     {

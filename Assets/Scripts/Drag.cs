@@ -55,9 +55,8 @@ public class Drag : MonoBehaviour
                         FinishDrag();
                     }
                 }
-                
-            }
 
+            }
             // Если драга нет, проверяем начало нового касания
             if (touch.phase == TouchPhase.Began)
             {
@@ -93,10 +92,10 @@ public class Drag : MonoBehaviour
         currentTouchId = -1;
         line.gameObject.SetActive(false);
 
-        if (numberOfClicks != 0 && numberOfClicks % 30 == 0)
+        if (numberOfClicks != 0 && numberOfClicks % 60 == 0)
         {
             // Реклама
-            //InterstitialAdvShow();
+            AdsManager.Instance.interstitialAds.ShowInterstitialAd();
         }
         OnDragFinished?.Invoke();
         AudioManager.Instance.PlayDropSound();
