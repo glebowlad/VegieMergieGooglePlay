@@ -106,7 +106,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 46138.04
+  m_Mass: 111917.61
   m_LinearDrag: 1
   m_AngularDrag: 1
   m_GravityScale: 1
@@ -179,8 +179,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.7069764, y: -14.711998}
-  m_Size: {x: 196.5833, y: 127.64854}
+  m_Offset: {x: 1.5842899, y: -20.510899}
+  m_Size: {x: 228.59671, y: 139.2482}
   m_Direction: 1
 --- !u!70 &6560066682589992889
 CapsuleCollider2D:
@@ -214,8 +214,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.9293063, y: 1.3606262}
-  m_Size: {x: 184.4984, y: 164.48607}
+  m_Offset: {x: -0.24120177, y: 0.95538384}
+  m_Size: {x: 218.11317, y: 190.32176}
   m_Direction: 1
 --- !u!1001 &6805694749284598972
 PrefabInstance:
