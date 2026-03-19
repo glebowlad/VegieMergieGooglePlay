@@ -112,7 +112,7 @@ public class Drag : MonoBehaviour
         Vector2 leftWallLocal = canvas.transform.InverseTransformPoint(leftWall.position);
         Vector2 rightWallLocal = canvas.transform.InverseTransformPoint(rightWall.position);
 
-        float halfWidth = (spawner != null) ? spawner.CurrentItemWidth / 2f : 0;
+        float halfWidth = (spawner != null) ? spawner.CurrentItemWidth / 1.5f : 0;
 
         float clampedX = Mathf.Clamp(
             localPoint.x,
