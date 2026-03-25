@@ -10,6 +10,9 @@ public class Drag : MonoBehaviour
     private Spawner spawner;
     public RectTransform leftWall;
     public RectTransform rightWall;
+    
+    // НОВАЯ ПЕРЕМЕННАЯ: Сюда в инспекторе перетащите вашу панель-сенсор
+    public RectTransform touchArea; 
 
     public event Action WhileDrag;
     public event Action OnDragFinished;
@@ -55,25 +58,31 @@ public class Drag : MonoBehaviour
                         FinishDrag();
                     }
                 }
-
             }
+            
             // Если драга нет, проверяем начало нового касания
             if (touch.phase == TouchPhase.Began)
             {
-                // Проверяем, кликнули ли мы по UI элементу
-                if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+                // ПРОВЕРКА ОБЛАСТИ: Проверяем, попал ли палец в границы touchArea
+                bool isInsideArea = RectTransformUtility.RectangleContainsScreenPoint(touchArea, touch.position, canvas.worldCamera);
+
+                if (isInsideArea)
                 {
-                    GameObject clickedObject = EventSystem.current.currentSelectedGameObject;
-
-                    // Если это кнопка - игнорируем это касание
-                    if (clickedObject != null && clickedObject.CompareTag("Buttons"))
+                    // Проверяем, кликнули ли мы по UI элементу
+                    if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
                     {
-                        continue; // Пропускаем это касание, но продолжаем проверять другие
-                    }
-                }
+                        GameObject clickedObject = EventSystem.current.currentSelectedGameObject;
 
-                // Если дошли сюда - касание не по кнопке, начинаем драг
-                StartDrag(touch.fingerId);
+                        // Если это кнопка - игнорируем это касание
+                        if (clickedObject != null && clickedObject.CompareTag("Buttons"))
+                        {
+                            continue; // Пропускаем это касание, но продолжаем проверять другие
+                        }
+                    }
+
+                    // Если дошли сюда - касание внутри зоны и не по кнопке, начинаем драг
+                    StartDrag(touch.fingerId);
+                }
             }
         }
     }
