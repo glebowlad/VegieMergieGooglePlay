@@ -11,7 +11,6 @@ public class Drag : MonoBehaviour
     public RectTransform leftWall;
     public RectTransform rightWall;
     
-    // НОВАЯ ПЕРЕМЕННАЯ: Сюда в инспекторе перетащите вашу панель-сенсор
     public RectTransform touchArea; 
 
     public event Action WhileDrag;
