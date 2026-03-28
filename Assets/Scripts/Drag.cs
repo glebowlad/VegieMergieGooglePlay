@@ -89,7 +89,10 @@ public class Drag : MonoBehaviour
     {
         isDragging = true;
         currentTouchId = fingerId;
-        line.gameObject.SetActive(true);
+        if (spawner.IsSpawned)
+        {
+            line.gameObject.SetActive(true);
+        }
     }
 
     private void FinishDrag()
@@ -97,7 +100,9 @@ public class Drag : MonoBehaviour
         numberOfClicks++;
         isDragging = false;
         currentTouchId = -1;
-        line.gameObject.SetActive(false);
+        
+            line.gameObject.SetActive(false);
+        
 
         if (numberOfClicks != 0 && numberOfClicks % 70 == 0)
         {
@@ -105,7 +110,6 @@ public class Drag : MonoBehaviour
             AdsManager.Instance.interstitialAds.ShowInterstitialAd();
         }
         OnDragFinished?.Invoke();
-        AudioManager.Instance.PlayDropSound();
     }
 
     private void MoveSpawner()

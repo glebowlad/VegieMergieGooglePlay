@@ -41,8 +41,8 @@ public class Vegetable : MonoBehaviour
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
         
-        rb.simulated = true; 
-
+        rb.simulated = true;
+        AudioManager.Instance.PlayDropSound();
         if (drag != null)
         {
             drag.WhileDrag -= Move;
