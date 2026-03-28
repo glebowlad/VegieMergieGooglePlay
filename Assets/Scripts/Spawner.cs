@@ -21,7 +21,8 @@ public class Spawner : MonoBehaviour
     private PrefabPool pool;
     private float itemWidth;
     private Drag drag;
-    public static bool IsSpawned { get; private set; }
+    private bool isSpawning=false;
+    public  bool IsSpawned { get; private set; }
     public float CurrentItemWidth => itemWidth; 
 
 
@@ -38,13 +39,15 @@ public class Spawner : MonoBehaviour
 
     private void Spawn()
     {
-        IsSpawned = false;
-        StopAllCoroutines();
+        if (isSpawning) return;
+        //StopAllCoroutines();
         StartCoroutine(SpawnTimer());
 
     }
     private IEnumerator SpawnTimer()
     {
+        isSpawning=true;
+        IsSpawned = false;
         yield return new WaitForSeconds(0.4f);
 
         if (nextItemToSpawn == null)
@@ -60,13 +63,13 @@ public class Spawner : MonoBehaviour
         nextItemToSpawn = pool.GetRandom();
         nextItemToSpawn.SetActive(false);
 
-        nextItemImage.sprite = nextItemToSpawn.GetComponent<SpriteRenderer>().sprite;
+        var spriteRenderer= nextItemToSpawn.GetComponent<SpriteRenderer>();
+        nextItemImage.sprite=spriteRenderer.sprite;
         nextItemImage.enabled = true;
 
 
 
 
-        IsSpawned = true;
         itemToSpawn.transform.SetParent(transform, false);
 
         // Получаем скрипт овоща для инициализации и доступа к его настройкам
@@ -80,6 +83,8 @@ public class Spawner : MonoBehaviour
 
         // Обновляем размер спавнера (это нужно для корректной работы Drag)
         spawnerRect.sizeDelta = new Vector2(itemWidth, spawnerRect.sizeDelta.y);
+        IsSpawned = true;
+        isSpawning = false;
     }
 
     private void Subscribe(Drag _drag)

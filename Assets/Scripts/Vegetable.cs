@@ -25,18 +25,18 @@ public class Vegetable : MonoBehaviour
         drag = _drag;
         if (drag != null)
         {
-            drag.WhileDrag += OnDrag;
-            drag.OnDragFinished += DragFinished;
+            drag.WhileDrag += Move;
+            drag.OnDragFinished += Drop;
         }
     }
 
-    private void OnDrag()
+    private void Move()
     {
         transform.position = transform.parent.position;
         StopAllCoroutines();
     }
 
-    private void DragFinished()
+    private void Drop()
     {
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
@@ -45,8 +45,8 @@ public class Vegetable : MonoBehaviour
 
         if (drag != null)
         {
-            drag.WhileDrag -= OnDrag;
-            drag.OnDragFinished -= DragFinished;
+            drag.WhileDrag -= Move;
+            drag.OnDragFinished -= Drop;
         }
         this.enabled = false;
         StartCoroutine(CheckGameOver());

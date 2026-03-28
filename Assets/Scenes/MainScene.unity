@@ -3165,7 +3165,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3846463859217495625, guid: a155455976abb894cb03a4a82569f59a, type: 3}
   m_PrefabInstance: {fileID: 1247235875534718319}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1896629076}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 744922658d1f8eb4b870fb547e6e2776, type: 3}
@@ -3861,11 +3861,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1870864038}
   m_CullTransparentMesh: 1
---- !u!1 &1896629076 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4341574783112696128, guid: a155455976abb894cb03a4a82569f59a, type: 3}
-  m_PrefabInstance: {fileID: 1247235875534718319}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1911991359
 GameObject:
   m_ObjectHideFlags: 0
@@ -4464,14 +4459,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1637013304}
     m_Modifications:
     - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
-      propertyPath: Space
-      value: 
-      objectReference: {fileID: 1896629076}
-    - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
-      propertyPath: nextImage
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
       propertyPath: gameOverLine
       value: 
       objectReference: {fileID: 1247235875534718320}
@@ -4483,38 +4470,6 @@ PrefabInstance:
       propertyPath: nextItemImage
       value: 
       objectReference: {fileID: 846599464}
-    - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
-      propertyPath: vegPrefabs.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
-      propertyPath: vegPrefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 6008126811829159264, guid: b9df0ac4801ca70499059e7e5491f8a6, type: 3}
-    - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
-      propertyPath: vegPrefabs.Array.data[1]
-      value: 
-      objectReference: {fileID: 6008126811829159264, guid: 300b5da288f267749a6b09e681beb611, type: 3}
-    - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
-      propertyPath: vegPrefabs.Array.data[2]
-      value: 
-      objectReference: {fileID: 6008126811829159264, guid: e56c770979c398743ba747f7add9bd74, type: 3}
-    - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
-      propertyPath: vegPrefabs.Array.data[3]
-      value: 
-      objectReference: {fileID: 6008126811829159264, guid: 37312a9c45e23f84a9d99935daacdc95, type: 3}
-    - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
-      propertyPath: vegPrefabs.Array.data[4]
-      value: 
-      objectReference: {fileID: 6008126811829159264, guid: 03178c686644b5640a63583831d78cb8, type: 3}
-    - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
-      propertyPath: vegPrefabs.Array.data[5]
-      value: 
-      objectReference: {fileID: 6008126811829159264, guid: 193d65c02f0b95941897a3b18757587d, type: 3}
-    - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
-      propertyPath: vegPrefabs.Array.data[6]
-      value: 
-      objectReference: {fileID: 6008126811829159264, guid: 832687c7ba372a0439e4bfac6646c31e, type: 3}
     - target: {fileID: 2066061898345966611, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4610,10 +4565,6 @@ PrefabInstance:
     - target: {fileID: 9018148421106398678, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
       propertyPath: m_Name
       value: Spawner
-      objectReference: {fileID: 0}
-    - target: {fileID: 9018148421106398678, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
