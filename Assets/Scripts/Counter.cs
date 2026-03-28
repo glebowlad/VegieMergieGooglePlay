@@ -31,7 +31,6 @@ public class Counter : MonoBehaviour
         int pointsToAdd = (level + 1) + (level * 2);
         totalScore += pointsToAdd;
         totalMergedItems++;
-        Debug.Log($"totalMergedItems {totalMergedItems}");
         if (countCoroutine != null) StopCoroutine(countCoroutine);
         countCoroutine = StartCoroutine(AnimateScore(totalScore));
     }

@@ -6,11 +6,13 @@ public class Vegetable : MonoBehaviour
 {
     private Drag drag;
     private Rigidbody2D rb; 
+    private static int numberOfDrops = 0;
     private GameObject gameOverLine;
     private GameObject gameOverPanel;
     private TextMeshProUGUI scoreText;
 
     public float radiusOffset = 0f;
+
     public static event Action GameIsOver;
     private void Awake()
     {
@@ -38,6 +40,13 @@ public class Vegetable : MonoBehaviour
 
     private void Drop()
     {
+        numberOfDrops++;
+        Debug.Log($"numberOfDrops - {numberOfDrops}");
+        if ( numberOfDrops!= 0 && numberOfDrops % 60 == 0)
+        {
+            // Реклама
+            AdsManager.Instance.interstitialAds.ShowInterstitialAd();
+        }
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
         

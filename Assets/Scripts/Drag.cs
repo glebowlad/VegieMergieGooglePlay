@@ -100,15 +100,7 @@ public class Drag : MonoBehaviour
         numberOfClicks++;
         isDragging = false;
         currentTouchId = -1;
-        
-            line.gameObject.SetActive(false);
-        
-
-        if (numberOfClicks != 0 && numberOfClicks % 70 == 0)
-        {
-            // Реклама
-            AdsManager.Instance.interstitialAds.ShowInterstitialAd();
-        }
+        line.gameObject.SetActive(false);
         OnDragFinished?.Invoke();
     }
 
