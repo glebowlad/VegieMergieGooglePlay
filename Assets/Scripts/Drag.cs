@@ -31,7 +31,6 @@ public class Drag : MonoBehaviour
 
     private void Update()
     {
-        if (!Spawner.IsSpawned) return;
 
         // Обрабатываем все касания
         for (int i = 0; i < Input.touchCount; i++)

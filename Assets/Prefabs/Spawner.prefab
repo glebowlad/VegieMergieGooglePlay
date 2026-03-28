@@ -67,6 +67,8 @@ MonoBehaviour:
   - {fileID: 6008126811829159264, guid: 37312a9c45e23f84a9d99935daacdc95, type: 3}
   - {fileID: 6008126811829159264, guid: 03178c686644b5640a63583831d78cb8, type: 3}
   gameOverLine: {fileID: 0}
+  gameOverPanel: {fileID: 0}
+  nextItemImage: {fileID: 0}
 --- !u!114 &2706150352772572661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftWall: {fileID: 0}
   rightWall: {fileID: 0}
+  touchArea: {fileID: 0}
 --- !u!114 &7184980629859221804
 MonoBehaviour:
   m_ObjectHideFlags: 0
