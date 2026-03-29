@@ -6,7 +6,7 @@ public class Vegetable : MonoBehaviour
 {
     private Drag drag;
     private Rigidbody2D rb; 
-    private static int numberOfDrops;
+    private static int numberOfDrops=0;
     private GameObject gameOverLine;
     private GameObject gameOverPanel;
     private TextMeshProUGUI scoreText;
@@ -16,7 +16,6 @@ public class Vegetable : MonoBehaviour
     public static event Action GameIsOver;
     private void Awake()
     {
-        numberOfDrops = 0;
         rb = GetComponent<Rigidbody2D>();
         rb.simulated = false;
     }
