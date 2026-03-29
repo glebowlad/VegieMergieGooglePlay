@@ -14,14 +14,13 @@ public class Shaker : MonoBehaviour
     
     public float duration = 0.2f;
     public float magnitude = 10f;
-    public int maxShakes = 5;
+    public int maxShakes = 10;
     private bool isShaking = false;
 
     private int currentShakeCount;
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private RectTransform rectTransform;
-    private string rewardID;
 
     void Start()
     {

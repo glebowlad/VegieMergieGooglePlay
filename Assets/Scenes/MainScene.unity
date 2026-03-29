@@ -4730,6 +4730,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3846463859217495625, guid: a155455976abb894cb03a4a82569f59a, type: 3}
+      propertyPath: maxShakes
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846463859217495625, guid: a155455976abb894cb03a4a82569f59a, type: 3}
       propertyPath: counterText
       value: 
       objectReference: {fileID: 1675593796}

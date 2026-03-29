@@ -14,13 +14,14 @@ public class AudioManager : MonoBehaviour
     [SerializeField] 
     private AudioClip shakeSound;
     [SerializeField] private Drag drag;
+    [SerializeField] 
+    private GameObject startPanel;
 
     public static AudioSource source;
     public static bool isMuted= false;
     public static event Action Muted;
     private static bool isStart = true;
 
-    [SerializeField] private GameObject startPanel;
    
     void Awake()
     {

@@ -40,7 +40,7 @@ public class Spawner : MonoBehaviour
     private void Spawn()
     {
         if (isSpawning) return;
-        //StopAllCoroutines();
+        
         StartCoroutine(SpawnTimer());
 
     }
