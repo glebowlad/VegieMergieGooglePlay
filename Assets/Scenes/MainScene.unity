@@ -4276,8 +4276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13c36df0f3978124287ce7503a848138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 0}
-  duration: 0.5
+  scoreText: {fileID: 1187540838}
 --- !u!114 &2027674860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5184,6 +5183,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ButtonRestart
       objectReference: {fileID: 0}
+    - target: {fileID: 3565488311011321927, guid: 05dc411ef13417c45be2b64822cd4385, type: 3}
+      propertyPath: bestScore
+      value: 
+      objectReference: {fileID: 1167711893}
     - target: {fileID: 3565488311011321927, guid: 05dc411ef13417c45be2b64822cd4385, type: 3}
       propertyPath: startPanel
       value: 
