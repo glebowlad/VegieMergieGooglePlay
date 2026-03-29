@@ -6,7 +6,7 @@ public class Vegetable : MonoBehaviour
 {
     private Drag drag;
     private Rigidbody2D rb; 
-    private static int numberOfDrops = 0;
+    private static int numberOfDrops;
     private GameObject gameOverLine;
     private GameObject gameOverPanel;
     private TextMeshProUGUI scoreText;
@@ -16,6 +16,7 @@ public class Vegetable : MonoBehaviour
     public static event Action GameIsOver;
     private void Awake()
     {
+        numberOfDrops = 0;
         rb = GetComponent<Rigidbody2D>();
         rb.simulated = false;
     }
@@ -42,7 +43,7 @@ public class Vegetable : MonoBehaviour
     {
         numberOfDrops++;
         Debug.Log($"numberOfDrops - {numberOfDrops}");
-        if ( numberOfDrops!= 0 && numberOfDrops % 60 == 0)
+        if ( numberOfDrops!= 0 && numberOfDrops % 50 == 0)
         {
             // Реклама
             AdsManager.Instance.interstitialAds.ShowInterstitialAd();
