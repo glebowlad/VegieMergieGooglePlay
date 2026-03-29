@@ -1745,7 +1745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc7c8fd6a2271749b09633bb6d04811, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bestScoreGOText: {fileID: 1681720767}
+  bestScoreText: {fileID: 1293619657}
 --- !u!1 &647370631
 GameObject:
   m_ObjectHideFlags: 0
@@ -2631,6 +2631,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1167711889 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7449035022630805157, guid: 05dc411ef13417c45be2b64822cd4385, type: 3}
+  m_PrefabInstance: {fileID: 6862525245663220618}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1167711893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167711889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dc7c8fd6a2271749b09633bb6d04811, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bestScoreText: {fileID: 1681720767}
 --- !u!1 &1187540836
 GameObject:
   m_ObjectHideFlags: 0
@@ -5265,7 +5283,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7449035022630805157, guid: 05dc411ef13417c45be2b64822cd4385, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1167711893}
   m_SourcePrefab: {fileID: 100100000, guid: 05dc411ef13417c45be2b64822cd4385, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

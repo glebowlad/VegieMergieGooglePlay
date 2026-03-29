@@ -8,11 +8,9 @@ public class BestScore : MonoBehaviour
 {
     private int bestScore = 0;
 
-    private TextMeshProUGUI bestScoreSceneText;
-    [SerializeField] private TextMeshProUGUI bestScoreGOText;
+    [SerializeField] private TextMeshProUGUI bestScoreText;
     void Awake()
     {
-        bestScoreSceneText = GetComponentInChildren<TextMeshProUGUI>();
         LoadBestScore();
         Vegetable.GameIsOver += CheckBestScore;
     }
@@ -30,8 +28,7 @@ public class BestScore : MonoBehaviour
 
     private void ShowBestScore()
     {
-        bestScoreSceneText.text = bestScore.ToString().PadLeft(5, '0');
-        bestScoreGOText.text = bestScore.ToString().PadLeft(5, '0');
+        bestScoreText.text = bestScore.ToString().PadLeft(5, '0');
         
     }
     private void SaveBestScore()
