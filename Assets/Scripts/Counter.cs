@@ -4,18 +4,17 @@ using System.Collections;
 
 public class Counter : MonoBehaviour
 {
-    public TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI scoreText;
     private int displayedScore = 0;
     public static int totalScore = 0;
     public static int totalMergedItems = 0;
     
-    [SerializeField] private float duration = 0.5f;
+    private float duration = 0.5f;
     private Coroutine countCoroutine;
 
     private void Awake()
     {
         totalScore = 0;
-        scoreText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         scoreText.text = "00000";
         Merge.Merged += OnVeggiesMerged;
     }
