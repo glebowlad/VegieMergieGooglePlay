@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +7,6 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] vegPrefabs;
-    [SerializeField]
-    private GameObject gameOverLine;
     [SerializeField]
     private GameObject gameOverPanel;
     [SerializeField]
@@ -24,8 +21,6 @@ public class Spawner : MonoBehaviour
     private bool isSpawning=false;
     public  bool IsSpawned { get; private set; }
     public float CurrentItemWidth => itemWidth; 
-
-
     private void Awake()
     {
         spawnerRect = gameObject.GetComponent<RectTransform>();
@@ -74,7 +69,7 @@ public class Spawner : MonoBehaviour
 
         // Получаем скрипт овоща для инициализации и доступа к его настройкам
         var itemVeg = itemToSpawn.GetComponent<Vegetable>();
-        itemVeg.Initialize(drag, gameOverLine, gameOverPanel);
+        itemVeg.Initialize(drag);
 
         // Рассчитываем ширину с учетом индивидуального отступа овоща
         // Если овощ "цепляет" стенку — в инспекторе префаба ставим radiusOffset больше 0

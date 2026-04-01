@@ -12,13 +12,13 @@ public class BestScore : MonoBehaviour
     void Awake()
     {
         LoadBestScore();
-        Vegetable.GameIsOver += CheckBestScore;
+        GameOverCheck.GameIsOver += CheckBestScore;
     }
 
 
     private void OnDestroy()
     {
-        Vegetable.GameIsOver -= CheckBestScore;
+        GameOverCheck.GameIsOver -= CheckBestScore;
     }
     private void LoadBestScore()
     {
