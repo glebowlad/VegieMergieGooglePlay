@@ -66,7 +66,7 @@ public class Spawner : MonoBehaviour
         nextItemToSpawn.SetActive(false);
 
         // Шанс 30% на спецэффект
-        if (UnityEngine.Random.value <= 0.15f) //0.30f
+        if (UnityEngine.Random.value <= 0.20f) //0.30f
         {
             int randomTypeIndex = UnityEngine.Random.Range(1, 5); 
             nextVeg.SetSpecialType((Vegetable.VegetableType)randomTypeIndex);
