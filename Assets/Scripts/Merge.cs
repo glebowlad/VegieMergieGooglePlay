@@ -8,6 +8,7 @@ public class Merge : MonoBehaviour
     private bool isMerging = false;
     private GameObject collidedItem;
     private PrefabPool pool;
+    private Vegetable myVeg;
     
     // Событие теперь передает уровень (int)
     public static event Action<int> Merged;
@@ -15,26 +16,41 @@ public class Merge : MonoBehaviour
     private void Awake()
     {
         pool = new PrefabPool(nextLevelItem);
+        myVeg = GetComponent<Vegetable>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (nextLevelItem == null || isMerging) return;
 
-        if (collision.gameObject.CompareTag(gameObject.tag))
+        Vegetable otherVeg = collision.gameObject.GetComponent<Vegetable>();
+        if (otherVeg == null) return;
+
+        bool amIRebirth = (myVeg != null && myVeg.specialType == Vegetable.VegetableType.Rebirth);
+        bool isSameVeg = collision.gameObject.CompareTag(gameObject.tag);
+
+        if (amIRebirth || isSameVeg)
         {
             Merge otherMerge = collision.gameObject.GetComponent<Merge>();
             if (otherMerge == null || otherMerge.isMerging) return;
 
-            if (gameObject.GetInstanceID() < collision.gameObject.GetInstanceID())
+            // ИСПРАВЛЕННОЕ УСЛОВИЕ:
+            // Если это Золотой эффект — МЫ главные, запускаем сразу.
+            // Если это обычное слияние — проверяем ID, как раньше.
+            if (amIRebirth || gameObject.GetInstanceID() < collision.gameObject.GetInstanceID())
             {
                 isMerging = true;
                 otherMerge.isMerging = true;
                 collidedItem = collision.gameObject;
+                
+                if (amIRebirth) myVeg.specialType = Vegetable.VegetableType.Default;
+
                 StartCoroutine(CreateNewItem());
             }
         }
     }
+
+
 
     private IEnumerator CreateNewItem()
     {

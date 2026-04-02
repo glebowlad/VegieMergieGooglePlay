@@ -39,12 +39,14 @@ public class Spawner : MonoBehaviour
         StartCoroutine(SpawnTimer());
 
     }
+
     private IEnumerator SpawnTimer()
     {
-        isSpawning=true;
+        isSpawning = true;
         IsSpawned = false;
         yield return new WaitForSeconds(0.4f);
 
+        // 1. Получаем объект из пула или используем заготовленный
         if (nextItemToSpawn == null)
         {
             itemToSpawn = pool.GetRandom();
@@ -55,32 +57,43 @@ public class Spawner : MonoBehaviour
             itemToSpawn.SetActive(true);
         }
 
+        // 2. Готовим СЛЕДУЮЩИЙ овощ (превью)
         nextItemToSpawn = pool.GetRandom();
+        var nextVeg = nextItemToSpawn.GetComponent<Vegetable>();
+        
+        // Сначала полный сброс
+        nextVeg.ResetToDefault(); 
         nextItemToSpawn.SetActive(false);
 
-        var spriteRenderer= nextItemToSpawn.GetComponent<SpriteRenderer>();
-        nextItemImage.sprite=spriteRenderer.sprite;
-        nextItemImage.enabled = true;
+        // Шанс 30% на спецэффект
+        if (UnityEngine.Random.value <= 0.15f) //0.30f
+        {
+            int randomTypeIndex = UnityEngine.Random.Range(1, 5); 
+            nextVeg.SetSpecialType((Vegetable.VegetableType)randomTypeIndex);
+            
+        }
 
+        // 3. Обновляем UI превью (БЕЗ ДУБЛИКАТОВ ПЕРЕМЕННЫХ)
+        var sRenderer = nextItemToSpawn.GetComponent<SpriteRenderer>(); // Используем короткое имя, чтобы не путаться
+        if (sRenderer != null)
+        {
+            nextItemImage.sprite = sRenderer.sprite;
+            nextItemImage.color = sRenderer.color; // Подхватит цвет спецэффекта
+            nextItemImage.enabled = true;
+        }
 
-
-
+        // 4. Настраиваем текущий овощ для броска
         itemToSpawn.transform.SetParent(transform, false);
-
-        // Получаем скрипт овоща для инициализации и доступа к его настройкам
         var itemVeg = itemToSpawn.GetComponent<Vegetable>();
         itemVeg.Initialize(drag);
 
-        // Рассчитываем ширину с учетом индивидуального отступа овоща
-        // Если овощ "цепляет" стенку — в инспекторе префаба ставим radiusOffset больше 0
-        // Если "не доходит" — ставим меньше 0
         itemWidth = itemToSpawn.GetComponent<RectTransform>().rect.width + itemVeg.radiusOffset;
-
-        // Обновляем размер спавнера (это нужно для корректной работы Drag)
         spawnerRect.sizeDelta = new Vector2(itemWidth, spawnerRect.sizeDelta.y);
+        
         IsSpawned = true;
         isSpawning = false;
     }
+
 
     private void Subscribe(Drag _drag)
     {
