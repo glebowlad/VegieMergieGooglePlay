@@ -26,7 +26,7 @@ public class Merge : MonoBehaviour
         Vegetable otherVeg = collision.gameObject.GetComponent<Vegetable>();
         if (otherVeg == null) return;
 
-        bool amIRebirth = (myVeg != null && myVeg.specialType == Vegetable.VegetableType.Rebirth);
+        bool amIRebirth = (myVeg != null && myVeg.specialType == Vegetable.VegetableType.Reaper);
         bool isSameVeg = collision.gameObject.CompareTag(gameObject.tag);
 
         if (amIRebirth || isSameVeg)
@@ -35,7 +35,7 @@ public class Merge : MonoBehaviour
             if (otherMerge == null || otherMerge.isMerging) return;
 
             // ИСПРАВЛЕННОЕ УСЛОВИЕ:
-            // Если это Золотой эффект — МЫ главные, запускаем сразу.
+            // Если это Жнец эффект — МЫ главные, запускаем сразу.
             // Если это обычное слияние — проверяем ID, как раньше.
             if (amIRebirth || gameObject.GetInstanceID() < collision.gameObject.GetInstanceID())
             {

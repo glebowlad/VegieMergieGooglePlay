@@ -3,7 +3,20 @@ using System.Collections.Generic;
 
 public class Vegetable : MonoBehaviour
 {
-    public enum VegetableType { Default, Giant, Toxic, Ice, Rebirth }
+    public enum VegetableType 
+    { 
+        Default, 
+        Ice, 
+        Giant, 
+        Magic,     
+        Radiation, 
+        Reaper,   
+        Mutant,
+        // Вторичные эффекты (не участвуют в рандоме спавна)
+        Warning,   // Внимание Радиация
+        Virus,     // Вирус (активная фаза Мутанта)
+        Enchanted  // Эффект магии на цели   
+    }
     
     [Header("Настройки")]
     public VegetableType specialType = VegetableType.Default;
@@ -21,6 +34,7 @@ public class Vegetable : MonoBehaviour
     
     private SpriteRenderer[] renderers;
     private Color[] originalColors;
+    
 
     private static int numberOfDrops = 0;
     public static int GetTotalDrops()
@@ -108,31 +122,64 @@ public class Vegetable : MonoBehaviour
         switch (specialType)
         {
             case VegetableType.Giant: 
-                currentTargetColor = new Color(0.8f, 0.3f, 0f); // Темный медный/оранжевый
+                currentTargetColor = new Color(0.8f, 0.3f, 0f); // Темная медь
                 transform.localScale = Vector3.one * (1.35f * 1.5f); 
-                gameObject.AddComponent<Giant>(); 
-                break;
-            case VegetableType.Toxic: 
-                currentTargetColor = new Color(0.2f, 0.8f, 0.2f); // Сочный зеленый для маски
-                if (gameObject.GetComponent<Toxic>() == null) 
-                    gameObject.AddComponent<Toxic>(); 
+                if (gameObject.GetComponent<Giant>() == null) gameObject.AddComponent<Giant>(); 
                 break;
 
             case VegetableType.Ice: 
-                currentTargetColor = new Color(0f, 0.8f, 1f); 
-                if (gameObject.GetComponent<Ice>() == null) 
-                    gameObject.AddComponent<Ice>(); 
+                currentTargetColor = new Color(0f, 0.8f, 1f); // Ледяной голубой
+                if (gameObject.GetComponent<Ice>() == null) gameObject.AddComponent<Ice>(); 
                 break;
-            case VegetableType.Rebirth: 
-                currentTargetColor = new Color(1f, 0.92f, 0.16f); // Наше яркое золото
+
+            case VegetableType.Magic: 
+                // Эфирный розовато-лиловый цвет для магии уменьшения
+                currentTargetColor = new Color(1f, 0.6f, 0.9f, 0.8f); 
+                // Сюда позже добавим скрипт Magic (Mini-эффект по области)
                 break;
+
+            case VegetableType.Radiation: // Бывший Toxic
+                currentTargetColor = new Color(0.6f, 0.9f, 0.2f); // Кислотно-желтый
+                break;
+
+            case VegetableType.Reaper: // Наш новый Жнец
+                currentTargetColor = new Color(0.5f, 0f, 0.8f); // Глубокий фиолетовый
+                
+                // --- ТЕСТОВАЯ ГРАВИТАЦИЯ ДЛЯ ВИЗУАЛА ---
+                Rigidbody2D rb = GetComponent<Rigidbody2D>();
+                if (rb != null) 
+                {
+                    rb.gravityScale = 0.5f; // В 10 раз медленнее обычного
+                    rb.drag = 2f;         // Сопротивление, чтобы "парил" как перышко
+                }
+                // ---------------------------------------
+
+                break;
+
+            case VegetableType.Mutant: // Инкубация (ДНК)
+                currentTargetColor = new Color(0.6f, 0f, 0.1f, 1f); // Бордово-красный
+                break;
+
+            case VegetableType.Warning: 
+                currentTargetColor = new Color(0.8f, 0.9f, 0.1f, 0.7f); // Желто-зеленый (Тревога)
+                break;
+
+            case VegetableType.Virus: 
+                currentTargetColor = new Color(0.85f, 0.2f, 0.1f, 0.8f); // Гнойно-красный
+                break;
+
+            case VegetableType.Enchanted: 
+                currentTargetColor = new Color(1f, 0.4f, 1f, 0.6f); // Магический розово-фиолетовый
+                break;
+
             default: 
                 if (originalColors.Length > 0) currentTargetColor = originalColors[0]; 
                 break;
         }
-        
+    
         if (visual != null) visual.UpdateVisuals(specialType, currentTargetColor);
     }
+
 
     public void ResetToDefault()
     {

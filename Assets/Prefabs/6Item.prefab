@@ -152,6 +152,7 @@ MonoBehaviour:
   specialType: 0
   radiusOffset: 170
   currentTargetColor: {r: 0, g: 0, b: 0, a: 0}
+  hasRecoveredFromToxic: 0
 --- !u!114 &-3654440555729107154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,11 +167,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   specialMask: {fileID: 4301357780203225710}
   auraParticles: {fileID: 7684962208064267975}
-  iconIce: {fileID: 21300000, guid: d0f0e0a71161432438b14da187eb4bb5, type: 3}
-  iconToxic: {fileID: 21300000, guid: acb819ad72b81074896d5f56ec14c045, type: 3}
-  iconGiant: {fileID: 21300000, guid: 101be69ef48964f44a2d739ef11024ce, type: 3}
-  iconGhost: {fileID: 21300000, guid: 9b5dc6fc61e18bf47aff5893631752d5, type: 3}
-  iconRebirth: {fileID: 21300000, guid: 9a3799c2da70cbc45a3afcf9a931c61d, type: 3}
+  iconIce: {fileID: 21300000, guid: ac91754f890f93640936879b912f36d3, type: 3}
+  iconGiant: {fileID: 21300000, guid: f82226927e990f5458c4518099d107d3, type: 3}
+  iconMagic: {fileID: 21300000, guid: 3d955476d2835304aa1840e33089a248, type: 3}
+  iconRadiation: {fileID: 21300000, guid: 87bbefba3a43a2246b4306d87be7c2f8, type: 3}
+  iconReaper: {fileID: 21300000, guid: a24c001fee32a0940b297e5abf8d1326, type: 3}
+  iconMutant: {fileID: 21300000, guid: 6df5cdbc1a4515844a836a5c0bbc188d, type: 3}
+  statusMagic: {fileID: 21300000, guid: c9f7d32c9dcb7804b859fdf13ffeb9ac, type: 3}
+  statusWarning: {fileID: 21300000, guid: fc831c1206fd3394cb80a1fe67c63bff, type: 3}
+  statusVirus: {fileID: 21300000, guid: 4a50d56256ceba040b58ee6b3a134eaf, type: 3}
 --- !u!70 &6949569044140415900
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -366,11 +371,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8659342184224984076, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 8659342184224984076, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -6.1
       objectReference: {fileID: 0}
     - target: {fileID: 8659342184224984076, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -403,6 +408,10 @@ PrefabInstance:
     - target: {fileID: 8659342184224984076, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8854665544585550910, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 68.44
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

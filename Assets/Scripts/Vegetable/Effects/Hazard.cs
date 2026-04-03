@@ -18,6 +18,9 @@ public class Hazard : MonoBehaviour
     // Логика поведения в зоне риска
     public void UpdateHazard(float progress)
     {
+        // Если этот овощ — Жнец, выходим из метода и не считаем таймер
+        if (vegetable.specialType == Vegetable.VegetableType.Reaper) return;
+        
         // 1. Тряска (чем ближе к геймоверу, тем сильнее)
         if (progress > 0.4f)
         {
