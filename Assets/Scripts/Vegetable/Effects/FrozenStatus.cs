@@ -26,8 +26,8 @@ public class FrozenStatus : MonoBehaviour
                 rb.angularVelocity = 0f;
             }
             
-            if (vis != null) 
-                vis.UpdateVisuals(Vegetable.VegetableType.Ice, new Color(0f, 0.8f, 1f));
+            if (vis != null)
+                vis.UpdateVisuals(Vegetable.VegetableType.Ice);
             
             isInitialized = true;
             // Запускаем корутину только ОДИН раз
@@ -46,7 +46,7 @@ public class FrozenStatus : MonoBehaviour
 
         // РАЗМОРОЗКА
         if (rb != null) rb.constraints = RigidbodyConstraints2D.None;
-        if (vis != null) vis.UpdateVisuals(Vegetable.VegetableType.Default, Color.white);
+        if (vis != null) vis.UpdateVisuals(Vegetable.VegetableType.Default);
         
         // Самоуничтожение компонента (овощ здоров!)
         Destroy(this);

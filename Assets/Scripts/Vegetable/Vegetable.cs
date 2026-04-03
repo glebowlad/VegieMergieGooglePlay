@@ -101,8 +101,8 @@ public class Vegetable : MonoBehaviour
         transform.SetAsLastSibling();
         rb.simulated = true;
 
-        if (visual != null) 
-            visual.UpdateVisuals(specialType, currentTargetColor);
+        if (visual != null)
+            visual.UpdateVisuals(specialType);
         
         if (AudioManager.Instance != null) AudioManager.Instance.PlayDropSound();
         
@@ -122,54 +122,43 @@ public class Vegetable : MonoBehaviour
         switch (specialType)
         {
             case VegetableType.Giant: 
-                currentTargetColor = new Color(0.8f, 0.3f, 0f); // Темная медь
                 transform.localScale = Vector3.one * (1.35f * 1.5f); 
                 if (gameObject.GetComponent<Giant>() == null) gameObject.AddComponent<Giant>(); 
                 break;
 
             case VegetableType.Ice: 
-                currentTargetColor = new Color(0f, 0.8f, 1f); // Ледяной голубой
                 if (gameObject.GetComponent<Ice>() == null) gameObject.AddComponent<Ice>(); 
                 break;
 
             case VegetableType.Magic: 
-                // Эфирный розовато-лиловый цвет для магии уменьшения
-                currentTargetColor = new Color(1f, 0.6f, 0.9f, 0.8f); 
-                // Сюда позже добавим скрипт Magic (Mini-эффект по области)
                 break;
 
-            case VegetableType.Radiation: // Бывший Toxic
-                currentTargetColor = new Color(0.6f, 0.9f, 0.2f); // Кислотно-желтый
+            case VegetableType.Radiation: 
                 break;
 
-            case VegetableType.Reaper: // Наш новый Жнец
-                currentTargetColor = new Color(0.5f, 0f, 0.8f); // Глубокий фиолетовый
+            case VegetableType.Reaper: 
                 
                 // --- ТЕСТОВАЯ ГРАВИТАЦИЯ ДЛЯ ВИЗУАЛА ---
                 Rigidbody2D rb = GetComponent<Rigidbody2D>();
                 if (rb != null) 
                 {
-                    rb.gravityScale = 0.5f; // В 10 раз медленнее обычного
+                    rb.gravityScale = 0.5f; // В 5 раз медленнее обычного
                     rb.drag = 2f;         // Сопротивление, чтобы "парил" как перышко
                 }
                 // ---------------------------------------
 
                 break;
 
-            case VegetableType.Mutant: // Инкубация (ДНК)
-                currentTargetColor = new Color(0.6f, 0f, 0.1f, 1f); // Бордово-красный
+            case VegetableType.Mutant: 
                 break;
 
             case VegetableType.Warning: 
-                currentTargetColor = new Color(0.8f, 0.9f, 0.1f, 0.7f); // Желто-зеленый (Тревога)
                 break;
 
             case VegetableType.Virus: 
-                currentTargetColor = new Color(0.85f, 0.2f, 0.1f, 0.8f); // Гнойно-красный
                 break;
 
             case VegetableType.Enchanted: 
-                currentTargetColor = new Color(1f, 0.4f, 1f, 0.6f); // Магический розово-фиолетовый
                 break;
 
             default: 
@@ -177,7 +166,7 @@ public class Vegetable : MonoBehaviour
                 break;
         }
     
-        if (visual != null) visual.UpdateVisuals(specialType, currentTargetColor);
+        if (visual != null) visual.UpdateVisuals(specialType);
     }
 
 
@@ -198,7 +187,7 @@ public class Vegetable : MonoBehaviour
         
         if (hazard != null) hazard.ResetHazard();
         if (originalColors.Length > 0) currentTargetColor = originalColors[0];
-        if (visual != null) visual.UpdateVisuals(specialType, currentTargetColor);
+        if (visual != null) visual.UpdateVisuals(specialType);
     }
 
     // Методы-прослойки для зоны геймовера (чтобы не менять другие скрипты)

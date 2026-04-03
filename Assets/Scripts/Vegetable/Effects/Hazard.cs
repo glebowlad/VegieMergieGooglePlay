@@ -58,7 +58,7 @@ public class Hazard : MonoBehaviour
         zoneCollidersCount = 0;
         if (visual != null && vegetable != null) 
         {
-            visual.UpdateVisuals(vegetable.specialType, vegetable.currentTargetColor);
+            visual.UpdateVisuals(vegetable.specialType);
         }
     }
 }

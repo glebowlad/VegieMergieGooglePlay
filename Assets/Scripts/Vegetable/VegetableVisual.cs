@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class VegetableVisual : MonoBehaviour
@@ -6,18 +7,7 @@ public class VegetableVisual : MonoBehaviour
     public SpriteRenderer specialMask;
     public ParticleSystem auraParticles;
 
-    [Header("Основные иконки эффектов")]
-    public Sprite iconIce;      
-    public Sprite iconGiant;    
-    public Sprite iconMagic;    
-    public Sprite iconRadiation;
-    public Sprite iconReaper;   
-    public Sprite iconMutant;    // Бывший Virus, теперь это иконка ДНК
-
-    [Header("Иконки статусов (для жертв)")]
-    public Sprite statusMagic;    
-    public Sprite statusWarning;  // Для иконки "Внимание"
-    public Sprite statusVirus;    // Для активной фазы вируса
+    public List<VegetableEffectData> allEffects;
 
     private SpriteRenderer[] mainRenderers;
     private Color[] originalColors;
@@ -31,157 +21,105 @@ public class VegetableVisual : MonoBehaviour
         if (auraParticles != null) auraParticles.gameObject.SetActive(false);
     }
 
-    public void UpdateVisuals(Vegetable.VegetableType type, Color targetColor)
+    public void UpdateVisuals(Vegetable.VegetableType type)
     {
-        // 1. СБРОС К ОБЫЧНОМУ ВИДУ (Твой рабочий код)
+        if (auraParticles != null)
+            ResetParticlesToDefault();
+
+        if (mainRenderers != null)
+        {
+            foreach (var r in mainRenderers)
+            {
+                if (r == null) continue;
+                var c = r.color;
+                c.a = 1f;
+                r.color = c;
+            }
+        }
+
         if (type == Vegetable.VegetableType.Default)
         {
             if (specialMask != null) specialMask.gameObject.SetActive(false);
             if (auraParticles != null) auraParticles.gameObject.SetActive(false);
-            
-            foreach (var r in mainRenderers) {
-                if (r != specialMask) r.enabled = true;
+
+            if (mainRenderers != null)
+            {
+                foreach (var r in mainRenderers)
+                {
+                    if (r != null && r != specialMask) r.enabled = true;
+                }
             }
             return;
         }
 
-        // 2. ВКЛЮЧЕНИЕ МАСКИ (Твой рабочий код)
+        VegetableEffectData data = null;
+        if (allEffects != null)
+        {
+            for (int i = 0; i < allEffects.Count; i++)
+            {
+                var e = allEffects[i];
+                if (e != null && e.type == type)
+                {
+                    data = e;
+                    break;
+                }
+            }
+        }
+
+        if (data == null)
+        {
+            if (specialMask != null) specialMask.gameObject.SetActive(false);
+            if (auraParticles != null) auraParticles.gameObject.SetActive(false);
+
+            if (mainRenderers != null)
+            {
+                foreach (var r in mainRenderers)
+                {
+                    if (r != null && r != specialMask) r.enabled = true;
+                }
+            }
+            return;
+        }
+
         if (specialMask != null)
         {
             specialMask.gameObject.SetActive(true);
             specialMask.enabled = true;
-            specialMask.color = new Color(targetColor.r, targetColor.g, targetColor.b, 1f);
-            foreach (var r in mainRenderers) {
-                if (r != specialMask) r.enabled = false;
+            specialMask.color = data.maskColor;
+            if (mainRenderers != null)
+            {
+                foreach (var r in mainRenderers)
+                {
+                    if (r != null && r != specialMask) r.enabled = false;
+                }
             }
         }
 
-        // 3. НАСТРОЙКА ЧАСТИЦ
         if (auraParticles != null)
         {
             auraParticles.gameObject.SetActive(true);
-            
+
             var main = auraParticles.main;
             var emission = auraParticles.emission;
             var rotation = auraParticles.rotationOverLifetime;
             var textureSheet = auraParticles.textureSheetAnimation;
+            var shape = auraParticles.shape;
 
-            // Возвращаем дефолты, чтобы настройки от  не липли
-            main.startColor = Color.white; 
-            main.startSize = 30f;
-            main.startSpeed = 0.1f;
-            main.maxParticles = 10;
-            main.startLifetime = 6.0f;
-            emission.rateOverTime = 0.5f;
-            rotation.enabled = false;
-            var resetShape = auraParticles.shape;
-            resetShape.enabled = true; // Возвращаем родную форму префаба
+            main.startColor = Color.white;
+            shape.enabled = !data.disableShape;
 
+            if (data.icon != null)
+                textureSheet.SetSprite(0, data.icon);
 
+            main.maxParticles = data.maxParticles;
+            main.startLifetime = data.lifetime;
+            emission.rateOverTime = data.emissionRate;
+            main.startSize = data.size;
+            main.startSpeed = data.speed;
 
-            switch (type)
-            {
-                case Vegetable.VegetableType.Ice: 
-                    textureSheet.SetSprite(0, iconIce);
-                    main.maxParticles = 5; 
-                    main.startLifetime = 2.2f; 
-                    emission.rateOverTime = 6.5f; 
-                    main.startSize = 40f; 
-                    rotation.enabled = true;
-                    rotation.z = new ParticleSystem.MinMaxCurve(-0.2f, 0.2f);
-                    main.startSpeed = 0.1f; 
-                    break;
-
-                case Vegetable.VegetableType.Giant:
-                    textureSheet.SetSprite(0, iconGiant);
-                    var giantShape = auraParticles.shape;
-                    giantShape.enabled = false; 
-                    main.maxParticles = 1;
-                    main.startLifetime = 5.0f;
-                    emission.rateOverTime = 5.0f; 
-                    main.startSize = 65f;
-                    main.startColor = new Color(1f, 1f, 1f, 0.9f);
-                    break;
-
-
-                case Vegetable.VegetableType.Magic: 
-                    textureSheet.SetSprite(0, iconMagic);
-                    main.maxParticles = 3;           
-                    main.startSize = 75f;            
-                    main.startLifetime = 7.0f;       
-                    emission.rateOverTime = 3.0f;    
-                    main.startSpeed = 0.15f;         
-                    main.startColor = new Color(1f, 1f, 1f, 0.9f);
-                    rotation.enabled = true;
-                    rotation.z = new ParticleSystem.MinMaxCurve(-0.4f, 0.4f); // Покачивание
-                    break;
-
-                case Vegetable.VegetableType.Reaper: 
-                    textureSheet.SetSprite(0, iconReaper);
-                    main.maxParticles = 4; 
-                    emission.rateOverTime = 3.0f; 
-                    main.startLifetime = 1.5f;
-                    main.startSpeed = 0.5f; 
-                    main.startSize = 70f; 
-                    rotation.enabled = true;
-                    rotation.z = new ParticleSystem.MinMaxCurve(1.5f, 3.0f); 
-                    break;
-
-                case Vegetable.VegetableType.Radiation: 
-                    textureSheet.SetSprite(0, iconRadiation);
-                    main.maxParticles = 3;           
-                    emission.rateOverTime = 1.66f;   
-                    main.startLifetime = 1.8f;      
-                    main.startSize = 65f;           
-                    main.startSpeed = 0.2f;    
-                    rotation.enabled = false; 
-                    break;
-
-                case Vegetable.VegetableType.Mutant:
-                    textureSheet.SetSprite(0, iconMutant); 
-                    main.maxParticles = 3;
-                    main.startLifetime = 3.0f;
-                    emission.rateOverTime = 0.5f;
-                    main.startSize = 65f;
-                    main.startSpeed = 0.12f;
-                    rotation.enabled = false;
-                    break;
-
-                case Vegetable.VegetableType.Warning:
-                    textureSheet.SetSprite(0, statusWarning);
-                    main.maxParticles = 1;
-                    main.startLifetime = 2.0f;
-                    emission.rateOverTime = 20.0f; 
-                    main.startSize = 75f;
-                    main.startSpeed = 0f;
-                    rotation.enabled = false;
-                    break;
-
-                case Vegetable.VegetableType.Virus:
-                    textureSheet.SetSprite(0, statusVirus);
-                    main.maxParticles = 6;           // Больше частиц (споры)
-                    main.startLifetime = 1.2f;       // Короткая жизнь
-                    emission.rateOverTime = 5.0f;    // Плотный поток
-                    
-                    main.startSize = 65f;            // Чуть мельче
-                    main.startSpeed = 0.9f;          // Быстрее разлетаются
-                    rotation.enabled = true;
-                    rotation.z = new ParticleSystem.MinMaxCurve(-0.4f, 0.4f); // Хаотичное вращение
-                    break;
-
-
-                case Vegetable.VegetableType.Enchanted:
-                    textureSheet.SetSprite(0, statusMagic);
-                    main.maxParticles = 4;
-                    main.startLifetime = 3.5f;
-                    emission.rateOverTime = 1.15f; 
-                    main.startSize = 50f;
-                    main.startSpeed = 0.05f;
-                    rotation.enabled = true;
-                    rotation.z = new ParticleSystem.MinMaxCurve(-1.0f, 1.0f);
-                    break;
-
-            }
+            rotation.enabled = data.rotationEnabled;
+            if (data.rotationEnabled)
+                rotation.z = new ParticleSystem.MinMaxCurve(data.rotationSpeed.x, data.rotationSpeed.y);
 
             if (!auraParticles.isPlaying) auraParticles.Play();
         }
@@ -219,17 +157,21 @@ public class VegetableVisual : MonoBehaviour
 
     private void ResetParticlesToDefault()
     {
+        if (auraParticles == null) return;
+
         var main = auraParticles.main;
         var emission = auraParticles.emission;
         var rotation = auraParticles.rotationOverLifetime;
+        var shape = auraParticles.shape;
 
-        // Устанавливаем "заводские" настройки (для обычного овоща)
+        main.startColor = Color.white;
+        main.startSize = 30f;
+        main.startSpeed = 0.1f;
+        main.maxParticles = 10;
         main.startLifetime = 6.0f;
-        main.startSize = 40f; 
-        main.maxParticles = 3;
         emission.rateOverTime = 0.5f;
         rotation.enabled = false;
-        main.startSpeed = 0.1f;
+        shape.enabled = true;
     }
 
 
