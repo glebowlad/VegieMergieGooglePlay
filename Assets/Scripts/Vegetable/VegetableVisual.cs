@@ -23,128 +23,109 @@ public class VegetableVisual : MonoBehaviour
 
     public void UpdateVisuals(Vegetable.VegetableType type)
     {
-        if (auraParticles != null)
-            ResetParticlesToDefault();
+        if (auraParticles != null) ResetParticlesToDefault();
 
         if (mainRenderers != null)
         {
             foreach (var r in mainRenderers)
             {
                 if (r == null) continue;
-                var c = r.color;
+                Color c = r.color;
                 c.a = 1f;
                 r.color = c;
             }
         }
 
+        var veg = GetComponent<Vegetable>();
         if (type == Vegetable.VegetableType.Default)
         {
             if (specialMask != null) specialMask.gameObject.SetActive(false);
             if (auraParticles != null) auraParticles.gameObject.SetActive(false);
-
             if (mainRenderers != null)
             {
                 foreach (var r in mainRenderers)
-                {
                     if (r != null && r != specialMask) r.enabled = true;
-                }
             }
+            transform.localScale = Vector3.one * 1.35f;
             return;
         }
 
-        VegetableEffectData data = null;
-        if (allEffects != null)
+        var data = allEffects?.Find(e => e != null && e.type == type);
+        if (data != null)
         {
-            for (int i = 0; i < allEffects.Count; i++)
-            {
-                var e = allEffects[i];
-                if (e != null && e.type == type)
-                {
-                    data = e;
-                    break;
-                }
-            }
-        }
+            veg.ApplyEffectSettings(data);
 
-        if (data == null)
-        {
-            if (specialMask != null) specialMask.gameObject.SetActive(false);
-            if (auraParticles != null) auraParticles.gameObject.SetActive(false);
-
-            if (mainRenderers != null)
+            if (specialMask != null)
             {
+                specialMask.gameObject.SetActive(true);
+                specialMask.enabled = true;
+                specialMask.color = data.maskColor;
+                //specialMask.sprite = data.icon;
                 foreach (var r in mainRenderers)
-                {
                     if (r != null && r != specialMask) r.enabled = true;
-                }
             }
-            return;
-        }
 
-        if (specialMask != null)
-        {
-            specialMask.gameObject.SetActive(true);
-            specialMask.enabled = true;
-            specialMask.color = data.maskColor;
-            if (mainRenderers != null)
+            if (auraParticles != null)
             {
-                foreach (var r in mainRenderers)
-                {
-                    if (r != null && r != specialMask) r.enabled = false;
-                }
+                auraParticles.gameObject.SetActive(true);
+                auraParticles.Stop();
+                auraParticles.Clear();
+
+                var ts = auraParticles.textureSheetAnimation;
+                ts.SetSprite(0, data.icon);
+
+                var main = auraParticles.main;
+                main.maxParticles = data.maxParticles;
+                main.startLifetime = data.lifetime;
+                main.startSize = data.size;
+                main.startSpeed = data.speed;
+
+                var em = auraParticles.emission;
+                em.rateOverTime = data.emissionRate;
+
+                var rot = auraParticles.rotationOverLifetime;
+                rot.enabled = data.rotationEnabled;
+                if (data.rotationEnabled)
+                    rot.z = new ParticleSystem.MinMaxCurve(data.rotationSpeed.x, data.rotationSpeed.y);
+
+                var shape = auraParticles.shape;
+                shape.enabled = !data.disableShape;
+
+                auraParticles.Play();
             }
-        }
-
-        if (auraParticles != null)
-        {
-            auraParticles.gameObject.SetActive(true);
-
-            var main = auraParticles.main;
-            var emission = auraParticles.emission;
-            var rotation = auraParticles.rotationOverLifetime;
-            var textureSheet = auraParticles.textureSheetAnimation;
-            var shape = auraParticles.shape;
-
-            main.startColor = Color.white;
-            shape.enabled = !data.disableShape;
-
-            if (data.icon != null)
-                textureSheet.SetSprite(0, data.icon);
-
-            main.maxParticles = data.maxParticles;
-            main.startLifetime = data.lifetime;
-            emission.rateOverTime = data.emissionRate;
-            main.startSize = data.size;
-            main.startSpeed = data.speed;
-
-            rotation.enabled = data.rotationEnabled;
-            if (data.rotationEnabled)
-                rotation.z = new ParticleSystem.MinMaxCurve(data.rotationSpeed.x, data.rotationSpeed.y);
-
-            if (!auraParticles.isPlaying) auraParticles.Play();
         }
     }
 
 
-    
 
-
-
-    public void SetHazardColor(Color color, bool isSpecial)
+    public void SetHazardColor(Color hazardColor, bool isSpecial)
     {
-        // Если овощ специальный — краснеет его маска
-        if (isSpecial && specialMask != null)
+        if (specialMask == null) return;
+        specialMask.gameObject.SetActive(true);
+        specialMask.enabled = true;
+
+        if (isSpecial)
         {
-            specialMask.color = color;
-        }
-        else // Если обычный — краснеют основные спрайты
-        {
-            if (mainRenderers != null)
+            var v = GetComponent<Vegetable>();
+            var data = allEffects?.Find(e => e != null && v != null && e.type == v.specialType);
+            if (data != null)
             {
-                foreach (var r in mainRenderers) if (r != null) r.color = color;
+                Color blended = Color.Lerp(data.maskColor, Color.red, hazardColor.a * 0.6f);
+                blended.a = data.maskColor.a;
+                specialMask.color = blended;
             }
         }
+        else
+        {
+            Color c = Color.red;
+            c.a = hazardColor.a * 0.5f;
+            specialMask.color = c;
+        }
     }
+
+
+
+
 
     public void ResetVisualsToNormal()
     {

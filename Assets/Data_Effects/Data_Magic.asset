@@ -15,6 +15,24 @@ MonoBehaviour:
   type: 3
   icon: {fileID: 21300000, guid: 3d955476d2835304aa1840e33089a248, type: 3}
   maskColor: {r: 1, g: 0.6, b: 0.9019608, a: 0.8}
+  scaleMultiplier: 1
+  gravityScale: 1
+  linearDrag: 0
+  fixedMass: 0
+  turnsToLive: 1
+  turnsToEvolve: 0
+  evolutionType: 9
+  hasAura: 1
+  auraRadius: 2.5
+  isStasis: 0
+  isCleanser: 1
+  isInfectious: 0
+  isRadioactive: 0
+  isNegative: 0
+  immuneToNegative: 1
+  immuneToIce: 1
+  hasShake: 0
+  shakeIntensity: 0.05
   maxParticles: 3
   lifetime: 7
   emissionRate: 3

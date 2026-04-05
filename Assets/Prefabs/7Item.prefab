@@ -150,9 +150,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   specialType: 0
-  radiusOffset: 100
+  currentTurns: 0
   currentTargetColor: {r: 0, g: 0, b: 0, a: 0}
-  hasRecoveredFromToxic: 0
+  radiusOffset: 100
 --- !u!114 &7478390854700664514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,15 +177,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3fa5e618245aa42488a1f1b7a1a15d93, type: 2}
   - {fileID: 11400000, guid: dd9b825e41e4b2349b32337b672275fa, type: 2}
   - {fileID: 11400000, guid: 8feaf393210e8f34cbe7b6a7fb2c0db5, type: 2}
-  iconIce: {fileID: 21300000, guid: ac91754f890f93640936879b912f36d3, type: 3}
-  iconGiant: {fileID: 21300000, guid: f82226927e990f5458c4518099d107d3, type: 3}
-  iconMagic: {fileID: 21300000, guid: 3d955476d2835304aa1840e33089a248, type: 3}
-  iconRadiation: {fileID: 21300000, guid: 87bbefba3a43a2246b4306d87be7c2f8, type: 3}
-  iconReaper: {fileID: 21300000, guid: a24c001fee32a0940b297e5abf8d1326, type: 3}
-  iconMutant: {fileID: 21300000, guid: 6df5cdbc1a4515844a836a5c0bbc188d, type: 3}
-  statusMagic: {fileID: 21300000, guid: c9f7d32c9dcb7804b859fdf13ffeb9ac, type: 3}
-  statusWarning: {fileID: 21300000, guid: fc831c1206fd3394cb80a1fe67c63bff, type: 3}
-  statusVirus: {fileID: 21300000, guid: 4a50d56256ceba040b58ee6b3a134eaf, type: 3}
 --- !u!70 &8609408876179324056
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -428,11 +419,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7506960419185942905, guid: c2425586c2303fa4aabf4a74e0e5b776, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 7506960419185942905, guid: c2425586c2303fa4aabf4a74e0e5b776, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -0.88
       objectReference: {fileID: 0}
     - target: {fileID: 7506960419185942905, guid: c2425586c2303fa4aabf4a74e0e5b776, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -449,6 +440,10 @@ PrefabInstance:
     - target: {fileID: 8993173584957601411, guid: c2425586c2303fa4aabf4a74e0e5b776, type: 3}
       propertyPath: m_Name
       value: SpecialMask
+      objectReference: {fileID: 0}
+    - target: {fileID: 8993173584957601411, guid: c2425586c2303fa4aabf4a74e0e5b776, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

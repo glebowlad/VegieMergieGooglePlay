@@ -12,65 +12,55 @@ public class Vegetable : MonoBehaviour
         Radiation, 
         Reaper,   
         Mutant,
-        // Вторичные эффекты (не участвуют в рандоме спавна)
+        //не участвуют в спавне
         Warning,   // Внимание Радиация
         Virus,     // Вирус (активная фаза Мутанта)
         Enchanted  // Эффект магии на цели   
     }
-    
     [Header("Настройки")]
     public VegetableType specialType = VegetableType.Default;
-    public float radiusOffset = 0f;
     
-    // Скрываем из инспектора, чтобы не мешался, он считается в коде
-    [HideInInspector] public Color currentTargetColor;
+    // Эти поля теперь считаются из ассетов, удали их из инспектора, если хочешь
+    public int currentTurns;
+    public bool IsImmune { get; set; }
 
-    [HideInInspector] public bool hasRecoveredFromToxic = false;
+    [HideInInspector] public Color currentTargetColor;
+    public float radiusOffset = 0f; 
+
+    private static int numberOfDrops = 0;
+    public static int GetTotalDrops() => numberOfDrops;
+
 
     private Rigidbody2D rb;
     private VegetableVisual visual;
     private Hazard hazard;
     private Drag drag;
+    private float originalMass; 
     
     private SpriteRenderer[] renderers;
     private Color[] originalColors;
-    
 
-    private static int numberOfDrops = 0;
-    public static int GetTotalDrops()
-    {
-        return numberOfDrops;
-    }
-
+    // --- ИНИЦИАЛИЗАЦИЯ ---
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        if (rb != null) originalMass = rb.mass; // ЗАПОМИНАЕМ РОДНОЙ ВЕС (1 или 10)
+
         visual = GetComponent<VegetableVisual>();
-        // Добавляем Hazard программно, чтобы не вешать вручную
         hazard = gameObject.AddComponent<Hazard>(); 
-        
         rb.simulated = false;
 
-        // Собираем все спрайты, кроме маски
+        // Сбор спрайтов для масок (твоя логика)
         SpriteRenderer[] allRenderers = GetComponentsInChildren<SpriteRenderer>();
         List<SpriteRenderer> tempMain = new List<SpriteRenderer>();
         foreach (var r in allRenderers) 
         {
             if (visual != null && r != visual.specialMask) tempMain.Add(r);
         }
-        
         renderers = tempMain.ToArray();
         originalColors = new Color[renderers.Length];
-        
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            originalColors[i] = renderers[i].color;
-        }
+        for (int i = 0; i < renderers.Length; i++) originalColors[i] = renderers[i].color;
 
-        // Устанавливаем базовый цвет
-        if (originalColors.Length > 0) currentTargetColor = originalColors[0];
-
-        // Инициализируем компоненты
         if (visual != null) visual.Init(renderers, originalColors);
         if (hazard != null) hazard.Init(this, visual);
     }
@@ -89,23 +79,24 @@ public class Vegetable : MonoBehaviour
 
     private void Drop()
     {
-        // --- РЕКЛАМА --------------
+        // Логика рекламы (каждые 70 бросков)
         numberOfDrops++;
         if (numberOfDrops != 0 && numberOfDrops % 70 == 0)
         {
-            AdsManager.Instance.interstitialAds.ShowInterstitialAd();
+            if (AdsManager.Instance != null && AdsManager.Instance.interstitialAds != null)
+                AdsManager.Instance.interstitialAds.ShowInterstitialAd();
         }
-        // -------------------------
 
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
         rb.simulated = true;
 
-        if (visual != null)
-            visual.UpdateVisuals(specialType);
+        // Обновляем визуал и физику при броске
+        if (visual != null) visual.UpdateVisuals(specialType);
         
         if (AudioManager.Instance != null) AudioManager.Instance.PlayDropSound();
         
+        // Отписываемся от событий, чтобы не двигать упавший овощ
         if (drag != null) 
         { 
             drag.WhileDrag -= Move; 
@@ -113,82 +104,120 @@ public class Vegetable : MonoBehaviour
         }
     }
 
+
+    // --- ФИЗИКА И ЭФФЕКТЫ (Взамен старого switch) ---
+    public void ApplyEffectSettings(VegetableEffectData data)
+    {
+        if (data == null || rb == null) return;
+
+        // 1. РАЗМЕР: База 1.35 * Множитель (1.5 для гиганта, 0.7 для мутанта)
+        transform.localScale = Vector3.one * (1.35f * data.scaleMultiplier);
+
+        // 2. МАССА И ГРАВИТАЦИЯ
+        rb.useAutoMass = false;
+        // Если в ассете задана Fixed Mass (180), ставим её. Иначе возвращаем родную.
+        rb.mass = (data.fixedMass > 0) ? data.fixedMass : originalMass;
+        
+        rb.gravityScale = data.gravityScale;
+        rb.drag = data.linearDrag;
+        rb.angularDrag = 0.2f;
+    }
+
     public void SetSpecialType(VegetableType type)
     {
         specialType = type;
-        transform.localScale = Vector3.one * 1.35f;
+        // Сбрасываем триггер, если он был включен ранее
         GetComponent<Collider2D>().isTrigger = false;
 
-        switch (specialType)
-        {
-            case VegetableType.Giant: 
-                transform.localScale = Vector3.one * (1.35f * 1.5f); 
-                if (gameObject.GetComponent<Giant>() == null) gameObject.AddComponent<Giant>(); 
-                break;
-
-            case VegetableType.Ice: 
-                if (gameObject.GetComponent<Ice>() == null) gameObject.AddComponent<Ice>(); 
-                break;
-
-            case VegetableType.Magic: 
-                break;
-
-            case VegetableType.Radiation: 
-                break;
-
-            case VegetableType.Reaper: 
-                
-                // --- ТЕСТОВАЯ ГРАВИТАЦИЯ ДЛЯ ВИЗУАЛА ---
-                Rigidbody2D rb = GetComponent<Rigidbody2D>();
-                if (rb != null) 
-                {
-                    rb.gravityScale = 0.5f; // В 5 раз медленнее обычного
-                    rb.drag = 2f;         // Сопротивление, чтобы "парил" как перышко
-                }
-                // ---------------------------------------
-
-                break;
-
-            case VegetableType.Mutant: 
-                break;
-
-            case VegetableType.Warning: 
-                break;
-
-            case VegetableType.Virus: 
-                break;
-
-            case VegetableType.Enchanted: 
-                break;
-
-            default: 
-                if (originalColors.Length > 0) currentTargetColor = originalColors[0]; 
-                break;
-        }
-    
+        // Вся настройка теперь идет через визуальный скрипт и ассеты
         if (visual != null) visual.UpdateVisuals(specialType);
+        
+        RefreshTurnsFromEffectData();
     }
 
+    // --- ЛОГИКА ХОДОВ, РОСТА И ТРЯСКИ ---
+    private void Update()
+    {
+        if (specialType == VegetableType.Default) return;
+        if (!TryGetEffectData(out var data) || data == null) return;
 
+        // ТРЯСКА (для Радиации/Вируса)
+        if (data.hasShake && visual != null && visual.specialMask != null)
+        {
+            float offset = data.shakeIntensity;
+            visual.specialMask.transform.localPosition = new Vector3(
+                Random.Range(-offset, offset),
+                Random.Range(-offset, offset), 0
+            );
+        }
+    }
+
+    public void TickTurn()
+    {
+        if (specialType == VegetableType.Default || IsImmune) return;
+        if (!TryGetEffectData(out var data) || data == null) return;
+
+        // Логика роста и мутации для Warning (Внимание)
+        if (specialType == VegetableType.Warning)
+        {
+            transform.localScale *= 1.05f; // Растем на 5% каждый ход
+            if (Random.value < 0.01f) { SetSpecialType(VegetableType.Mutant); return; }
+        }
+
+        if (currentTurns > 0) currentTurns--;
+        if (currentTurns > 0) return;
+
+        // Смена фазы или исчезновение
+        if (data.turnsToEvolve > 0)
+            SetSpecialType(data.evolutionType);
+        else if (data.turnsToLive > 0)
+            ResetToDefault(); // Или ReturnToPool, если добавишь метод
+    }
+
+    // --- СЛУЖЕБНЫЕ МЕТОДЫ ---
     public void ResetToDefault()
     {
-        hasRecoveredFromToxic = false;
+        IsImmune = false;
+        currentTurns = 0;
         specialType = VegetableType.Default;
-        transform.localScale = Vector3.one * 1.35f;
         
         if (rb != null) 
         { 
             rb.simulated = false; 
             rb.velocity = Vector2.zero; 
             rb.angularVelocity = 0f; 
+            rb.mass = originalMass; // ВОЗВРАЩАЕМ РОДНУЮ МАССУ
+            rb.gravityScale = 1f;
+            rb.drag = 0f;
         }
 
-        GetComponent<Collider2D>().isTrigger = false;
-        
-        if (hazard != null) hazard.ResetHazard();
-        if (originalColors.Length > 0) currentTargetColor = originalColors[0];
+        transform.localScale = Vector3.one * 1.35f;
         if (visual != null) visual.UpdateVisuals(specialType);
+        if (hazard != null) hazard.ResetHazard();
     }
+
+    private bool TryGetEffectData(out VegetableEffectData data)
+    {
+        data = null;
+        if (visual == null || visual.allEffects == null) return false;
+        foreach (var e in visual.allEffects)
+        {
+            if (e != null && e.type == specialType) { data = e; return true; }
+        }
+        return false;
+    }
+
+    private void RefreshTurnsFromEffectData()
+    {
+        currentTurns = 0;
+        if (specialType == VegetableType.Default) return;
+        if (TryGetEffectData(out var data))
+        {
+            currentTurns = (data.turnsToEvolve > 0) ? data.turnsToEvolve : data.turnsToLive;
+        }
+    }
+
+
 
     // Методы-прослойки для зоны геймовера (чтобы не менять другие скрипты)
     public void UpdateHazardVisuals(float p) => hazard.UpdateHazard(p);

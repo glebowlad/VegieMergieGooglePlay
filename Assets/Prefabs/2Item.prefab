@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2857481582775214405
 RectTransform:
   m_ObjectHideFlags: 0
@@ -33,7 +33,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.3, y: 13.9}
+  m_AnchoredPosition: {x: 0.21, y: 0.69}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &9055181638739545220
@@ -238,9 +238,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   specialType: 0
-  radiusOffset: 140
+  currentTurns: 0
   currentTargetColor: {r: 0, g: 0, b: 0, a: 0}
-  hasRecoveredFromToxic: 0
+  radiusOffset: 140
 --- !u!114 &7800826482729076931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,15 +265,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3fa5e618245aa42488a1f1b7a1a15d93, type: 2}
   - {fileID: 11400000, guid: dd9b825e41e4b2349b32337b672275fa, type: 2}
   - {fileID: 11400000, guid: 8feaf393210e8f34cbe7b6a7fb2c0db5, type: 2}
-  iconIce: {fileID: 21300000, guid: ac91754f890f93640936879b912f36d3, type: 3}
-  iconGiant: {fileID: 21300000, guid: f82226927e990f5458c4518099d107d3, type: 3}
-  iconMagic: {fileID: 21300000, guid: 3d955476d2835304aa1840e33089a248, type: 3}
-  iconRadiation: {fileID: 21300000, guid: 87bbefba3a43a2246b4306d87be7c2f8, type: 3}
-  iconReaper: {fileID: 21300000, guid: a24c001fee32a0940b297e5abf8d1326, type: 3}
-  iconMutant: {fileID: 21300000, guid: 6df5cdbc1a4515844a836a5c0bbc188d, type: 3}
-  statusMagic: {fileID: 21300000, guid: c9f7d32c9dcb7804b859fdf13ffeb9ac, type: 3}
-  statusWarning: {fileID: 21300000, guid: fc831c1206fd3394cb80a1fe67c63bff, type: 3}
-  statusVirus: {fileID: 21300000, guid: 4a50d56256ceba040b58ee6b3a134eaf, type: 3}
 --- !u!70 &9216050092205973749
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

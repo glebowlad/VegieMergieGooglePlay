@@ -31,10 +31,9 @@ public class Hazard : MonoBehaviour
         // 2. Покраснение (просим визуальный скрипт сменить цвет)
         if (visual != null && vegetable != null)
         {
-            // Плавно смешиваем текущий цвет (лед/яд/обычный) с красным
-            Color targetColor = Color.Lerp(vegetable.currentTargetColor, Color.red, Mathf.InverseLerp(0.2f, 1.0f, progress));
-            
-            // Сообщаем визуалу, нужно ли красить маску или основной спрайт
+            Color targetColor = Color.red;
+            targetColor.a = progress; // От 0.0 (начало) до 1.0 (геймовер)
+
             bool isSpecial = vegetable.specialType != Vegetable.VegetableType.Default;
             visual.SetHazardColor(targetColor, isSpecial);
         }

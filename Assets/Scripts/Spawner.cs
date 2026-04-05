@@ -21,6 +21,9 @@ public class Spawner : MonoBehaviour
     private bool isSpawning=false;
     public  bool IsSpawned { get; private set; }
     public float CurrentItemWidth => itemWidth; 
+
+    public GameObject GetCurrentItem() => itemToSpawn; //нужно для дебаг панели выбора эффекта
+
     private void Awake()
     {
         spawnerRect = gameObject.GetComponent<RectTransform>();
@@ -66,7 +69,7 @@ public class Spawner : MonoBehaviour
         nextItemToSpawn.SetActive(false);
 
         // Шанс 30% на спецэффект
-        if (UnityEngine.Random.value <= 1f) //0.30f
+        if (UnityEngine.Random.value <= 0f) //0.30f
         {
             int randomTypeIndex = UnityEngine.Random.Range(1, 10);  //Ice 1, Giant 2, Magic 3,  Radiation 4, Reaper 5,  Mutant 6, // Вторичные эффекты (не участвуют в рандоме спавна) Warning 7, Virus 8, Enchanted 9
             nextVeg.SetSpecialType((Vegetable.VegetableType)randomTypeIndex);
