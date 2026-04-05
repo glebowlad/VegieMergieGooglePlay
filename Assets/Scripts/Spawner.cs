@@ -47,7 +47,7 @@ public class Spawner : MonoBehaviour
     {
         isSpawning = true;
         IsSpawned = false;
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.2f);
 
         // 1. Получаем объект из пула или используем заготовленный
         if (nextItemToSpawn == null)
@@ -89,6 +89,7 @@ public class Spawner : MonoBehaviour
         itemToSpawn.transform.SetParent(transform, false);
         var itemVeg = itemToSpawn.GetComponent<Vegetable>();
         itemVeg.Initialize(drag);
+        itemVeg.EnableInput(); 
 
         itemWidth = itemToSpawn.GetComponent<RectTransform>().rect.width + itemVeg.radiusOffset;
         spawnerRect.sizeDelta = new Vector2(itemWidth, spawnerRect.sizeDelta.y);

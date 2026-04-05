@@ -26,6 +26,11 @@ public class Merge : MonoBehaviour
         Vegetable otherVeg = collision.gameObject.GetComponent<Vegetable>();
         if (otherVeg == null) return;
 
+        if (myVeg.specialType == Vegetable.VegetableType.Ice || otherVeg.specialType == Vegetable.VegetableType.Ice)
+        {
+            return; 
+        }
+
         bool amIRebirth = (myVeg != null && myVeg.specialType == Vegetable.VegetableType.Reaper);
         bool isSameVeg = collision.gameObject.CompareTag(gameObject.tag);
 

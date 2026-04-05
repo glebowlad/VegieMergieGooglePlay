@@ -7,6 +7,8 @@ public class VegetableEffectData : ScriptableObject
     public Sprite icon;
     public Color maskColor = Color.white;
 
+    public EffectAction effectLogic;
+
     [Header("Physics & Size")]
     public float scaleMultiplier = 1f;
     public float gravityScale = 1f;

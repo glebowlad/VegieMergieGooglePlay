@@ -23,8 +23,6 @@ public class VegetableVisual : MonoBehaviour
 
     public void UpdateVisuals(Vegetable.VegetableType type)
     {
-        if (auraParticles != null) ResetParticlesToDefault();
-
         if (mainRenderers != null)
         {
             foreach (var r in mainRenderers)
@@ -67,31 +65,38 @@ public class VegetableVisual : MonoBehaviour
 
             if (auraParticles != null)
             {
-                auraParticles.gameObject.SetActive(true);
-                auraParticles.Stop();
-                auraParticles.Clear();
-
                 var ts = auraParticles.textureSheetAnimation;
-                ts.SetSprite(0, data.icon);
+                bool isSameEffect = auraParticles.isPlaying && ts.GetSprite(0) == data.icon;
 
-                var main = auraParticles.main;
-                main.maxParticles = data.maxParticles;
-                main.startLifetime = data.lifetime;
-                main.startSize = data.size;
-                main.startSpeed = data.speed;
+                if (!isSameEffect) 
+                {
+                    auraParticles.gameObject.SetActive(true);
+                    auraParticles.Stop();
+                    auraParticles.Clear();
 
-                var em = auraParticles.emission;
-                em.rateOverTime = data.emissionRate;
+                    //var ts = auraParticles.textureSheetAnimation;
+                    ts.SetSprite(0, data.icon);
 
-                var rot = auraParticles.rotationOverLifetime;
-                rot.enabled = data.rotationEnabled;
-                if (data.rotationEnabled)
-                    rot.z = new ParticleSystem.MinMaxCurve(data.rotationSpeed.x, data.rotationSpeed.y);
+                    var main = auraParticles.main;
+                    main.maxParticles = data.maxParticles;
+                    main.startLifetime = data.lifetime;
+                    main.startSize = data.size;
+                    main.startSpeed = data.speed;
 
-                var shape = auraParticles.shape;
-                shape.enabled = !data.disableShape;
+                    var em = auraParticles.emission;
+                    em.rateOverTime = data.emissionRate;
 
-                auraParticles.Play();
+                    var rot = auraParticles.rotationOverLifetime;
+                    rot.enabled = data.rotationEnabled;
+                    if (data.rotationEnabled)
+                        rot.z = new ParticleSystem.MinMaxCurve(data.rotationSpeed.x, data.rotationSpeed.y);
+
+                    var shape = auraParticles.shape;
+                    shape.enabled = !data.disableShape;
+
+                    auraParticles.Play();
+                }
+                
             }
         }
     }
@@ -103,6 +108,7 @@ public class VegetableVisual : MonoBehaviour
         if (specialMask == null) return;
         specialMask.gameObject.SetActive(true);
         specialMask.enabled = true;
+        float rapidProgress = Mathf.Clamp01(hazardColor.a / 0.6f); 
 
         if (isSpecial)
         {
@@ -110,7 +116,7 @@ public class VegetableVisual : MonoBehaviour
             var data = allEffects?.Find(e => e != null && v != null && e.type == v.specialType);
             if (data != null)
             {
-                Color blended = Color.Lerp(data.maskColor, Color.red, hazardColor.a * 0.6f);
+                Color blended = Color.Lerp(data.maskColor, Color.red, rapidProgress * 1f);
                 blended.a = data.maskColor.a;
                 specialMask.color = blended;
             }
@@ -118,13 +124,10 @@ public class VegetableVisual : MonoBehaviour
         else
         {
             Color c = Color.red;
-            c.a = hazardColor.a * 0.5f;
+            c.a = rapidProgress * 1f;
             specialMask.color = c;
         }
     }
-
-
-
 
 
     public void ResetVisualsToNormal()
@@ -135,25 +138,4 @@ public class VegetableVisual : MonoBehaviour
             foreach (var r in mainRenderers) if (r != null) r.enabled = true;
         }
     }
-
-    private void ResetParticlesToDefault()
-    {
-        if (auraParticles == null) return;
-
-        var main = auraParticles.main;
-        var emission = auraParticles.emission;
-        var rotation = auraParticles.rotationOverLifetime;
-        var shape = auraParticles.shape;
-
-        main.startColor = Color.white;
-        main.startSize = 30f;
-        main.startSpeed = 0.1f;
-        main.maxParticles = 10;
-        main.startLifetime = 6.0f;
-        emission.rateOverTime = 0.5f;
-        rotation.enabled = false;
-        shape.enabled = true;
-    }
-
-
 }

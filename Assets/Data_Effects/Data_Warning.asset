@@ -15,6 +15,7 @@ MonoBehaviour:
   type: 7
   icon: {fileID: 21300000, guid: fc831c1206fd3394cb80a1fe67c63bff, type: 3}
   maskColor: {r: 0.8, g: 0.9019608, b: 0.101960786, a: 0.69803923}
+  effectLogic: {fileID: 0}
   scaleMultiplier: 1.05
   gravityScale: 1
   linearDrag: 0

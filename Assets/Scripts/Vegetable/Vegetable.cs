@@ -1,26 +1,14 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 
 public class Vegetable : MonoBehaviour
 {
-    public enum VegetableType 
-    { 
-        Default, 
-        Ice, 
-        Giant, 
-        Magic,     
-        Radiation, 
-        Reaper,   
-        Mutant,
-        //не участвуют в спавне
-        Warning,   // Внимание Радиация
-        Virus,     // Вирус (активная фаза Мутанта)
-        Enchanted  // Эффект магии на цели   
-    }
+    public enum VegetableType {Default, Ice, Giant, Magic, Radiation, Reaper, Mutant, Warning, Virus, Enchanted}
+
     [Header("Настройки")]
     public VegetableType specialType = VegetableType.Default;
     
-    // Эти поля теперь считаются из ассетов, удали их из инспектора, если хочешь
     public int currentTurns;
     public bool IsImmune { get; set; }
 
@@ -30,7 +18,7 @@ public class Vegetable : MonoBehaviour
     private static int numberOfDrops = 0;
     public static int GetTotalDrops() => numberOfDrops;
 
-
+    public object currentTimer;
     private Rigidbody2D rb;
     private VegetableVisual visual;
     private Hazard hazard;
@@ -40,11 +28,12 @@ public class Vegetable : MonoBehaviour
     private SpriteRenderer[] renderers;
     private Color[] originalColors;
 
-    // --- ИНИЦИАЛИЗАЦИЯ ---
+    public static Action OnVegetableDropped;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        if (rb != null) originalMass = rb.mass; // ЗАПОМИНАЕМ РОДНОЙ ВЕС (1 или 10)
+        if (rb != null) originalMass = rb.mass; 
 
         visual = GetComponent<VegetableVisual>();
         hazard = gameObject.AddComponent<Hazard>(); 
@@ -68,11 +57,19 @@ public class Vegetable : MonoBehaviour
     public void Initialize(Drag _drag)
     {
         drag = _drag;
-        if (drag != null) 
-        { 
-            drag.WhileDrag += Move; 
-            drag.OnDragFinished += Drop; 
-        }
+    }
+
+    public void EnableInput()
+    {
+        if (drag == null) return;
+        
+        // Принудительно отписываемся от старого (защита от дублей)
+        drag.WhileDrag -= Move;
+        drag.OnDragFinished -= Drop;
+
+        // Подписываемся заново
+        drag.WhileDrag += Move;
+        drag.OnDragFinished += Drop;
     }
 
     private void Move() => transform.position = transform.parent.position;
@@ -81,6 +78,7 @@ public class Vegetable : MonoBehaviour
     {
         // Логика рекламы (каждые 70 бросков)
         numberOfDrops++;
+        OnVegetableDropped?.Invoke(); 
         if (numberOfDrops != 0 && numberOfDrops % 70 == 0)
         {
             if (AdsManager.Instance != null && AdsManager.Instance.interstitialAds != null)
@@ -103,19 +101,20 @@ public class Vegetable : MonoBehaviour
             drag.OnDragFinished -= Drop; 
         }
     }
+    //изменить,добавить флаг
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (TryGetEffectData(out var data) && data.effectLogic != null)
+        {
+            data.effectLogic.OnImpact(this, collision);
+        }
+    }
 
-
-    // --- ФИЗИКА И ЭФФЕКТЫ (Взамен старого switch) ---
     public void ApplyEffectSettings(VegetableEffectData data)
     {
         if (data == null || rb == null) return;
-
-        // 1. РАЗМЕР: База 1.35 * Множитель (1.5 для гиганта, 0.7 для мутанта)
         transform.localScale = Vector3.one * (1.35f * data.scaleMultiplier);
-
-        // 2. МАССА И ГРАВИТАЦИЯ
         rb.useAutoMass = false;
-        // Если в ассете задана Fixed Mass (180), ставим её. Иначе возвращаем родную.
         rb.mass = (data.fixedMass > 0) ? data.fixedMass : originalMass;
         
         rb.gravityScale = data.gravityScale;
@@ -128,14 +127,18 @@ public class Vegetable : MonoBehaviour
         specialType = type;
         // Сбрасываем триггер, если он был включен ранее
         GetComponent<Collider2D>().isTrigger = false;
-
+        if (type == VegetableType.Default)
+        {
+            ResetToDefault(); 
+            return; 
+        }
         // Вся настройка теперь идет через визуальный скрипт и ассеты
         if (visual != null) visual.UpdateVisuals(specialType);
         
         RefreshTurnsFromEffectData();
     }
 
-    // --- ЛОГИКА ХОДОВ, РОСТА И ТРЯСКИ ---
+    //на удаление
     private void Update()
     {
         if (specialType == VegetableType.Default) return;
@@ -146,33 +149,40 @@ public class Vegetable : MonoBehaviour
         {
             float offset = data.shakeIntensity;
             visual.specialMask.transform.localPosition = new Vector3(
-                Random.Range(-offset, offset),
-                Random.Range(-offset, offset), 0
+                UnityEngine.Random.Range(-offset, offset),
+                UnityEngine.Random.Range(-offset, offset), 0
             );
         }
     }
-
+    //на удаление
     public void TickTurn()
     {
         if (specialType == VegetableType.Default || IsImmune) return;
         if (!TryGetEffectData(out var data) || data == null) return;
-
-        // Логика роста и мутации для Warning (Внимание)
-        if (specialType == VegetableType.Warning)
+        if (currentTurns > 0)
         {
-            transform.localScale *= 1.05f; // Растем на 5% каждый ход
-            if (Random.value < 0.01f) { SetSpecialType(VegetableType.Mutant); return; }
+            currentTurns--;
+            if (currentTurns <= 0)
+            {
+                if (data.turnsToEvolve > 0)
+                {
+                    SetSpecialType(data.evolutionType);
+                }
+                else
+                {
+                    ResetToDefault();
+                }
+            }
         }
 
-        if (currentTurns > 0) currentTurns--;
-        if (currentTurns > 0) return;
-
-        // Смена фазы или исчезновение
-        if (data.turnsToEvolve > 0)
-            SetSpecialType(data.evolutionType);
-        else if (data.turnsToLive > 0)
-            ResetToDefault(); // Или ReturnToPool, если добавишь метод
+        // 4. СПЕЦ-ЛОГИКА ДЛЯ WARNING (Рост и Мутация)
+        if (specialType == VegetableType.Warning)
+        {
+            transform.localScale *= 1.05f;
+            if (UnityEngine.Random.value < 0.01f) SetSpecialType(VegetableType.Mutant);
+        }
     }
+
 
     // --- СЛУЖЕБНЫЕ МЕТОДЫ ---
     public void ResetToDefault()
@@ -183,12 +193,12 @@ public class Vegetable : MonoBehaviour
         
         if (rb != null) 
         { 
-            rb.simulated = false; 
-            rb.velocity = Vector2.zero; 
-            rb.angularVelocity = 0f; 
-            rb.mass = originalMass; // ВОЗВРАЩАЕМ РОДНУЮ МАССУ
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            rb.mass = originalMass; 
             rb.gravityScale = 1f;
             rb.drag = 0f;
+            rb.velocity = Vector2.zero; 
+            rb.angularVelocity = 0f; 
         }
 
         transform.localScale = Vector3.one * 1.35f;
@@ -206,7 +216,7 @@ public class Vegetable : MonoBehaviour
         }
         return false;
     }
-
+    //на удаление,будильник
     private void RefreshTurnsFromEffectData()
     {
         currentTurns = 0;
@@ -217,7 +227,14 @@ public class Vegetable : MonoBehaviour
         }
     }
 
-
+    public VegetableEffectData CurrentEffectData 
+    {
+        get 
+        {
+            TryGetEffectData(out var data);
+            return data;
+        }
+    }
 
     // Методы-прослойки для зоны геймовера (чтобы не менять другие скрипты)
     public void UpdateHazardVisuals(float p) => hazard.UpdateHazard(p);
