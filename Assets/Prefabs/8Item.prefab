@@ -150,9 +150,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   specialType: 0
-  currentTurns: 0
+  isActionReady: 0
   currentTargetColor: {r: 0, g: 0, b: 0, a: 0}
   radiusOffset: 100
+  currentBaseScale: 1.35
 --- !u!114 &5672224787806065867
 MonoBehaviour:
   m_ObjectHideFlags: 0

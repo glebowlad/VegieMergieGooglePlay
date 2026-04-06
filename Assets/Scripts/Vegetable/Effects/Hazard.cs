@@ -17,19 +17,16 @@ public class Hazard : MonoBehaviour
 
     // Логика поведения в зоне риска
     public void UpdateHazard(float progress)
-    {
-        // Если этот овощ — Жнец, выходим из метода и не считаем таймер
-        if (vegetable.specialType == Vegetable.VegetableType.Reaper) return;
-        
-        // 1. Тряска (чем ближе к геймоверу, тем сильнее)
-        if (progress > 0.4f)
+    {   
+        if (vegetable.isActionReady) return; 
+
+        if (progress > 0.4f) // Тряска
         {
             float intensity = (progress - 0.3f) * 0.01f;
             transform.position += (Vector3)Random.insideUnitCircle * intensity;
         }
 
-        // 2. Покраснение (просим визуальный скрипт сменить цвет)
-        if (visual != null && vegetable != null)
+        if (visual != null && vegetable != null) // 2. Покраснение
         {
             Color targetColor = Color.red;
             targetColor.a = progress; // От 0.0 (начало) до 1.0 (геймовер)

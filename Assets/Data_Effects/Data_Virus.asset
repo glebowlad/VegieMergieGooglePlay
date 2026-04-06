@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 8
   icon: {fileID: 21300000, guid: 4a50d56256ceba040b58ee6b3a134eaf, type: 3}
-  maskColor: {r: 0.8509804, g: 0.2, b: 0.101960786, a: 0.8}
-  scaleMultiplier: 1.25
+  maskColor: {r: 0.85882354, g: 0.6509804, b: 0.17254902, a: 1}
+  effectLogic: {fileID: 11400000, guid: e1a9508d64d5bfd41a1d713ba9e34b89, type: 2}
+  scaleMultiplier: 1.2
   gravityScale: 1
   linearDrag: 0
   fixedMass: 0
@@ -24,6 +25,8 @@ MonoBehaviour:
   evolutionType: 0
   hasAura: 0
   auraRadius: 2.5
+  auraSprite: {fileID: 0}
+  auraColor: {r: 1, g: 1, b: 1, a: 1}
   isStasis: 0
   isCleanser: 0
   isInfectious: 1

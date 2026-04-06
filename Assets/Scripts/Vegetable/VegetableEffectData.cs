@@ -13,7 +13,7 @@ public class VegetableEffectData : ScriptableObject
     public float scaleMultiplier = 1f;
     public float gravityScale = 1f;
     public float linearDrag = 0f;
-    public float fixedMass = 0f; // 0 — оставить родной вес, >0 — принудительный вес (180 для Гиганта)
+    public float fixedMass = 0f; // 0 — оставить родной вес, >0 — принудительный вес 
 
 
     [Header("Timing & Evolution")]
@@ -24,6 +24,10 @@ public class VegetableEffectData : ScriptableObject
     [Header("Aura Settings")]
     public bool hasAura;         
     public float auraRadius = 2.5f; 
+
+    [Header("Визуал Ауры")]
+    public Sprite auraSprite; 
+    public Color auraColor = Color.white; 
 
     [Header("Interaction Flags")]
     public bool isStasis;

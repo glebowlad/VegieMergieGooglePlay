@@ -31,48 +31,55 @@ public class Merge : MonoBehaviour
             return; 
         }
 
-        bool amIRebirth = (myVeg != null && myVeg.specialType == Vegetable.VegetableType.Reaper);
+        bool isReaper = (myVeg != null && myVeg.specialType == Vegetable.VegetableType.Reaper);
         bool isSameVeg = collision.gameObject.CompareTag(gameObject.tag);
 
-        if (amIRebirth || isSameVeg)
+        if (isReaper || isSameVeg)
         {
             Merge otherMerge = collision.gameObject.GetComponent<Merge>();
             if (otherMerge == null || otherMerge.isMerging) return;
 
-            // ИСПРАВЛЕННОЕ УСЛОВИЕ:
-            // Если это Жнец эффект — МЫ главные, запускаем сразу.
-            // Если это обычное слияние — проверяем ID, как раньше.
-            if (amIRebirth || gameObject.GetInstanceID() < collision.gameObject.GetInstanceID())
+            if (isReaper || gameObject.GetInstanceID() < collision.gameObject.GetInstanceID())
             {
                 isMerging = true;
                 otherMerge.isMerging = true;
                 collidedItem = collision.gameObject;
                 
-                if (amIRebirth) myVeg.specialType = Vegetable.VegetableType.Default;
-
-                StartCoroutine(CreateNewItem());
+                StartCoroutine(CreateNewItem(isReaper));
             }
         }
     }
 
 
 
-    private IEnumerator CreateNewItem()
+    private IEnumerator CreateNewItem(bool isReaperEffect)
     {
         yield return new WaitForSeconds(0.15f);
-        GameObject newItem = pool.Get();
+        if (isReaperEffect)
+        {
+            var data = myVeg.CurrentEffectData;
+            EffectManager.Instance.ShowFlash(transform.position, data.auraSprite, data.auraColor, data.auraRadius);
+        }
+        else 
+        {
+            GameObject newItem = pool.Get();
+            // ОБЯЗАТЕЛЬНО: Чистим новый уровень овоща
+            var newVeg = newItem.GetComponent<Vegetable>();
+            if (newVeg != null) newVeg.HardResetForPool();
 
-        int level = (int)char.GetNumericValue(newItem.name[0]);
-        Merged?.Invoke(level);
+            int level = (int)char.GetNumericValue(newItem.name[0]);
+            Merged?.Invoke(level);
 
-        newItem.transform.SetParent(transform.parent, false);
-        newItem.transform.position = (transform.position + collidedItem.transform.position) / 2f;
+            newItem.transform.SetParent(transform.parent, false);
+            newItem.transform.position = (transform.position + collidedItem.transform.position) / 2f;
 
+            newItem.GetComponentInChildren<ParticleSystem>().Play();
+            newItem.GetComponent<Rigidbody2D>().simulated = true;
+        }
         pool.Release(collidedItem);
         pool.Release(gameObject);
         
-        newItem.GetComponentInChildren<ParticleSystem>().Play();
-        newItem.GetComponent<Rigidbody2D>().simulated = true;
+        
         isMerging = false;
     }
 }

@@ -47,12 +47,13 @@ public class Spawner : MonoBehaviour
     {
         isSpawning = true;
         IsSpawned = false;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.32f);
 
         // 1. Получаем объект из пула или используем заготовленный
         if (nextItemToSpawn == null)
         {
             itemToSpawn = pool.GetRandom();
+            itemToSpawn.GetComponent<Vegetable>().HardResetForPool();
         }
         else
         {
@@ -65,13 +66,13 @@ public class Spawner : MonoBehaviour
         var nextVeg = nextItemToSpawn.GetComponent<Vegetable>();
         
         // Сначала полный сброс
-        nextVeg.ResetToDefault(); 
+        nextVeg.HardResetForPool();
         nextItemToSpawn.SetActive(false);
 
         // Шанс 30% на спецэффект
         if (UnityEngine.Random.value <= 0f) //0.30f
         {
-            int randomTypeIndex = UnityEngine.Random.Range(1, 10);  //Ice 1, Giant 2, Magic 3,  Radiation 4, Reaper 5,  Mutant 6, // Вторичные эффекты (не участвуют в рандоме спавна) Warning 7, Virus 8, Enchanted 9
+            int randomTypeIndex = 7; //UnityEngine.Random.Range(1, 10);  //Ice 1, Giant 2, Magic 3,  Radiation 4, Reaper 5,  Mutant 6, // Вторичные эффекты (не участвуют в рандоме спавна) Warning 7, Virus 8, Enchanted 9
             nextVeg.SetSpecialType((Vegetable.VegetableType)randomTypeIndex);
             
         }

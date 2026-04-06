@@ -24,7 +24,9 @@ MonoBehaviour:
   turnsToEvolve: 5
   evolutionType: 0
   hasAura: 1
-  auraRadius: 2.5
+  auraRadius: 1.7
+  auraSprite: {fileID: 21300000, guid: ac91754f890f93640936879b912f36d3, type: 3}
+  auraColor: {r: 0.495283, g: 0.9198992, b: 1, a: 1}
   isStasis: 1
   isCleanser: 0
   isInfectious: 0

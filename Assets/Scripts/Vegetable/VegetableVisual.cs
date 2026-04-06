@@ -44,7 +44,6 @@ public class VegetableVisual : MonoBehaviour
                 foreach (var r in mainRenderers)
                     if (r != null && r != specialMask) r.enabled = true;
             }
-            transform.localScale = Vector3.one * 1.35f;
             return;
         }
 
