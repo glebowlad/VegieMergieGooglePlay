@@ -32,11 +32,11 @@ public class Vegetable : MonoBehaviour
     private void Drop()
     {
         numberOfDrops++;
-        if ( numberOfDrops!= 0 && numberOfDrops % 70 == 0)
-        {
-            // Реклама
-            AdsManager.Instance.interstitialAds.ShowInterstitialAd();
-        }
+        //if ( numberOfDrops!= 0 && numberOfDrops % 70 == 0)
+        //{
+        //    // Реклама
+        //    AdsManager.Instance.interstitialAds.ShowInterstitialAd();
+        //}
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
         
