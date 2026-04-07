@@ -6,16 +6,13 @@ public class IceAction : EffectAction
 {
     public override void OnImpact(Vegetable self, Collision2D collision)
     {
-        Freeze(self);// Замораживаем себя
-        // 1. ПОЛУЧАЕМ ДАННЫЕ ИЗ БАЗЫ
+        Freeze(self);
         var data = self.CurrentEffectData;
         float radius = data.auraRadius;
 
-        // 2. ЗАПУСКАЕМ ВИЗУАЛЬНЫЙ ЭФФЕКТ (ВСПЫШКУ)
-        // Мы берем картинку, цвет и радиус прямо из ассета овоща
         if (EffectManager.Instance != null && data != null && data.auraSprite != null)
         {
-            EffectManager.Instance.ShowFlash(self.transform.position, data.auraSprite, data.auraColor, radius);
+            EffectManager.Instance.ShowFlash(self.transform.position, data.auraSprite, data.auraColor, radius, data.animType);
         }
         // Аура заморозки соседей
         Collider2D[] hits = Physics2D.OverlapCircleAll(self.transform.position, radius);

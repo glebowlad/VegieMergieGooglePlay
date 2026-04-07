@@ -39,7 +39,6 @@ public class MutantTimer
         if (turnsLeft <= 0)
         {
             Stop();
-            // Эволюционируем в Вирус!
             host.SetSpecialType(Vegetable.VegetableType.Virus);
         }
     }

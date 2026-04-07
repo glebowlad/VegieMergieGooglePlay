@@ -13,7 +13,7 @@ public class WarningAction : EffectAction
         {
             if (self == null || self.specialType != Vegetable.VegetableType.Warning) return;
 
-            if (Random.value < 0.25f) 
+            if (Random.value < 0.05f) 
             {
                 self.SetSpecialType(Vegetable.VegetableType.Mutant);
             }

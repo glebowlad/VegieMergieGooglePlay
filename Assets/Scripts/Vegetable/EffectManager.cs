@@ -27,13 +27,13 @@ public class EffectManager : MonoBehaviour
         effect.SetPool(auraPool); 
         return effect;
     }
-    public void ShowFlash(Vector3 pos, Sprite sprite, Color color, float radius)
+    public void ShowFlash(Vector3 pos, Sprite sprite, Color color, float radius, AuraAnimType animType)
     {
         var effect = GetAura();
         if (effect != null)
         {
             effect.transform.position = pos;
-            effect.PlayFlash(sprite, color, radius);
+            effect.PlayFlash(sprite, color, radius, animType);
         }
     }
 }

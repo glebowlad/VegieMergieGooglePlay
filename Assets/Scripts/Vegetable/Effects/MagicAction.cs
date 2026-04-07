@@ -12,7 +12,7 @@ public class MagicAction : EffectAction
 
         if (EffectManager.Instance != null && data != null && data.auraSprite != null)
         {
-            EffectManager.Instance.ShowFlash(self.transform.position, data.auraSprite, data.auraColor, radius);
+            EffectManager.Instance.ShowFlash(self.transform.position, data.auraSprite, data.auraColor, radius, data.animType);
         }
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(self.transform.position, radius);

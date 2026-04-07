@@ -1,5 +1,7 @@
 using UnityEngine;
 
+public enum AuraAnimType { Default, SharpRotate, Pulse, MagicSpell }
+
 [CreateAssetMenu(fileName = "NewEffectData", menuName = "Vegetable/Effect Data")]
 public class VegetableEffectData : ScriptableObject
 {
@@ -28,15 +30,7 @@ public class VegetableEffectData : ScriptableObject
     [Header("Визуал Ауры")]
     public Sprite auraSprite; 
     public Color auraColor = Color.white; 
-
-    [Header("Interaction Flags")]
-    public bool isStasis;
-    public bool isCleanser;
-    public bool isInfectious;
-    public bool isRadioactive;
-    public bool isNegative;
-    public bool immuneToNegative;
-    public bool immuneToIce;
+    public AuraAnimType animType; 
 
     [Header("Visual Shake")]
     public bool hasShake;

@@ -58,7 +58,7 @@ public class Merge : MonoBehaviour
         if (isReaperEffect)
         {
             var data = myVeg.CurrentEffectData;
-            EffectManager.Instance.ShowFlash(transform.position, data.auraSprite, data.auraColor, data.auraRadius);
+            EffectManager.Instance.ShowFlash(transform.position, data.auraSprite, data.auraColor, data.auraRadius, data.animType);
         }
         else 
         {

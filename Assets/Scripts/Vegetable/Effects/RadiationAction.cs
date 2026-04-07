@@ -24,10 +24,8 @@ public class RadiationProcess
         host = v;
         turnsLeft = turns;
 
-        // Первый импульс при касании
         ExecutePulse();
 
-        // Подписываемся на глобальный колокол броска
         Vegetable.OnVegetableDropped += ExecutePulse;
     }
 
@@ -45,7 +43,7 @@ public class RadiationProcess
 
         if (EffectManager.Instance != null && data != null && data.auraSprite != null)
         {
-            EffectManager.Instance.ShowFlash(host.transform.position, data.auraSprite, data.auraColor, radius);
+            EffectManager.Instance.ShowFlash(host.transform.position, data.auraSprite, data.auraColor, radius, data.animType);
         }
 
         // 2. ФИЗИКА: Облучение
@@ -56,6 +54,8 @@ public class RadiationProcess
             if (target != null && target != host && 
                 target.specialType != Vegetable.VegetableType.Ice && 
                 target.specialType != Vegetable.VegetableType.Enchanted &&
+                target.specialType != Vegetable.VegetableType.Virus &&
+                target.specialType != Vegetable.VegetableType.Warning &&
                 target.specialType != Vegetable.VegetableType.Mutant)
             {
                 target.SetSpecialType(Vegetable.VegetableType.Warning);

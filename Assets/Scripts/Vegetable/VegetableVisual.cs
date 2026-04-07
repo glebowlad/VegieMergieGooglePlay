@@ -12,6 +12,8 @@ public class VegetableVisual : MonoBehaviour
     private SpriteRenderer[] mainRenderers;
     private Color[] originalColors;
 
+    private Coroutine maskColorCoroutine;
+
     public void Init(SpriteRenderer[] renderers, Color[] colors)
     {
         mainRenderers = renderers;
@@ -56,8 +58,7 @@ public class VegetableVisual : MonoBehaviour
             {
                 specialMask.gameObject.SetActive(true);
                 specialMask.enabled = true;
-                specialMask.color = data.maskColor;
-                //specialMask.sprite = data.icon;
+                FadeMaskColor(data.maskColor);
                 foreach (var r in mainRenderers)
                     if (r != null && r != specialMask) r.enabled = true;
             }
@@ -126,6 +127,34 @@ public class VegetableVisual : MonoBehaviour
             c.a = rapidProgress * 1f;
             specialMask.color = c;
         }
+    }
+
+    private void FadeMaskColor(Color targetColor)
+    {
+    if (maskColorCoroutine != null) StopCoroutine(maskColorCoroutine);
+    if (gameObject.activeInHierarchy) 
+    {
+        maskColorCoroutine = StartCoroutine(MaskColorRoutine(targetColor));
+    }
+    else 
+    {
+        specialMask.color = targetColor;
+    }
+}
+
+    private System.Collections.IEnumerator MaskColorRoutine(Color targetColor)
+    {
+        float duration = 0.4f;
+        float elapsed = 0f;
+        Color startColor = specialMask.color;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            specialMask.color = Color.Lerp(startColor, targetColor, elapsed / duration);
+            yield return null;
+        }
+        specialMask.color = targetColor;
     }
 
 

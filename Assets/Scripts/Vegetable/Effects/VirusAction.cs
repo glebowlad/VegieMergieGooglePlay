@@ -44,7 +44,8 @@ public class VirusController : MonoBehaviour
             bool isProtected = target.specialType == Vegetable.VegetableType.Ice || 
                                target.specialType == Vegetable.VegetableType.Enchanted || 
                                target.specialType == Vegetable.VegetableType.Radiation || 
-                               target.specialType == Vegetable.VegetableType.Virus || 
+                               target.specialType == Vegetable.VegetableType.Virus ||
+                               target.specialType == Vegetable.VegetableType.Reaper ||  
                                target.specialType == Vegetable.VegetableType.Mutant;
 
             if (!isProtected)
