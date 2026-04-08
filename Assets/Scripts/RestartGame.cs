@@ -8,7 +8,7 @@ public class RestartGame : MonoBehaviour
     public void Restart()
     {
         if (bestScore != null) { bestScore.CheckBestScore(); }
-        AdsManager.Instance.interstitialAds.ShowInterstitialAd();
+        AdsManager.Instance.ShowAdOnRestart();
         SceneManager.LoadScene(0);
         
     }

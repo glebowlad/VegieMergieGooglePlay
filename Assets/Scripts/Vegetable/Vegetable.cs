@@ -15,8 +15,8 @@ public class Vegetable : MonoBehaviour
     [HideInInspector] public Color currentTargetColor;
     public float radiusOffset = 0f; 
     // Статика для событий и счета
-    private static int numberOfDrops = 0;
-    public static int GetTotalDrops() => numberOfDrops;
+    //private static int numberOfDrops = 0;
+    //public static int GetTotalDrops() => numberOfDrops;
     public static Action OnVegetableDropped;
     // Ссылки на компоненты и логику
     public object currentTimer;
@@ -79,13 +79,8 @@ public class Vegetable : MonoBehaviour
     private void Drop()
     {
         // Логика рекламы (каждые 70 бросков)
-        numberOfDrops++;
+        //numberOfDrops++;
         OnVegetableDropped?.Invoke(); 
-        if (numberOfDrops != 0 && numberOfDrops % 70 == 0)
-        {
-            if (AdsManager.Instance != null && AdsManager.Instance.interstitialAds != null)
-                AdsManager.Instance.interstitialAds.ShowInterstitialAd();
-        }
 
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
@@ -185,7 +180,7 @@ public class Vegetable : MonoBehaviour
             rb.mass = originalMass;
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0f;
-            rb.gravityScale = 1f;
+            rb.gravityScale = 1.85f;
             rb.drag = 0f;
         }
         if (visual != null) visual.UpdateVisuals(VegetableType.Default);

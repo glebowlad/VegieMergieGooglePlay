@@ -47,7 +47,7 @@ public class Spawner : MonoBehaviour
     {
         isSpawning = true;
         IsSpawned = false;
-        yield return new WaitForSeconds(0.32f);
+        yield return new WaitForSeconds(0.35f);
 
         // 1. Получаем объект из пула или используем заготовленный
         if (nextItemToSpawn == null)

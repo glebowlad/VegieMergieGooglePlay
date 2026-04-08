@@ -46,7 +46,7 @@ public class Shaker : MonoBehaviour
         }
         else
         {
-           AdsManager.Instance.rewardedAds.ShowRewardedAd();
+            AdsManager.Instance.RewardedAds.ShowRewardedAd();
             currentShakeCount += maxShakes;
             UpdateCounter();
         }
