@@ -21,6 +21,9 @@ public class Spawner : MonoBehaviour
     private bool isSpawning=false;
     public  bool IsSpawned { get; private set; }
     public float CurrentItemWidth => itemWidth; 
+
+    public GameObject GetCurrentItem() => itemToSpawn; //нужно для дебаг панели выбора эффекта
+
     private void Awake()
     {
         spawnerRect = gameObject.GetComponent<RectTransform>();
@@ -44,12 +47,13 @@ public class Spawner : MonoBehaviour
     {
         isSpawning = true;
         IsSpawned = false;
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.35f);
 
         // 1. Получаем объект из пула или используем заготовленный
         if (nextItemToSpawn == null)
         {
             itemToSpawn = pool.GetRandom();
+            itemToSpawn.GetComponent<Vegetable>().HardResetForPool();
         }
         else
         {
@@ -62,13 +66,13 @@ public class Spawner : MonoBehaviour
         var nextVeg = nextItemToSpawn.GetComponent<Vegetable>();
         
         // Сначала полный сброс
-        nextVeg.ResetToDefault(); 
+        nextVeg.HardResetForPool();
         nextItemToSpawn.SetActive(false);
 
         // Шанс 30% на спецэффект
-        if (UnityEngine.Random.value <= 0.20f) //0.30f
+        if (UnityEngine.Random.value <= 0f) //0.30f
         {
-            int randomTypeIndex = UnityEngine.Random.Range(1, 5); 
+            int randomTypeIndex = 7; //UnityEngine.Random.Range(1, 10);  //Ice 1, Giant 2, Magic 3,  Radiation 4, Reaper 5,  Mutant 6, // Вторичные эффекты (не участвуют в рандоме спавна) Warning 7, Virus 8, Enchanted 9
             nextVeg.SetSpecialType((Vegetable.VegetableType)randomTypeIndex);
             
         }
@@ -86,6 +90,7 @@ public class Spawner : MonoBehaviour
         itemToSpawn.transform.SetParent(transform, false);
         var itemVeg = itemToSpawn.GetComponent<Vegetable>();
         itemVeg.Initialize(drag);
+        itemVeg.EnableInput(); 
 
         itemWidth = itemToSpawn.GetComponent<RectTransform>().rect.width + itemVeg.radiusOffset;
         spawnerRect.sizeDelta = new Vector2(itemWidth, spawnerRect.sizeDelta.y);

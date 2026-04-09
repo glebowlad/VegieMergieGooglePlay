@@ -19,6 +19,8 @@ public class Drag : MonoBehaviour
     private bool isDragging = false;
     private int numberOfClicks = 0;
     private int currentTouchId = -1;
+    private float minX;
+    private float maxX;
 
     private void Awake()
     {
@@ -29,28 +31,36 @@ public class Drag : MonoBehaviour
         line.gameObject.SetActive(false);
     }
 
+    private void Start()
+    {
+        RectTransform parentRect = rectTransform.parent as RectTransform;
+
+        if (canvas != null)
+        {
+            Vector3 leftLocal = canvas.transform.InverseTransformPoint(leftWall.position);
+            Vector3 rightLocal = canvas.transform.InverseTransformPoint(rightWall.position);
+
+            minX = leftLocal.x;
+            maxX = rightLocal.x;
+        }
+    }
+
     private void Update()
     {
-
-        // Обрабатываем все касания
         for (int i = 0; i < Input.touchCount; i++)
         {
             Touch touch = Input.GetTouch(i);
-
-            // Если уже есть активный драг, работаем только с ним
+            
             if (isDragging)
             {
-                // Проверяем, что это именно наше касание
                 if (touch.fingerId == currentTouchId)
                 {
-                    // Обрабатываем движение
                     if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
                     {
                         MoveSpawner();
                         WhileDrag?.Invoke();
                     }
 
-                    // Обрабатываем окончание касания
                     if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
                     {
                         FinishDrag();
@@ -58,28 +68,23 @@ public class Drag : MonoBehaviour
                 }
             }
             
-            // Если драга нет, проверяем начало нового касания
             if (touch.phase == TouchPhase.Began)
             {
-                // ПРОВЕРКА ОБЛАСТИ: Проверяем, попал ли палец в границы touchArea
                 bool isInsideArea = RectTransformUtility.RectangleContainsScreenPoint(touchArea, touch.position, canvas.worldCamera);
 
                 if (isInsideArea)
                 {
-                    // Проверяем, кликнули ли мы по UI элементу
                     if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
                     {
                         GameObject clickedObject = EventSystem.current.currentSelectedGameObject;
-
-                        // Если это кнопка - игнорируем это касание
                         if (clickedObject != null && clickedObject.CompareTag("Buttons"))
                         {
-                            continue; // Пропускаем это касание, но продолжаем проверять другие
+                            continue;
                         }
                     }
 
-                    // Если дошли сюда - касание внутри зоны и не по кнопке, начинаем драг
                     StartDrag(touch.fingerId);
+                    MoveSpawner(); 
                 }
             }
         }
@@ -112,15 +117,12 @@ public class Drag : MonoBehaviour
             canvas.worldCamera,
             out Vector2 localPoint);
 
-        Vector2 leftWallLocal = canvas.transform.InverseTransformPoint(leftWall.position);
-        Vector2 rightWallLocal = canvas.transform.InverseTransformPoint(rightWall.position);
-
         float halfWidth = (spawner != null) ? spawner.CurrentItemWidth / 1.5f : 0;
 
         float clampedX = Mathf.Clamp(
             localPoint.x,
-            leftWallLocal.x + halfWidth,
-            rightWallLocal.x - halfWidth
+            minX + halfWidth,
+            maxX - halfWidth
         );
 
         rectTransform.localPosition = new Vector3(clampedX, rectTransform.localPosition.y, rectTransform.localPosition.z);

@@ -17,21 +17,20 @@ public class Hazard : MonoBehaviour
 
     // Логика поведения в зоне риска
     public void UpdateHazard(float progress)
-    {
-        // 1. Тряска (чем ближе к геймоверу, тем сильнее)
-        if (progress > 0.4f)
+    {   
+        if (vegetable.isActionReady) return; 
+
+        if (progress > 0.4f) // Тряска
         {
             float intensity = (progress - 0.3f) * 0.01f;
             transform.position += (Vector3)Random.insideUnitCircle * intensity;
         }
 
-        // 2. Покраснение (просим визуальный скрипт сменить цвет)
-        if (visual != null && vegetable != null)
+        if (visual != null && vegetable != null) // 2. Покраснение
         {
-            // Плавно смешиваем текущий цвет (лед/яд/обычный) с красным
-            Color targetColor = Color.Lerp(vegetable.currentTargetColor, Color.red, Mathf.InverseLerp(0.2f, 1.0f, progress));
-            
-            // Сообщаем визуалу, нужно ли красить маску или основной спрайт
+            Color targetColor = Color.red;
+            targetColor.a = progress; // От 0.0 (начало) до 1.0 (геймовер)
+
             bool isSpecial = vegetable.specialType != Vegetable.VegetableType.Default;
             visual.SetHazardColor(targetColor, isSpecial);
         }
@@ -55,7 +54,7 @@ public class Hazard : MonoBehaviour
         zoneCollidersCount = 0;
         if (visual != null && vegetable != null) 
         {
-            visual.UpdateVisuals(vegetable.specialType, vegetable.currentTargetColor);
+            visual.UpdateVisuals(vegetable.specialType);
         }
     }
 }

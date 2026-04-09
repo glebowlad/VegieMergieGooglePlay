@@ -5,6 +5,7 @@ using System.Collections;
 public class Counter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private ParticleSystem jackpotParticles;
     private int displayedScore = 0;
     public static int totalScore = 0;
     public static int totalMergedItems = 0;
@@ -27,25 +28,63 @@ public class Counter : MonoBehaviour
 
     private void OnVeggiesMerged(int level)
     {
-        int pointsToAdd = (level + 1) + (level * 2);
+        int pointsToAdd = 0;
+        if (level < 7) 
+        {
+            pointsToAdd = (level + 1) * (level + 2); 
+        }
+        else 
+        {
+            int[] elitePoints = { 100, 200, 500 }; 
+            pointsToAdd = elitePoints[level - 7];
+            TriggerJackpot(level);
+        }
+
         totalScore += pointsToAdd;
-        totalMergedItems++;
+
         if (countCoroutine != null) StopCoroutine(countCoroutine);
-        countCoroutine = StartCoroutine(AnimateScore(totalScore));
+        countCoroutine = StartCoroutine(AnimateScore(totalScore, level));
     }
 
-    private IEnumerator AnimateScore(int targetScore)
+
+    private IEnumerator AnimateScore(int targetScore, int level)
     {
         int initialScore = displayedScore;
         float elapsed = 0f;
+        RectTransform textRect = scoreText.GetComponent<RectTransform>();
+        Vector3 originalScale = Vector3.one;
+
+        float maxPunchScale = 1f + (level * level * 0.0030f); 
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            displayedScore = (int)Mathf.Lerp(initialScore, targetScore, elapsed / duration);
+            float t = elapsed / duration;
+
+            displayedScore = (int)Mathf.Lerp(initialScore, targetScore, t);
             scoreText.text = displayedScore.ToString().PadLeft(5, '0');
+
+            float pulse = Mathf.Sin(t * Mathf.PI) * (maxPunchScale - 1f);
+            textRect.localScale = originalScale * (1f + pulse);
+
             yield return null;
         }
-       
+
+        scoreText.text = targetScore.ToString().PadLeft(5, '0');
+        scoreText.transform.localScale = originalScale;
     }
+
+
+    private void TriggerJackpot(int level)
+    {
+        if (jackpotParticles != null)
+        {
+            // Чем выше уровень, тем больше частиц (например, для тыквы - ливень)
+            var main = jackpotParticles.main;
+            int count = (level - 6) * 40; 
+
+            jackpotParticles.Emit(count); 
+        }
+    }
+
 }

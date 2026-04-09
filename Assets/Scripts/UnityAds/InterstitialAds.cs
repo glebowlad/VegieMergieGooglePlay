@@ -14,17 +14,20 @@ public class InterstitialAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSh
     public void ShowInterstitialAd()
     {
         Advertisement.Show(androidUnitID, this);
-        LoadInterstitialAd();
     }
     public void OnUnityAdsAdLoaded(string placementId)
     {
         Debug.Log("Interstitial Ad loaded");
+        
     }
 
     public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message){  }
 
     public void OnUnityAdsShowClick(string placementId){  }
-    public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState){  }
+    public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
+    { 
+        LoadInterstitialAd();
+    }
 
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message){  }
     public void OnUnityAdsShowStart(string placementId){  }

@@ -148,8 +148,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   specialType: 0
-  radiusOffset: 90
+  currentTurns: 0
   currentTargetColor: {r: 0, g: 0, b: 0, a: 0}
+  radiusOffset: 90
 --- !u!114 &-497198251870046878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,11 +165,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   specialMask: {fileID: 7599983136797706870}
   auraParticles: {fileID: 2408967459976849982}
-  iconIce: {fileID: 21300000, guid: d0f0e0a71161432438b14da187eb4bb5, type: 3}
-  iconToxic: {fileID: 21300000, guid: acb819ad72b81074896d5f56ec14c045, type: 3}
-  iconGiant: {fileID: 21300000, guid: 101be69ef48964f44a2d739ef11024ce, type: 3}
-  iconGhost: {fileID: 21300000, guid: 9b5dc6fc61e18bf47aff5893631752d5, type: 3}
-  iconRebirth: {fileID: 21300000, guid: 9a3799c2da70cbc45a3afcf9a931c61d, type: 3}
+  allEffects:
+  - {fileID: 11400000, guid: 3c7e97b2e889e064886dd31d6459974e, type: 2}
+  - {fileID: 11400000, guid: ec620149951e53449baaa71a488cf5a3, type: 2}
+  - {fileID: 11400000, guid: 3e03496efbc2c3949809ef4ccf96831c, type: 2}
+  - {fileID: 11400000, guid: 5c7428aacedfbcc43b3539f899d28434, type: 2}
+  - {fileID: 11400000, guid: 961f64714b056bf4cb64c8cb15602955, type: 2}
+  - {fileID: 11400000, guid: c99f11629dc18874db40751f002854d4, type: 2}
+  - {fileID: 11400000, guid: 3fa5e618245aa42488a1f1b7a1a15d93, type: 2}
+  - {fileID: 11400000, guid: dd9b825e41e4b2349b32337b672275fa, type: 2}
+  - {fileID: 11400000, guid: 8feaf393210e8f34cbe7b6a7fb2c0db5, type: 2}
 --- !u!58 &6805691952295655913
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -220,7 +226,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8890768026901232733
 RectTransform:
   m_ObjectHideFlags: 0
@@ -237,7 +243,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.9, y: 5.1}
+  m_AnchoredPosition: {x: 0, y: -1}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &7599983136797706870
@@ -344,25 +350,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8854481020011831860, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
-      propertyPath: m_SortingLayer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8854481020011831860, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8854481020011831860, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
-      propertyPath: m_SortingLayerID
-      value: -371977837
-      objectReference: {fileID: 0}
     - target: {fileID: 8854665544585550910, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
       propertyPath: ShapeModule.radius.value
-      value: 22.93
+      value: 21.58
       objectReference: {fileID: 0}
     - target: {fileID: 8854665544585550910, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
-      propertyPath: InitialModule.maxNumParticles
-      value: 5
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8854665544585550910, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8854665544585550910, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8854665544585550910, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.atime1
+      value: 7325
+      objectReference: {fileID: 0}
+    - target: {fileID: 8854665544585550910, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.atime2
+      value: 54741
+      objectReference: {fileID: 0}
+    - target: {fileID: 8854665544585550910, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key3.a
+      value: 0.32941177
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
