@@ -17047,6 +17047,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreTextInGame: {fileID: 1187540838}
+  scoreTextInPause: {fileID: 2083571609}
   scoreTextInFinish: {fileID: 1158350448}
   jackpotParticles: {fileID: 262478995}
 --- !u!114 &2027674860

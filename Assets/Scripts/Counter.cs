@@ -5,6 +5,7 @@ using System.Collections;
 public class Counter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreTextInGame;
+    [SerializeField] private TextMeshProUGUI scoreTextInPause;
     [SerializeField] private TextMeshProUGUI scoreTextInFinish;
     [SerializeField] private ParticleSystem jackpotParticles;
     private int displayedScore = 0;
@@ -74,6 +75,7 @@ public class Counter : MonoBehaviour
         }
 
         scoreTextInGame.text = targetScore.ToString().PadLeft(5, '0');
+        scoreTextInPause.text = targetScore.ToString().PadLeft(5, '0');
         scoreTextInGame.transform.localScale = originalScale;
     }
     private void ShowScoreOnFinish()
