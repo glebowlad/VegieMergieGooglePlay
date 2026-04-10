@@ -4,6 +4,11 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance = null;
+    [SerializeField] 
+    private Drag drag;
+    [SerializeField] 
+    private GameObject startPanel;
+
     [Header("Clips")]
     [SerializeField]
     private AudioClip bgSound;
@@ -18,12 +23,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField ] private  AudioSource MusicSource;
     [SerializeField] private AudioSource SFXSource;
 
-    [SerializeField] 
-    private Drag drag;
-    [SerializeField] 
-    private GameObject startPanel;
-
-
+    public float MusicVolume {  get; private set; }
+    public float SFXVolume { get; private set; }
     public static bool isMusicMuted= false;
     public static bool isSFXMuted = false;
 
@@ -55,6 +56,8 @@ public class AudioManager : MonoBehaviour
        // if(!isStart) { return; }
         //AudioListener.pause = true;
         //if (MusicSource.isPlaying) 
+        SFXVolume =SFXSource.volume;
+        MusicVolume=MusicSource.volume;
             MusicSource.Play(); 
     }
 
@@ -91,6 +94,7 @@ public class AudioManager : MonoBehaviour
         SFXSource.mute = isSFXMuted;
         Muted?.Invoke();
     }
+
     public void PlayMergeSound(int level)
     {
         if (mergeSounds.Length > 0)

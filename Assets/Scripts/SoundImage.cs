@@ -11,12 +11,14 @@ public class SoundImage : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private Image MusicButtonImage;
     [SerializeField] private Image SFXButtonImage;
+    [Header("Sliders")]
+    [SerializeField] private Slider MusicSlider;
+    [SerializeField] private Slider SFXSlider;
 
     void Start()
     {
         UpdateAppearance();
         AudioManager.Muted += UpdateAppearance;
-
     }
 
     public void Mute()
@@ -25,22 +27,17 @@ public class SoundImage : MonoBehaviour
     }
     void UpdateAppearance()
     {
-        if (AudioManager.isMusicMuted)
-        {
-            MusicButtonImage.sprite = MusicOffSprite;
-        }
-        else
-        {
-            MusicButtonImage.sprite = MusicOnSprite;
-        }
-        if (AudioManager.isSFXMuted)
-        {
-            SFXButtonImage.sprite = SFXOffSprite;
-        }
-        else
-        {
-            SFXButtonImage.sprite = SFXOnSprite;
-        }
+        bool isMusicMuted = AudioManager.isMusicMuted;
+        MusicButtonImage.sprite = isMusicMuted ? MusicOffSprite : MusicOnSprite;
+
+        MusicSlider.value = isMusicMuted ? 0 : AudioManager.Instance.MusicVolume;
+        MusicSlider.interactable = !isMusicMuted;
+
+        bool isSFXMuted = AudioManager.isSFXMuted;
+        SFXButtonImage.sprite = isSFXMuted ? SFXOffSprite : SFXOnSprite;
+
+        SFXSlider.value = isSFXMuted ? 0 : AudioManager.Instance.SFXVolume;
+        SFXSlider.interactable = !isSFXMuted;
     }
     private void OnDestroy()
     {
