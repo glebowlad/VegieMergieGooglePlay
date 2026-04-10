@@ -3,9 +3,14 @@ using UnityEngine.UI;
 
 public class SoundImage : MonoBehaviour
 {
-    [SerializeField] private Sprite soundOnSprite;
-    [SerializeField] private Sprite soundOffSprite;
-    [SerializeField] private Image buttonImage;
+    [Header("Sprites")]
+    [SerializeField] private Sprite MusicOnSprite;
+    [SerializeField] private Sprite MusicOffSprite;
+    [SerializeField] private Sprite SFXOnSprite;
+    [SerializeField] private Sprite SFXOffSprite;
+    [Header("Buttons")]
+    [SerializeField] private Image MusicButtonImage;
+    [SerializeField] private Image SFXButtonImage;
 
     void Start()
     {
@@ -16,17 +21,17 @@ public class SoundImage : MonoBehaviour
 
     public void Mute()
     {
-        AudioManager.Instance.Mute();
+        AudioManager.Instance.MusicMute();
     }
     void UpdateAppearance()
     {
-        if (AudioManager.isMuted)
+        if (AudioManager.isMusicMuted)
         {
-            buttonImage.sprite = soundOffSprite;
+            MusicButtonImage.sprite = MusicOffSprite;
         }
         else
         {
-            buttonImage.sprite = soundOnSprite;
+            MusicButtonImage.sprite = MusicOnSprite;
         }
     }
     private void OnDestroy()

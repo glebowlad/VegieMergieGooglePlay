@@ -4,23 +4,31 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance = null;
+    [Header("Clips")]
     [SerializeField]
     private AudioClip bgSound;
+    [SerializeField] 
+    private AudioClip shakeSound;
     [SerializeField]
     private AudioClip[] mergeSounds;
     [SerializeField]
     private AudioClip[] dropSounds;
 
+    [Header("Audio Sources")]
+    [SerializeField ] private  AudioSource MusicSource;
+    [SerializeField] private AudioSource SFXSource;
+
     [SerializeField] 
-    private AudioClip shakeSound;
-    [SerializeField] private Drag drag;
+    private Drag drag;
     [SerializeField] 
     private GameObject startPanel;
 
-    public static AudioSource source;
-    public static bool isMuted= false;
+
+    public static bool isMusicMuted= false;
+    public static bool isSFXMuted = false;
+
     public static event Action Muted;
-    private static bool isStart = true;
+    //private static bool isStart = true;
 
    
     void Awake()
@@ -37,31 +45,31 @@ public class AudioManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
-        source = GetComponent<AudioSource>();
-        source.clip= bgSound;
+        MusicSource.clip= bgSound;
         Subscribe();
     }
     void Start()
     {
-        startPanel.SetActive(isStart);
-        drag.enabled = false;
-        if(!isStart) { return; }
-        AudioListener.pause = true;
-        if (source.isPlaying) { source.Stop(); }
+        //startPanel.SetActive(isStart);
+        //drag.enabled = false;
+       // if(!isStart) { return; }
+        //AudioListener.pause = true;
+        //if (MusicSource.isPlaying) 
+            MusicSource.Play(); 
     }
 
-    public void StartGame()
-    {
-        isStart = false;
-        AudioListener.pause = false;
-        if (!source.isPlaying)
-        {
-            source.Play();
-        }
-        startPanel.SetActive(isStart);
-        drag.enabled = true;
+    //public void StartGame()
+    //{
+    //    //isStart = false;
+    //    //AudioListener.pause = false;
+    //    if (!MusicSource.isPlaying)
+    //    {
+    //        MusicSource.Play();
+    //    }
+    //    startPanel.SetActive(isStart);
+    //    drag.enabled = true;
 
-    }
+    //}
 
     private void Subscribe()
     {
@@ -70,40 +78,42 @@ public class AudioManager : MonoBehaviour
     }
   
     
-    public void Mute()
+    public void MusicMute()
     {
-        isMuted = !isMuted;
-        source.mute = isMuted;
+        isMusicMuted = !isMusicMuted;
+        MusicSource.mute = isMusicMuted;
         Muted?.Invoke();
     }
 
+    public void SFXMute()
+    {
+        isSFXMuted = !isSFXMuted;
+        SFXSource.mute = isSFXMuted;
+    }
     public void PlayMergeSound(int level)
     {
-        if (mergeSounds == null || mergeSounds.Length == 0)
-        {
-            return;
-        }
-        AudioClip randomSound = mergeSounds[UnityEngine.Random.Range(0, mergeSounds.Length)];
-        source.PlayOneShot(randomSound);
+        if (mergeSounds.Length > 0)
+            PlayRandomSfx(mergeSounds);
     }
 
     public void PlayDropSound()
     {
-        if (dropSounds == null || dropSounds.Length == 0)
-        {
-            return;
-        }
-        AudioClip randomSound = dropSounds[UnityEngine.Random.Range(0, dropSounds.Length)];
-        source.PlayOneShot(randomSound);
+        if (dropSounds.Length > 0)
+            PlayRandomSfx(dropSounds);
     }
+
+    private void PlayRandomSfx(AudioClip[] clips)
+    {
+        AudioClip clip = clips[UnityEngine.Random.Range(0, clips.Length)];
+        SFXSource.PlayOneShot(clip);
+    }
+
     public void PlayShakeSound()
     {
-        if (shakeSound == null )
-        {
-            return;
-        }
-        source.PlayOneShot(shakeSound);
+        if (shakeSound != null)
+            SFXSource.PlayOneShot(shakeSound);
     }
+
     private void OnDestroy()
     {
         
