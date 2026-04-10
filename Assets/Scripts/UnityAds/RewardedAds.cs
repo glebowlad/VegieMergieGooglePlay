@@ -14,7 +14,7 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
     public void ShowRewardedAd()
     {
         Advertisement.Show(androidUnitID, this);
-        LoadRewardedAd();
+       
     }
     public void OnUnityAdsAdLoaded(string placementId)
     {
@@ -24,8 +24,9 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
 
     public void OnUnityAdsShowClick(string placementId) { }
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState) 
-    { 
-        if(placementId==androidUnitID && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
+    {
+        LoadRewardedAd();
+        if (placementId==androidUnitID && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
         {
             Debug.Log("Reward");
         } 
