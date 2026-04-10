@@ -89,6 +89,7 @@ public class AudioManager : MonoBehaviour
     {
         isSFXMuted = !isSFXMuted;
         SFXSource.mute = isSFXMuted;
+        Muted?.Invoke();
     }
     public void PlayMergeSound(int level)
     {

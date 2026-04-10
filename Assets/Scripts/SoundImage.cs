@@ -33,6 +33,14 @@ public class SoundImage : MonoBehaviour
         {
             MusicButtonImage.sprite = MusicOnSprite;
         }
+        if (AudioManager.isSFXMuted)
+        {
+            SFXButtonImage.sprite = SFXOffSprite;
+        }
+        else
+        {
+            SFXButtonImage.sprite = SFXOnSprite;
+        }
     }
     private void OnDestroy()
     {
