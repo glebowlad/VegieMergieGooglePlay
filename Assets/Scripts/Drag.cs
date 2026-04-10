@@ -57,8 +57,10 @@ public class Drag : MonoBehaviour
                 {
                     if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
                     {
+                       
                         MoveSpawner();
                         WhileDrag?.Invoke();
+
                     }
 
                     if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
@@ -84,7 +86,7 @@ public class Drag : MonoBehaviour
                     }
 
                     StartDrag(touch.fingerId);
-                    MoveSpawner(); 
+                   
                 }
             }
         }
