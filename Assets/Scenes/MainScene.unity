@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bestScore: {fileID: 599106524}
+  pauseManager: {fileID: 1023724947}
 --- !u!114 &59865450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12517,6 +12518,10 @@ PrefabInstance:
       propertyPath: startPanel
       value: 
       objectReference: {fileID: 372257347276628392}
+    - target: {fileID: 3565488311011321927, guid: 05dc411ef13417c45be2b64822cd4385, type: 3}
+      propertyPath: pauseManager
+      value: 
+      objectReference: {fileID: 1023724947}
     - target: {fileID: 5246030651207315161, guid: 05dc411ef13417c45be2b64822cd4385, type: 3}
       propertyPath: m_SizeDelta.y
       value: 2287.67
