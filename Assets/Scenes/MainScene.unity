@@ -6749,7 +6749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1a98a355e541c543ade124fd4f9b914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenAds: 180
+  timeBetweenAds: 200
   minRestartCooldown: 100
 --- !u!4 &484178320
 Transform:
@@ -9924,7 +9924,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1572082385
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11533,7 +11533,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13c36df0f3978124287ce7503a848138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 1187540838}
+  scoreTextInGame: {fileID: 1187540838}
+  scoreTextInFinish: {fileID: 1158350448}
   jackpotParticles: {fileID: 262478995}
 --- !u!114 &2027674860
 MonoBehaviour:
@@ -12504,7 +12505,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 372257348099428488, guid: 05dc411ef13417c45be2b64822cd4385, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 686479600058769676, guid: 05dc411ef13417c45be2b64822cd4385, type: 3}
       propertyPath: m_Name

@@ -4,7 +4,8 @@ using System.Collections;
 
 public class Counter : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI scoreTextInGame;
+    [SerializeField] private TextMeshProUGUI scoreTextInFinish;
     [SerializeField] private ParticleSystem jackpotParticles;
     private int displayedScore = 0;
     public static int totalScore = 0;
@@ -16,13 +17,15 @@ public class Counter : MonoBehaviour
     private void Awake()
     {
         totalScore = 0;
-        scoreText.text = "00000";
+        scoreTextInGame.text = "00000";
         Merge.Merged += OnVeggiesMerged;
+        GameOverCheck.GameIsOver += ShowScoreOnFinish;
     }
 
     private void OnDestroy()
     {
         Merge.Merged -= OnVeggiesMerged;
+        GameOverCheck.GameIsOver -= ShowScoreOnFinish;
     }
 
 
@@ -51,7 +54,7 @@ public class Counter : MonoBehaviour
     {
         int initialScore = displayedScore;
         float elapsed = 0f;
-        RectTransform textRect = scoreText.GetComponent<RectTransform>();
+        RectTransform textRect = scoreTextInGame.GetComponent<RectTransform>();
         Vector3 originalScale = Vector3.one;
 
         float maxPunchScale = 1f + (level * level * 0.0030f); 
@@ -62,7 +65,7 @@ public class Counter : MonoBehaviour
             float t = elapsed / duration;
 
             displayedScore = (int)Mathf.Lerp(initialScore, targetScore, t);
-            scoreText.text = displayedScore.ToString().PadLeft(5, '0');
+            scoreTextInGame.text = displayedScore.ToString().PadLeft(5, '0');
 
             float pulse = Mathf.Sin(t * Mathf.PI) * (maxPunchScale - 1f);
             textRect.localScale = originalScale * (1f + pulse);
@@ -70,10 +73,13 @@ public class Counter : MonoBehaviour
             yield return null;
         }
 
-        scoreText.text = targetScore.ToString().PadLeft(5, '0');
-        scoreText.transform.localScale = originalScale;
+        scoreTextInGame.text = targetScore.ToString().PadLeft(5, '0');
+        scoreTextInGame.transform.localScale = originalScale;
     }
-
+    private void ShowScoreOnFinish()
+    {
+        scoreTextInFinish.text = totalScore.ToString().PadLeft(5, '0');
+    }
 
     private void TriggerJackpot(int level)
     {
