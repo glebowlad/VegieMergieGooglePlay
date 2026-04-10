@@ -6178,19 +6178,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 291603535}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2113414910}
-        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-        m_MethodName: MusicMute
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &291603535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13024,6 +13012,8 @@ MonoBehaviour:
   MusicOffSprite: {fileID: 21300000, guid: 07b32c538f796844bbcd68c43da30dcf, type: 3}
   SFXOnSprite: {fileID: 21300000, guid: 589511bf990ff904aa3217d6422f6e1c, type: 3}
   SFXOffSprite: {fileID: 21300000, guid: 210eeed675149ae4ca4f5ca8d775f983, type: 3}
+  musicBtn: {fileID: 291603534}
+  sfxBtn: {fileID: 1989461427}
   MusicButtonImage: {fileID: 696379623}
   SFXButtonImage: {fileID: 1787892520}
   MusicSlider: {fileID: 465704300}
@@ -16846,19 +16836,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1989461428}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2113414910}
-        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-        m_MethodName: SFXMute
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1989461428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17270,8 +17248,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd6088820d24d8042a0c637c9376bacc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drag: {fileID: 1944206786}
-  startPanel: {fileID: 1474597777031547998}
+  MusicSource: {fileID: 2113414911}
+  SFXSource: {fileID: 1424850752}
   bgSound: {fileID: 8300000, guid: 79520ef3bed83d04d8e7322aab514913, type: 3}
   shakeSound: {fileID: 8300000, guid: 8d5209b200e1cb2439f4a66824610a0d, type: 3}
   mergeSounds:
@@ -17284,8 +17262,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9a7d3dbadb29c6a4da745a1abeb7b95f, type: 3}
   - {fileID: 8300000, guid: be880bc33d0bfbd40b2245d037d73ae9, type: 3}
   - {fileID: 8300000, guid: 4a1fc03821eabd1498803f76b7eb2bce, type: 3}
-  MusicSource: {fileID: 2113414911}
-  SFXSource: {fileID: 1424850752}
 --- !u!82 &2113414911
 AudioSource:
   m_ObjectHideFlags: 0
