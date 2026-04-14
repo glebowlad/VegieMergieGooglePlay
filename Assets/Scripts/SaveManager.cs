@@ -72,12 +72,19 @@ public class SaveManager : MonoBehaviour
         Vegetable[] allVeg = FindObjectsOfType<Vegetable>();
         foreach (var v in allVeg)
         {
-            if (v.gameObject.activeInHierarchy && v.transform.parent == null)
+            if (v.gameObject.activeInHierarchy)
             {
-                int index = System.Array.FindIndex(spawner.GetPrefabsArray(), p => p.name == v.name.Replace("(Clone)", "").Trim());
+                string cleanName = v.name.Replace("(Clone)", "").Trim();
+                int index = System.Array.FindIndex(spawner.GetPrefabsArray(), p => p.name == cleanName);
+
                 if (index != -1)
                 {
                     data.vegetables.Add(new VegData { prefabIndex = index, pos = v.transform.position, type = (int)v.specialType });
+                    Debug.Log($"Сохранен: {cleanName} в позиции {v.transform.position}");
+                }
+                else
+                {
+                    Debug.LogWarning($"Не нашел префаб с именем {cleanName} в списке Spawner!");
                 }
             }
         }
