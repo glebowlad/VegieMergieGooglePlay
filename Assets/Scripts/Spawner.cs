@@ -23,6 +23,7 @@ public class Spawner : MonoBehaviour
     public float CurrentItemWidth => itemWidth; 
 
     public GameObject GetCurrentItem() => itemToSpawn; //нужно для дебаг панели выбора эффекта
+    public GameObject[] GetPrefabsArray() => vegPrefabs;
 
     private void Awake()
     {

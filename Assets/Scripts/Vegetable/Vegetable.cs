@@ -207,6 +207,18 @@ public class Vegetable : MonoBehaviour
             return data;
         }
     }
+    public void LoadState(VegetableType type)
+    {
+        
+        rb.simulated = true;
+        
+        transform.SetParent(null);
+       
+        SetSpecialType(type);
+       
+        isActionReady = false;
+    }
+
 
     // Методы-прослойки для зоны геймовера (чтобы не менять другие скрипты)
     public void UpdateHazardVisuals(float p) => hazard.UpdateHazard(p);

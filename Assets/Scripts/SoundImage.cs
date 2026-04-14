@@ -35,6 +35,7 @@ public class SoundImage : MonoBehaviour
 
         UpdateAppearance();
         AudioManager.Muted += UpdateAppearance;
+        AudioManager.SettingsLoaded += UpdateAppearance;
     }
 
     void UpdateAppearance()
@@ -61,5 +62,6 @@ public class SoundImage : MonoBehaviour
     private void OnDestroy()
     {
         AudioManager.Muted -= UpdateAppearance;
+        AudioManager.SettingsLoaded -= UpdateAppearance;
     }
 }

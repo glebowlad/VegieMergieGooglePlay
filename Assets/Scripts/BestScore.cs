@@ -43,6 +43,11 @@ public class BestScore : MonoBehaviour
         PlayerPrefs.Save();
         ShowBestScore();
     }
+    public void UpdateBestScore()
+    {
+        CheckBestScore(); 
+    }
+
     public void CheckBestScore()
     {
         int currentScore = Counter.totalScore;

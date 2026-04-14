@@ -17,12 +17,19 @@ public class Counter : MonoBehaviour
 
     private void Awake()
     {
-        totalScore = 0;
+        //totalScore = 0;
         scoreTextInGame.text = "00000";
         Merge.Merged += OnVeggiesMerged;
         GameOverCheck.GameIsOver += ShowScoreOnFinish;
     }
-
+    public void LoadSavedScore(int savedScore)
+    {
+        totalScore = savedScore;
+        displayedScore = savedScore;
+        string formatted = totalScore.ToString().PadLeft(5, '0');
+        scoreTextInGame.text = formatted;
+        scoreTextInPause.text = formatted;
+    }
     private void OnDestroy()
     {
         Merge.Merged -= OnVeggiesMerged;

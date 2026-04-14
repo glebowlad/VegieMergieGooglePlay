@@ -16,14 +16,14 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip[] dropSounds;
 
     // Теперь храним реальную громкость
-    public float MusicVolume { get; private set; } = 1f;
-    public float SFXVolume { get; private set; } = 1f;
+    public float MusicVolume { get; private set; } 
+    public float SFXVolume { get; private set; }
 
     public static bool isMusicMuted = false;
     public static bool isSFXMuted = false;
 
     public static event Action Muted;
-
+    public static event Action SettingsLoaded;
     void Awake()
     {
         if (Instance == null)
@@ -47,6 +47,19 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+    }
+
+   
+
+    public void InitLoadedSettings(float mVol, float sVol, bool mMuted, bool sMuted)
+    {
+        MusicVolume = mVol;
+        SFXVolume = sVol;
+        isMusicMuted = mMuted;
+        isSFXMuted = sMuted;
+
+        ApplySettings();
+        SettingsLoaded?.Invoke(); // Уведомляем SoundImage, что нужно обновить слайдеры
     }
 
     // Метод для изменения громкости музыки из слайдера
