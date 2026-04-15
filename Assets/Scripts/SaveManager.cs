@@ -70,28 +70,28 @@ public class SaveManager : MonoBehaviour
 
         data.currentScore = Counter.totalScore;
 
-        Vegetable[] allVeg = FindObjectsOfType<Vegetable>();
-        foreach (var v in allVeg)
-        {
-            if (v.gameObject.activeInHierarchy && v.transform.parent != spawner.transform)
-            {
-                string cleanName = v.name.Replace("(Clone)", "").Trim();
-                int index = System.Array.FindIndex(spawner.GetPrefabsArray(), p => p.name == cleanName);
+        //Vegetable[] allVeg = FindObjectsOfType<Vegetable>();
+        //foreach (var v in allVeg)
+        //{
+        //    if (v.gameObject.activeInHierarchy && v.transform.parent != spawner.transform)
+        //    {
+        //        string cleanName = v.name.Replace("(Clone)", "").Trim();
+        //        int index = System.Array.FindIndex(spawner.GetPrefabsArray(), p => p.name == cleanName);
 
-                if (index != -1)
-                {
-                    RectTransform rt = v.GetComponent<RectTransform>();
-                    Vector3 posToSave = (rt != null) ? (Vector3)rt.anchoredPosition : v.transform.localPosition;
+        //        if (index != -1)
+        //        {
+        //            RectTransform rt = v.GetComponent<RectTransform>();
+        //            Vector3 posToSave = (rt != null) ? (Vector3)rt.anchoredPosition : v.transform.localPosition;
 
-                    data.vegetables.Add(new VegData { prefabIndex = index, pos =posToSave, type = (int)v.specialType });
-                    Debug.Log($"Сохранен: {cleanName} в позиции {posToSave}");
-                }
-                else
-                {
-                    Debug.LogWarning($"Не нашел префаб с именем {cleanName} в списке Spawner!");
-                }
-            }
-        }
+        //            data.vegetables.Add(new VegData { prefabIndex = index, pos =posToSave, type = (int)v.specialType });
+        //            Debug.Log($"Сохранен: {cleanName} в позиции {posToSave}");
+        //        }
+        //        else
+        //        {
+        //            Debug.LogWarning($"Не нашел префаб с именем {cleanName} в списке Spawner!");
+        //        }
+        //    }
+        //}
         File.WriteAllText(savePath, JsonUtility.ToJson(data));
     }
 
@@ -103,39 +103,39 @@ public class SaveManager : MonoBehaviour
         GameSaveData data = JsonUtility.FromJson<GameSaveData>(json);
 
         
-        if (counter != null) counter.LoadSavedScore(data.currentScore);
-        if (bestScoreScript != null) bestScoreScript.UpdateBestScore();
+        //if (counter != null) counter.LoadSavedScore(data.currentScore);
+        //if (bestScoreScript != null) bestScoreScript.UpdateBestScore();
 
-        foreach (var v in data.vegetables)
-        {
-            GameObject prefab = spawner.GetPrefabsArray()[v.prefabIndex];
-            if (prefab == null) continue;
+        //foreach (var v in data.vegetables)
+        //{
+        //    GameObject prefab = spawner.GetPrefabsArray()[v.prefabIndex];
+        //    if (prefab == null) continue;
 
-            GameObject newObj = Instantiate(prefab);
-            Rigidbody2D rb = newObj.GetComponent<Rigidbody2D>();
-            if (rb != null) rb.simulated = false;
-            newObj.transform.SetParent(gameContainer, false);
+        //    GameObject newObj = Instantiate(prefab);
+        //    Rigidbody2D rb = newObj.GetComponent<Rigidbody2D>();
+        //    if (rb != null) rb.simulated = false;
+        //    newObj.transform.SetParent(gameContainer, false);
 
-            RectTransform rt = newObj.GetComponent<RectTransform>();
-            if (rt != null)
-            {
-                // Устанавливаем сохраненные UI-координаты
-                rt.anchoredPosition = new Vector2(v.pos.x, v.pos.y);
-                rt.localScale = Vector3.one;
-                rt.localRotation = Quaternion.identity;
-                // Обнуляем Z
-                rt.anchoredPosition3D = new Vector3(rt.anchoredPosition.x, rt.anchoredPosition.y, 0f);
-            }
+        //    RectTransform rt = newObj.GetComponent<RectTransform>();
+        //    if (rt != null)
+        //    {
+        //        // Устанавливаем сохраненные UI-координаты
+        //        rt.anchoredPosition = new Vector2(v.pos.x, v.pos.y);
+        //        rt.localScale = Vector3.one;
+        //        rt.localRotation = Quaternion.identity;
+        //        // Обнуляем Z
+        //        rt.anchoredPosition3D = new Vector3(rt.anchoredPosition.x, rt.anchoredPosition.y, 0f);
+        //    }
 
-            var veg = newObj.GetComponent<Vegetable>();
-            if (veg != null)
-            {
-                veg.HardResetForPool();
-                veg.LoadState((Vegetable.VegetableType)v.type);
-            }
-            if (rb != null) rb.simulated = true;
-            newObj.transform.SetAsLastSibling();
-        }
+        //    var veg = newObj.GetComponent<Vegetable>();
+        //    if (veg != null)
+        //    {
+        //        veg.HardResetForPool();
+        //        veg.LoadState((Vegetable.VegetableType)v.type);
+        //    }
+        //    if (rb != null) rb.simulated = true;
+        //    newObj.transform.SetAsLastSibling();
+        //}
     }
 
     private void OnApplicationPause(bool pause) { if (pause) SaveGame(); }
