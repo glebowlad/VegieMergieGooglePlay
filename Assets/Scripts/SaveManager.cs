@@ -5,6 +5,7 @@ using UnityEngine;
 public class SaveManager : MonoBehaviour
 {
     [Header("Links")]
+    public RectTransform gameContainer;
     public Spawner spawner;
     public Counter counter;
     public BestScore bestScoreScript;
@@ -72,15 +73,18 @@ public class SaveManager : MonoBehaviour
         Vegetable[] allVeg = FindObjectsOfType<Vegetable>();
         foreach (var v in allVeg)
         {
-            if (v.gameObject.activeInHierarchy)
+            if (v.gameObject.activeInHierarchy && v.transform.parent != spawner.transform)
             {
                 string cleanName = v.name.Replace("(Clone)", "").Trim();
                 int index = System.Array.FindIndex(spawner.GetPrefabsArray(), p => p.name == cleanName);
 
                 if (index != -1)
                 {
-                    data.vegetables.Add(new VegData { prefabIndex = index, pos = v.transform.position, type = (int)v.specialType });
-                    Debug.Log($"Сохранен: {cleanName} в позиции {v.transform.position}");
+                    RectTransform rt = v.GetComponent<RectTransform>();
+                    Vector3 posToSave = (rt != null) ? (Vector3)rt.anchoredPosition : v.transform.localPosition;
+
+                    data.vegetables.Add(new VegData { prefabIndex = index, pos =posToSave, type = (int)v.specialType });
+                    Debug.Log($"Сохранен: {cleanName} в позиции {posToSave}");
                 }
                 else
                 {
@@ -98,7 +102,7 @@ public class SaveManager : MonoBehaviour
         string json = File.ReadAllText(savePath);
         GameSaveData data = JsonUtility.FromJson<GameSaveData>(json);
 
-        // Исправлено: используем currentScore вместо score
+        
         if (counter != null) counter.LoadSavedScore(data.currentScore);
         if (bestScoreScript != null) bestScoreScript.UpdateBestScore();
 
@@ -107,10 +111,30 @@ public class SaveManager : MonoBehaviour
             GameObject prefab = spawner.GetPrefabsArray()[v.prefabIndex];
             if (prefab == null) continue;
 
-            GameObject newObj = Instantiate(prefab, v.pos, Quaternion.identity);
+            GameObject newObj = Instantiate(prefab);
+            Rigidbody2D rb = newObj.GetComponent<Rigidbody2D>();
+            if (rb != null) rb.simulated = false;
+            newObj.transform.SetParent(gameContainer, false);
+
+            RectTransform rt = newObj.GetComponent<RectTransform>();
+            if (rt != null)
+            {
+                // Устанавливаем сохраненные UI-координаты
+                rt.anchoredPosition = new Vector2(v.pos.x, v.pos.y);
+                rt.localScale = Vector3.one;
+                rt.localRotation = Quaternion.identity;
+                // Обнуляем Z
+                rt.anchoredPosition3D = new Vector3(rt.anchoredPosition.x, rt.anchoredPosition.y, 0f);
+            }
+
             var veg = newObj.GetComponent<Vegetable>();
-            veg.HardResetForPool();
-            veg.LoadState((Vegetable.VegetableType)v.type);
+            if (veg != null)
+            {
+                veg.HardResetForPool();
+                veg.LoadState((Vegetable.VegetableType)v.type);
+            }
+            if (rb != null) rb.simulated = true;
+            newObj.transform.SetAsLastSibling();
         }
     }
 

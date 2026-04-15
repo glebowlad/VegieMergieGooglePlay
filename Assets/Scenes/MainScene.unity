@@ -11707,7 +11707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1a98a355e541c543ade124fd4f9b914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenAds: 200
+  timeBetweenAds: 300
   minRestartCooldown: 100
 --- !u!4 &484178320
 Transform:
@@ -15270,7 +15270,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -15383,6 +15383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc76f8c454e4a3b458f437d53ecd2cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameContainer: {fileID: 1637013304}
   spawner: {fileID: 1944206788}
   counter: {fileID: 2027674859}
   bestScoreScript: {fileID: 599106524}
@@ -17630,7 +17631,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 79520ef3bed83d04d8e7322aab514913, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -17752,7 +17753,7 @@ PrefabInstance:
       objectReference: {fileID: 846599464}
     - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
       propertyPath: vegPrefabs.Array.size
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
       propertyPath: vegPrefabs.Array.data[0]
@@ -17777,7 +17778,23 @@ PrefabInstance:
     - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
       propertyPath: vegPrefabs.Array.data[5]
       value: 
-      objectReference: {fileID: 6008126811829159264, guid: 03178c686644b5640a63583831d78cb8, type: 3}
+      objectReference: {fileID: 6008126811829159264, guid: 193d65c02f0b95941897a3b18757587d, type: 3}
+    - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
+      propertyPath: vegPrefabs.Array.data[6]
+      value: 
+      objectReference: {fileID: 6008126811829159264, guid: 832687c7ba372a0439e4bfac6646c31e, type: 3}
+    - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
+      propertyPath: vegPrefabs.Array.data[7]
+      value: 
+      objectReference: {fileID: 6008126811829159264, guid: ddc720e8583f79948914586356151c9d, type: 3}
+    - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
+      propertyPath: vegPrefabs.Array.data[8]
+      value: 
+      objectReference: {fileID: 6008126811829159264, guid: 02ff866eaef89984c8025e0f7ea40255, type: 3}
+    - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
+      propertyPath: vegPrefabs.Array.data[9]
+      value: 
+      objectReference: {fileID: 6008126811829159264, guid: a05e4af95c896704a8a6778d9a2959f8, type: 3}
     - target: {fileID: 2066061898345966611, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -18889,7 +18906,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 372257348099428488, guid: 05dc411ef13417c45be2b64822cd4385, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 650988292744974540, guid: 05dc411ef13417c45be2b64822cd4385, type: 3}
       propertyPath: m_Layer

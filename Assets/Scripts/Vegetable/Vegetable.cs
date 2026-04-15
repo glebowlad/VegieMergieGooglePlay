@@ -212,7 +212,7 @@ public class Vegetable : MonoBehaviour
         
         rb.simulated = true;
         
-        transform.SetParent(null);
+       // transform.SetParent(null);
        
         SetSpecialType(type);
        
