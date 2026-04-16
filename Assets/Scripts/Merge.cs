@@ -59,6 +59,7 @@ public class Merge : MonoBehaviour
         {
             var data = myVeg.CurrentEffectData;
             EffectManager.Instance.ShowFlash(transform.position, data.auraSprite, data.auraColor, data.auraRadius, data.animType);
+            AudioManager.Instance.PlayEffectSound(data.effectSound);
         }
         else 
         {
