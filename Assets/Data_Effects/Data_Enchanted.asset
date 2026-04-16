@@ -16,6 +16,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: c9f7d32c9dcb7804b859fdf13ffeb9ac, type: 3}
   maskColor: {r: 0.8867924, g: 0.52287287, b: 0.8867924, a: 0.7882353}
   effectLogic: {fileID: 0}
+  effectSound: {fileID: 8300000, guid: 1c2c74050ad498e4b969c6da17a03e46, type: 3}
   scaleMultiplier: 0.9
   gravityScale: 1
   linearDrag: 0
@@ -27,13 +28,7 @@ MonoBehaviour:
   auraRadius: 2.5
   auraSprite: {fileID: 0}
   auraColor: {r: 1, g: 1, b: 1, a: 1}
-  isStasis: 0
-  isCleanser: 1
-  isInfectious: 0
-  isRadioactive: 0
-  isNegative: 0
-  immuneToNegative: 1
-  immuneToIce: 1
+  animType: 0
   hasShake: 0
   shakeIntensity: 0.05
   maxParticles: 4
