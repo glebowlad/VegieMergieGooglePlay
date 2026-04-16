@@ -10,6 +10,8 @@ public class AudioManager : MonoBehaviour
 
     [Header("Clips")]
     [SerializeField] private AudioClip bgSound;
+    [SerializeField]private AudioClip lastVegSound;
+    [SerializeField] private AudioClip finishSound;
     [SerializeField] private AudioClip shakeSound;
     [SerializeField] private AudioClip[] mergeSounds;
     [SerializeField] private AudioClip[] dropSounds;
@@ -104,10 +106,22 @@ public class AudioManager : MonoBehaviour
         ApplySettings();
         Muted?.Invoke();
     }
+    public void PlayLastVegSound() { if (lastVegSound != null) SFXSource?.PlayOneShot(lastVegSound); }
+    public void PlayMergeSound(int level)
+    {
+        if (level == 9)
+        {
+            PlayLastVegSound();
+        }
+        else
+        {
+            PlayRandomSfx(mergeSounds);
 
-    public void PlayMergeSound(int level) => PlayRandomSfx(mergeSounds);
+        }
+    }
     public void PlayDropSound() => PlayRandomSfx(dropSounds);
     public void PlayShakeSound() { if (shakeSound != null) SFXSource?.PlayOneShot(shakeSound); }
+    public void PlayFinishSound() { if (shakeSound != null) SFXSource?.PlayOneShot(finishSound); }
     public void PlayEffectSound(AudioClip effect) { if (effect != null) SFXSource?.PlayOneShot(effect); }
     private void PlayRandomSfx(AudioClip[] clips)
     {
