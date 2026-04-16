@@ -31,16 +31,16 @@ public class Spawner : MonoBehaviour
         gameOverPanel.SetActive(false);
         nextItemImage.enabled = false;
 
-        int spawnLimit = Mathf.Min(5, vegPrefabs.Length); // Чтобы не выйти за границы, если префабов меньше
-        GameObject[] spawnablePrefabs = new GameObject[spawnLimit];
+        //int spawnLimit = Mathf.Min(5, vegPrefabs.Length); // Чтобы не выйти за границы, если префабов меньше
+        //GameObject[] spawnablePrefabs = new GameObject[spawnLimit];
 
-        for (int i = 0; i < spawnLimit; i++)
-        {
-            spawnablePrefabs[i] = vegPrefabs[i];
-        }
+        //for (int i = 0; i < spawnLimit; i++)
+        //{
+        //    spawnablePrefabs[i] = vegPrefabs[i];
+        //}
 
-        // 2. Пул инициализируем ТОЛЬКО этими пятью префабами
-        pool = new PrefabPool(spawnablePrefabs, 4);
+        //// 2. Пул инициализируем ТОЛЬКО этими пятью префабами
+        pool = new PrefabPool(vegPrefabs, 4);
         drag = GetComponent<Drag>();
         Subscribe(drag);
         Spawn();
