@@ -107,6 +107,9 @@ public class Vegetable : MonoBehaviour
             if (TryGetEffectData(out var data) && data.effectLogic != null)
             { 
                 data.effectLogic.OnImpact(this, collision);
+                if (AudioManager.Instance != null) AudioManager.Instance.PlayEffectSound(CurrentEffectData.effectSound);
+               
+
             }
         }
     }

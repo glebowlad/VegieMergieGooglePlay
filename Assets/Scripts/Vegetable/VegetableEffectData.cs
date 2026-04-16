@@ -11,6 +11,9 @@ public class VegetableEffectData : ScriptableObject
 
     public EffectAction effectLogic;
 
+    [Header("Effect Sound")]
+    public AudioClip effectSound;
+
     [Header("Physics & Size")]
     public float scaleMultiplier = 1f;
     public float gravityScale = 1f;

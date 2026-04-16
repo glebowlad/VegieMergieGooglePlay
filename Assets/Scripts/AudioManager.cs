@@ -4,7 +4,6 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance = null;
-
     [Header("Sources")]
     [SerializeField] private AudioSource MusicSource;
     [SerializeField] private AudioSource SFXSource;
@@ -109,7 +108,7 @@ public class AudioManager : MonoBehaviour
     public void PlayMergeSound(int level) => PlayRandomSfx(mergeSounds);
     public void PlayDropSound() => PlayRandomSfx(dropSounds);
     public void PlayShakeSound() { if (shakeSound != null) SFXSource?.PlayOneShot(shakeSound); }
-
+    public void PlayEffectSound(AudioClip effect) { if (effect != null) SFXSource?.PlayOneShot(effect); }
     private void PlayRandomSfx(AudioClip[] clips)
     {
         if (clips == null || clips.Length == 0 || SFXSource == null || isSFXMuted) return;
