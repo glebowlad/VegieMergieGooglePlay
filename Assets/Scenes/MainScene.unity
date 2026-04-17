@@ -17608,6 +17608,8 @@ MonoBehaviour:
   MusicSource: {fileID: 2113414911}
   SFXSource: {fileID: 1424850752}
   bgSound: {fileID: 8300000, guid: 79520ef3bed83d04d8e7322aab514913, type: 3}
+  lastVegSound: {fileID: 8300000, guid: cc5ea469e7235124d88b9f99cc769fc0, type: 3}
+  finishSound: {fileID: 0}
   shakeSound: {fileID: 8300000, guid: 8d5209b200e1cb2439f4a66824610a0d, type: 3}
   mergeSounds:
   - {fileID: 8300000, guid: fba17509f7db1884b8cbcaea3c8f4255, type: 3}
