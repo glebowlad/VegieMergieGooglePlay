@@ -32,37 +32,63 @@ public class Merge : MonoBehaviour
         }
 
         bool isReaper = (myVeg != null && myVeg.specialType == Vegetable.VegetableType.Reaper);
+        bool otherIsReaper = (otherVeg.specialType == Vegetable.VegetableType.Reaper);
         bool isSameVeg = collision.gameObject.CompareTag(gameObject.tag);
-
-        if (isReaper || isSameVeg)
+        if(isReaper|| otherIsReaper)
         {
             Merge otherMerge = collision.gameObject.GetComponent<Merge>();
             if (otherMerge == null || otherMerge.isMerging) return;
 
-            if (isReaper || gameObject.GetInstanceID() < collision.gameObject.GetInstanceID())
+            if (gameObject.GetInstanceID() < collision.gameObject.GetInstanceID())
+            {
+                isMerging = true;
+                otherMerge.isMerging = true;
+                collidedItem = collision.gameObject;
+                Vegetable reaperVeg = isReaper ? myVeg : otherVeg;
+                StartCoroutine(ReaperRoutine(reaperVeg));
+            }
+            return;
+        }
+        if ( isSameVeg)
+        {
+            Merge otherMerge = collision.gameObject.GetComponent<Merge>();
+            if (otherMerge == null || otherMerge.isMerging) return;
+
+            if ( gameObject.GetInstanceID() < collision.gameObject.GetInstanceID())
             {
                 isMerging = true;
                 otherMerge.isMerging = true;
                 collidedItem = collision.gameObject;
                 
-                StartCoroutine(CreateNewItem(isReaper));
+                StartCoroutine(CreateNewItem());
             }
         }
     }
 
 
-
-    private IEnumerator CreateNewItem(bool isReaperEffect)
+    private IEnumerator ReaperRoutine(Vegetable sourceVeg)
     {
         yield return new WaitForSeconds(0.15f);
-        if (isReaperEffect)
-        {
-            var data = myVeg.CurrentEffectData;
+       
+            var data = sourceVeg.CurrentEffectData;
             EffectManager.Instance.ShowFlash(transform.position, data.auraSprite, data.auraColor, data.auraRadius, data.animType);
             AudioManager.Instance.PlayEffectSound(data.effectSound);
-        }
-        else 
-        {
+            pool.Release(collidedItem);
+            pool.Release(gameObject);
+            isMerging = false;
+
+    }
+    private IEnumerator CreateNewItem()
+    {
+        yield return new WaitForSeconds(0.15f);
+        //if (isReaperEffect)
+        //{
+        //    var data = myVeg.CurrentEffectData;
+        //    EffectManager.Instance.ShowFlash(transform.position, data.auraSprite, data.auraColor, data.auraRadius, data.animType);
+        //    AudioManager.Instance.PlayEffectSound(data.effectSound);
+        //}
+        //else
+        //{
             GameObject newItem = pool.Get();
             // ОБЯЗАТЕЛЬНО: Чистим новый уровень овоща
             var newVeg = newItem.GetComponent<Vegetable>();
@@ -76,11 +102,9 @@ public class Merge : MonoBehaviour
 
             newItem.GetComponentInChildren<ParticleSystem>().Play();
             newItem.GetComponent<Rigidbody2D>().simulated = true;
-        }
+       // }
         pool.Release(collidedItem);
         pool.Release(gameObject);
-        
-        
         isMerging = false;
     }
 }
