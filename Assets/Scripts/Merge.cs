@@ -21,7 +21,7 @@ public class Merge : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (nextLevelItem == null || isMerging) return;
+        if ( isMerging) return;
 
         Vegetable otherVeg = collision.gameObject.GetComponent<Vegetable>();
         if (otherVeg == null) return;
@@ -33,6 +33,8 @@ public class Merge : MonoBehaviour
 
         bool isReaper = (myVeg != null && myVeg.specialType == Vegetable.VegetableType.Reaper);
         bool otherIsReaper = (otherVeg.specialType == Vegetable.VegetableType.Reaper);
+        if (!isReaper && !otherIsReaper && nextLevelItem == null) return;
+
         bool isSameVeg = collision.gameObject.CompareTag(gameObject.tag);
         if(isReaper|| otherIsReaper)
         {
