@@ -17755,16 +17755,16 @@ PrefabInstance:
       objectReference: {fileID: 846599464}
     - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
       propertyPath: vegPrefabs.Array.size
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
       propertyPath: vegPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 6008126811829159264, guid: ddc720e8583f79948914586356151c9d, type: 3}
+      objectReference: {fileID: 6008126811829159264, guid: b9df0ac4801ca70499059e7e5491f8a6, type: 3}
     - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
       propertyPath: vegPrefabs.Array.data[1]
       value: 
-      objectReference: {fileID: 6008126811829159264, guid: 02ff866eaef89984c8025e0f7ea40255, type: 3}
+      objectReference: {fileID: 6008126811829159264, guid: 300b5da288f267749a6b09e681beb611, type: 3}
     - target: {fileID: 371060019022667868, guid: 974ab3270105cdf479d3f23aeb23b403, type: 3}
       propertyPath: vegPrefabs.Array.data[2]
       value: 
