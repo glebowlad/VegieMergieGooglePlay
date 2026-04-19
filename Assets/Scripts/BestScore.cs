@@ -28,7 +28,7 @@ public class BestScore : MonoBehaviour
 
     private void ShowBestScore()
     {
-        bestScoreText.text = bestScore.ToString().PadLeft(5, '0');
+        bestScoreText.text = bestScore.ToString().PadLeft(6, '0');
         
     }
     private void SaveBestScore()

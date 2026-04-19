@@ -18,7 +18,7 @@ public class Counter : MonoBehaviour
     private void Awake()
     {
         //totalScore = 0;
-        scoreTextInGame.text = "00000";
+        scoreTextInGame.text = "000000";
         Merge.Merged += OnVeggiesMerged;
         GameOverCheck.GameIsOver += ShowScoreOnFinish;
     }
@@ -26,7 +26,7 @@ public class Counter : MonoBehaviour
     {
         totalScore = savedScore;
         displayedScore = savedScore;
-        string formatted = totalScore.ToString().PadLeft(5, '0');
+        string formatted = totalScore.ToString().PadLeft(6, '0');
         scoreTextInGame.text = formatted;
         scoreTextInPause.text = formatted;
     }
@@ -73,7 +73,7 @@ public class Counter : MonoBehaviour
             float t = elapsed / duration;
 
             displayedScore = (int)Mathf.Lerp(initialScore, targetScore, t);
-            scoreTextInGame.text = displayedScore.ToString().PadLeft(5, '0');
+            scoreTextInGame.text = displayedScore.ToString().PadLeft(6, '0');
 
             float pulse = Mathf.Sin(t * Mathf.PI) * (maxPunchScale - 1f);
             textRect.localScale = originalScale * (1f + pulse);
@@ -81,13 +81,13 @@ public class Counter : MonoBehaviour
             yield return null;
         }
 
-        scoreTextInGame.text = targetScore.ToString().PadLeft(5, '0');
-        scoreTextInPause.text = targetScore.ToString().PadLeft(5, '0');
+        scoreTextInGame.text = targetScore.ToString().PadLeft(6, '0');
+        scoreTextInPause.text = targetScore.ToString().PadLeft(6, '0');
         scoreTextInGame.transform.localScale = originalScale;
     }
     private void ShowScoreOnFinish()
     {
-        scoreTextInFinish.text = totalScore.ToString().PadLeft(5, '0');
+        scoreTextInFinish.text = totalScore.ToString().PadLeft(6, '0');
     }
 
     private void TriggerJackpot(int level)
