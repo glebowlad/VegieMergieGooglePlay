@@ -17,6 +17,9 @@ public class Spawner : MonoBehaviour
     private RectTransform spawnerRect;
     private PrefabPool pool;
     private float itemWidth;
+    private float baseEffectChance = 0.1f;
+    private float currentEffectChance = 0.1f;
+    private float chanceStep = 0.05f;
     private Drag drag;
     private bool isSpawning=false;
     public  bool IsSpawned { get; private set; }
@@ -73,15 +76,20 @@ public class Spawner : MonoBehaviour
         nextItemToSpawn.SetActive(false);
 
         // Шанс 30% на спецэффект
-        if (UnityEngine.Random.value <= 0.1f) //0.30f
+        if (UnityEngine.Random.value <= currentEffectChance) //0.30f
         {
             int randomTypeIndex =UnityEngine.Random.Range(1, 6);  //Ice 1, Giant 2, Magic 3,  Radiation 4, Reaper 5,  Mutant 6, // Вторичные эффекты (не участвуют в рандоме спавна) Warning 7, Virus 8, Enchanted 9
             nextVeg.SetSpecialType((Vegetable.VegetableType)randomTypeIndex);
+            currentEffectChance = baseEffectChance;
             
         }
+        else
+        {
+            currentEffectChance += chanceStep;
+        }
 
-        // 3. Обновляем UI превью (БЕЗ ДУБЛИКАТОВ ПЕРЕМЕННЫХ)
-        var sRenderer = nextItemToSpawn.GetComponent<SpriteRenderer>(); // Используем короткое имя, чтобы не путаться
+            // 3. Обновляем UI превью (БЕЗ ДУБЛИКАТОВ ПЕРЕМЕННЫХ)
+            var sRenderer = nextItemToSpawn.GetComponent<SpriteRenderer>(); // Используем короткое имя, чтобы не путаться
         if (sRenderer != null)
         {
             nextItemImage.sprite = sRenderer.sprite;
