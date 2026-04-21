@@ -16,7 +16,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: a24c001fee32a0940b297e5abf8d1326, type: 3}
   maskColor: {r: 0.3965963, g: 0, b: 0.6320754, a: 1}
   effectLogic: {fileID: 0}
-  effectSound: {fileID: 8300000, guid: fc8be3e5381109d408934b940b6e34e3, type: 3}
+  effectSound: {fileID: 8300000, guid: d457136ec6878d1428474cd12abb198d, type: 3}
   scaleMultiplier: 1
   gravityScale: 0.85
   linearDrag: 2
