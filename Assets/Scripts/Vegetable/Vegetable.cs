@@ -78,8 +78,7 @@ public class Vegetable : MonoBehaviour
 
     private void Drop()
     {
-        // Логика рекламы (каждые 70 бросков)
-        //numberOfDrops++;
+       
         OnVegetableDropped?.Invoke(); 
 
         transform.SetParent(transform.root);
