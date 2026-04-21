@@ -13,10 +13,10 @@ public class Vegetable : MonoBehaviour
     
     [Header("Настройки")]
     [HideInInspector] public Color currentTargetColor;
-    public float radiusOffset = 0f; 
+    public float radiusOffset = 0f;
     // Статика для событий и счета
-    //private static int numberOfDrops = 0;
-    //public static int GetTotalDrops() => numberOfDrops;
+    public static int dropCount = 0;
+    public int dropCountAtSpawn = 0;
     public static Action OnVegetableDropped;
     // Ссылки на компоненты и логику
     public object currentTimer;
@@ -78,7 +78,7 @@ public class Vegetable : MonoBehaviour
 
     private void Drop()
     {
-       
+       dropCount++;
         OnVegetableDropped?.Invoke(); 
 
         transform.SetParent(transform.root);
@@ -129,6 +129,7 @@ public class Vegetable : MonoBehaviour
     public void SetSpecialType(VegetableType type)
     {
         specialType = type;
+        dropCountAtSpawn = dropCount;
         // Сбрасываем триггер, если он был включен ранее
         GetComponent<Collider2D>().isTrigger = false;
         currentBaseScale = transform.localScale.x;
