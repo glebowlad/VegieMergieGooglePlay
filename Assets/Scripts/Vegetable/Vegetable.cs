@@ -171,7 +171,6 @@ public class Vegetable : MonoBehaviour
         specialType = VegetableType.Default;
         currentBaseScale = 1.35f; 
         transform.localScale = Vector3.one * currentBaseScale;
-
         IsImmune = false;
         isActionReady = false;
         currentTimer = null;
