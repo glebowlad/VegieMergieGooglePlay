@@ -34,7 +34,7 @@ MonoBehaviour:
   maxParticles: 3
   lifetime: 7
   emissionRate: 3
-  size: 75
+  size: 80
   speed: 0.15
   rotationEnabled: 1
   rotationSpeed: {x: -0.4, y: 0.4}

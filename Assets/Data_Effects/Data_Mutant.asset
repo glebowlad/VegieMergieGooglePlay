@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 6
   icon: {fileID: 21300000, guid: 6df5cdbc1a4515844a836a5c0bbc188d, type: 3}
-  maskColor: {r: 0.6, g: 0, b: 0.101960786, a: 1}
+  maskColor: {r: 0.6, g: 0, b: 0.101960786, a: 0.95686275}
   effectLogic: {fileID: 11400000, guid: 332322b6ed877814cba9f8076027b4f5, type: 2}
   effectSound: {fileID: 0}
   scaleMultiplier: 1

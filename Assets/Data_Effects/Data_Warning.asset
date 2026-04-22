@@ -14,26 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 7
   icon: {fileID: 21300000, guid: fc831c1206fd3394cb80a1fe67c63bff, type: 3}
-  maskColor: {r: 0.8, g: 0.9019608, b: 0.101960786, a: 0.69803923}
-  effectLogic: {fileID: 11400000, guid: 72f6f627bb3c56e4c8fbf5a4a11dd75a, type: 2}
-  scaleMultiplier: 1.05
+  maskColor: {r: 0.8, g: 0.9019608, b: 0.101960786, a: 0.56078434}
+  effectLogic: {fileID: 0}
+  effectSound: {fileID: 0}
+  scaleMultiplier: 0.97
   gravityScale: 1
   linearDrag: 0
   fixedMass: 0
   turnsToLive: 0
   turnsToEvolve: 0
-  evolutionType: 6
+  evolutionType: 0
   hasAura: 0
   auraRadius: 2.5
   auraSprite: {fileID: 0}
   auraColor: {r: 1, g: 1, b: 1, a: 1}
-  isStasis: 0
-  isCleanser: 0
-  isInfectious: 0
-  isRadioactive: 0
-  isNegative: 1
-  immuneToNegative: 1
-  immuneToIce: 0
+  animType: 0
   hasShake: 0
   shakeIntensity: 0.05
   maxParticles: 1
