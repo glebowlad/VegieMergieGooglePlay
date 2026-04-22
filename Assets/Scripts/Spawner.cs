@@ -17,8 +17,8 @@ public class Spawner : MonoBehaviour
     private RectTransform spawnerRect;
     private PrefabPool pool;
     private float itemWidth;
-    private float baseEffectChance = 0; //0.02f;
-    private float currentEffectChance = 0; //0.02f;
+    private float baseEffectChance = 1; //0.02f;
+    private float currentEffectChance = 1; //0.02f;
     private float chanceStep = 0.018f;
     private Drag drag;
     private bool isSpawning=false;
@@ -27,6 +27,8 @@ public class Spawner : MonoBehaviour
 
     public GameObject GetCurrentItem() => itemToSpawn; //нужно для дебаг панели выбора эффекта
     public GameObject[] GetPrefabsArray() => vegPrefabs;
+
+    private int[] effectCounts = new int[7];
 
     private void Awake()
     {
@@ -39,6 +41,34 @@ public class Spawner : MonoBehaviour
         drag = GetComponent<Drag>();
         Subscribe(drag);
         Spawn();
+    }
+
+    private Vegetable.VegetableType GetPseudoRandomEffectType()
+    {
+        float totalWeight = 0f;
+        float[] weights = new float[7];
+
+        for (int i = 1; i <= 6; i++)
+        {
+            weights[i] = 1f / (1 + effectCounts[i]);
+            totalWeight += weights[i];
+        }
+
+        float roll = UnityEngine.Random.value * totalWeight;
+        float sum = 0f;
+
+        for (int i = 1; i <= 6; i++)
+        {
+            sum += weights[i];
+            if (roll <= sum)
+            {
+                effectCounts[i]++;
+                return (Vegetable.VegetableType)i;
+            }
+        }
+
+        effectCounts[1]++;
+        return (Vegetable.VegetableType)1;
     }
 
     private void Spawn()
@@ -78,8 +108,7 @@ public class Spawner : MonoBehaviour
         // Шанс 30% на спецэффект
         if (UnityEngine.Random.value <= currentEffectChance) //0.30f
         {
-            int randomTypeIndex =UnityEngine.Random.Range(1, 7);  //Ice 1, Giant 2, Magic 3,  Radiation 4, Reaper 5,  Mutant 6, // Вторичные эффекты (не участвуют в рандоме спавна) Warning 7, Virus 8, Enchanted 9
-            nextVeg.SetSpecialType((Vegetable.VegetableType)randomTypeIndex);
+            nextVeg.SetSpecialType(GetPseudoRandomEffectType());  //Ice 1, Giant 2, Magic 3,  Radiation 4, Reaper 5,  Mutant 6, // Warning 7, Virus 8, Enchanted 9
             currentEffectChance = baseEffectChance;
             
         }
