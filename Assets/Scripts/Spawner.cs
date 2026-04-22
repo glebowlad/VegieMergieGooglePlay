@@ -19,7 +19,7 @@ public class Spawner : MonoBehaviour
     private float itemWidth;
     private float baseEffectChance = 0; //0.02f;
     private float currentEffectChance = 0; //0.02f;
-    private float chanceStep = 0.015f;
+    private float chanceStep = 0.018f;
     private Drag drag;
     private bool isSpawning=false;
     public  bool IsSpawned { get; private set; }

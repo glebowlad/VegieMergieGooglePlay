@@ -5,6 +5,6 @@ public class AppInit : MonoBehaviour
     void Awake()
     {
         QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = PlayerPrefs.GetInt("target_fps", 30);
     }
 }

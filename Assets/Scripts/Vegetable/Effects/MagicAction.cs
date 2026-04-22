@@ -10,20 +10,29 @@ public class MagicAction : EffectAction
 
         float radius = data.auraRadius;
 
-        if (EffectManager.Instance != null && data != null && data.auraSprite != null)
+        if (EffectManager.Instance != null && data.auraSprite != null)
         {
-            EffectManager.Instance.ShowFlash(self.transform.position, data.auraSprite, data.auraColor, radius, data.animType);
+            EffectManager.Instance.ShowFlash(
+                self.transform.position,
+                data.auraSprite,
+                data.auraColor,
+                radius,
+                data.animType
+            );
         }
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(self.transform.position, radius);
         foreach (var hit in hits)
         {
             Vegetable target = hit.GetComponent<Vegetable>();
-            if (target != null && target.specialType != Vegetable.VegetableType.Enchanted)
-            {
-                ApplyEnchanted(target);
-            }
+            if (target == null) continue;
+            if (target == self) continue;
+            if (target.specialType == Vegetable.VegetableType.Enchanted) continue;
+
+            ApplyEnchanted(target);
         }
+
+        ApplyEnchanted(self);
     }
 
     private void ApplyEnchanted(Vegetable v)
