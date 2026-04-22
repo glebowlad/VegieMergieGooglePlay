@@ -26,11 +26,15 @@ public class WormController : MonoBehaviour
     public float rotateSpeed = 720f;
     public float snapDistance = 8f;
 
+    private bool startPoseInitialized = false;
+
     private enum WormState
     {
         Restore,
         Chase
     }
+
+    
 
     private WormState state = WormState.Restore;
 
@@ -55,8 +59,14 @@ public class WormController : MonoBehaviour
 
         if (wormHead != null)
             parentRect = wormHead.parent as RectTransform;
+    }
+
+    void InitStartPoseIfNeeded()
+    {
+        if (startPoseInitialized) return;
 
         SaveStartPose();
+        startPoseInitialized = true;
     }
 
     void Update()
@@ -107,7 +117,7 @@ public class WormController : MonoBehaviour
 
     public void EnablePauseMode()
     {
-        SaveStartPose();
+        InitStartPoseIfNeeded();
 
         restoreTimer = 0f;
         state = WormState.Restore;
