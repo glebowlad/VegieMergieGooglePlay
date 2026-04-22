@@ -18,6 +18,9 @@ public class AuraEffect : MonoBehaviour
 
     public void PlayFlash(Sprite sprite, Color color, float radius, AuraAnimType animType)
     {
+        if (sr == null) return;
+        if (sprite == null) return;
+        if (radius <= 0f) return;
         StopAllCoroutines();
         sr.sprite = sprite;
         sr.color = color;
