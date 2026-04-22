@@ -105,10 +105,9 @@ public class Vegetable : MonoBehaviour
             isActionReady = false; 
             if (TryGetEffectData(out var data) && data.effectLogic != null)
             { 
-                data.effectLogic.OnImpact(this, collision);
-                if (AudioManager.Instance != null) AudioManager.Instance.PlayEffectSound(CurrentEffectData.effectSound);
-               
+                if (AudioManager.Instance != null && data.effectSound != null) AudioManager.Instance.PlayEffectSound(data.effectSound);
 
+                data.effectLogic.OnImpact(this, collision);
             }
         }
     }

@@ -20,7 +20,7 @@ MonoBehaviour:
   scaleMultiplier: 1.3
   gravityScale: 2
   linearDrag: 0
-  fixedMass: 200
+  fixedMass: 150
   turnsToLive: 0
   turnsToEvolve: 0
   evolutionType: 0
