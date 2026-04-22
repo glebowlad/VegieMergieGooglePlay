@@ -29,7 +29,7 @@ public class Vegetable : MonoBehaviour
     private SpriteRenderer[] renderers;
     private Color[] originalColors;
     [Header("Масштабирование")]
-    public float currentBaseScale = 1.35f; 
+    public float currentBaseScale = 1.25f; 
 
     
     private void Awake()
@@ -169,7 +169,6 @@ public class Vegetable : MonoBehaviour
     public void HardResetForPool()
     {
         specialType = VegetableType.Default;
-        currentBaseScale = 1.35f; 
         transform.localScale = Vector3.one * currentBaseScale;
         IsImmune = false;
         isActionReady = false;

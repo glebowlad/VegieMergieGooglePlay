@@ -77,13 +77,13 @@ public class VirusController : MonoBehaviour
     private void MakePassive()
     {
         if (host == null) return;
-        host.transform.localScale *= 0.9f;
+        host.transform.localScale *= 0.96f;
 
         Transform maskObj = host.transform.Find("SpecialMask");
         if (maskObj != null && maskObj.TryGetComponent<SpriteRenderer>(out var sr))
         {
 
-            sr.color = new Color(0.796f, 0.631f, 0.259f, 0.5f);
+            sr.color = new Color(0.796f, 0.631f, 0.259f, 0.35f);
         }
 
         Transform effectObj = host.transform.Find("SpecialEffect");
@@ -93,9 +93,9 @@ public class VirusController : MonoBehaviour
             var emission = ps.emission;
             var rot = ps.rotationOverLifetime;
 
-            main.maxParticles = 4;
+            main.maxParticles = 3;
             main.startLifetime = 2.5f;
-            main.startSize = 45f;
+            main.startSize = 40f;
             main.startSpeed = 0.1f;
             
             emission.rateOverTime = 1.5f;

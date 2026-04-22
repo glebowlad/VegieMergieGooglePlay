@@ -17,9 +17,9 @@ public class Spawner : MonoBehaviour
     private RectTransform spawnerRect;
     private PrefabPool pool;
     private float itemWidth;
-    private float baseEffectChance = 0.1f;
-    private float currentEffectChance = 0.1f;
-    private float chanceStep = 0.05f;
+    private float baseEffectChance = 0.03f;
+    private float currentEffectChance = 0;//0.03f;
+    private float chanceStep = 0;//0.015f;
     private Drag drag;
     private bool isSpawning=false;
     public  bool IsSpawned { get; private set; }

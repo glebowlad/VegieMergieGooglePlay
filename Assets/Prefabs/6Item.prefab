@@ -32,7 +32,7 @@ RectTransform:
   m_GameObject: {fileID: 6008126811829159264}
   m_LocalRotation: {x: -0, y: -0, z: 0.07220163, w: 0.99739015}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.35, y: 1.35, z: 1.35}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1671650298439326656}
@@ -153,6 +153,7 @@ MonoBehaviour:
   isActionReady: 0
   currentTargetColor: {r: 0, g: 0, b: 0, a: 0}
   radiusOffset: 170
+  dropCountAtSpawn: 0
   currentBaseScale: 1.35
 --- !u!114 &-3654440555729107154
 MonoBehaviour:
@@ -425,7 +426,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8854665544585550910, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
       propertyPath: ShapeModule.radius.value
-      value: 68.44
+      value: 63.1
       objectReference: {fileID: 0}
     - target: {fileID: 8854665544585550910, guid: de8d83c0dd1bd6744bda05fdde6e53e8, type: 3}
       propertyPath: startDelay.maxCurve.m_Curve.Array.data[0].value

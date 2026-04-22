@@ -55,7 +55,6 @@ public class RadiationProcess
                 target.specialType != Vegetable.VegetableType.Ice && 
                 target.specialType != Vegetable.VegetableType.Enchanted &&
                 target.specialType != Vegetable.VegetableType.Virus &&
-                target.specialType != Vegetable.VegetableType.Warning &&
                 target.specialType != Vegetable.VegetableType.Radiation &&
                 target.specialType != Vegetable.VegetableType.Mutant)
             {
