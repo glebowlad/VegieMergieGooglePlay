@@ -12,10 +12,12 @@ public class Counter : MonoBehaviour
     public static int totalScore = 0;
     private float duration = 0.5f;
     private Coroutine countCoroutine;
+    private RectTransform textRect;
 
     private void Awake()
     {
         scoreTextInGame.text = "000000";
+        textRect = scoreTextInGame.GetComponent<RectTransform>();
         Merge.Merged += OnVeggiesMerged;
         GameOverCheck.GameIsOver += ShowScoreOnFinish;
     }
@@ -59,7 +61,6 @@ public class Counter : MonoBehaviour
     {
         int initialScore = displayedScore;
         float elapsed = 0f;
-        RectTransform textRect = scoreTextInGame.GetComponent<RectTransform>();
         Vector3 originalScale = Vector3.one;
 
         float maxPunchScale = 1f + (level * level * 0.0030f); 
