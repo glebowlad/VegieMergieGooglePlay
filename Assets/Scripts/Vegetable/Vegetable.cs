@@ -33,6 +33,7 @@ public class Vegetable : MonoBehaviour
 
     private int startDropCount;
     private float initialBase;
+    private Collider2D collider2D;
 
 
 
@@ -40,6 +41,7 @@ public class Vegetable : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        collider2D=GetComponent<Collider2D>();
         if (rb != null) originalMass = rb.mass; 
 
         visual = GetComponent<VegetableVisual>();
@@ -134,7 +136,9 @@ public class Vegetable : MonoBehaviour
         specialType = type;
         dropCountAtSpawn = dropCount;
         // Сбрасываем триггер, если он был включен ранее
-        GetComponent<Collider2D>().isTrigger = false;
+        if(collider2D != null)
+        collider2D.isTrigger = false;
+
         currentBaseScale = transform.localScale.x;
         if (type == VegetableType.Default)
         {
