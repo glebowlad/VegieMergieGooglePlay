@@ -16328,10 +16328,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc76f8c454e4a3b458f437d53ecd2cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameContainer: {fileID: 1637013304}
-  spawner: {fileID: 1944206788}
-  counter: {fileID: 2027674859}
-  bestScoreScript: {fileID: 599106524}
 --- !u!4 &1493714020
 Transform:
   m_ObjectHideFlags: 0
@@ -18315,12 +18311,11 @@ MonoBehaviour:
   segmentSpacing: 75
   tailFollowSpeed: 900
   chaseSpeed: 925
-  restoreSpeed: 650
-  returnSpeed: 600
+  restoreSpeed: 1300
   pauseInputLockTime: 1
   idleDelay: 0.2
   segmentStartDelay: 0.08
-  rotateSpeed: 720
+  rotateSpeed: 180
   snapDistance: 8
 --- !u!223 &1929531625
 Canvas:
