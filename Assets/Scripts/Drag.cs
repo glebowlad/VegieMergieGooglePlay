@@ -17,7 +17,6 @@ public class Drag : MonoBehaviour
     public event Action OnDragFinished;
 
     private bool isDragging = false;
-    private int numberOfClicks = 0;
     private int currentTouchId = -1;
     private float minX;
     private float maxX;
@@ -33,8 +32,6 @@ public class Drag : MonoBehaviour
 
     private void Start()
     {
-        RectTransform parentRect = rectTransform.parent as RectTransform;
-
         if (canvas != null)
         {
             Vector3 leftLocal = canvas.transform.InverseTransformPoint(leftWall.position);
@@ -94,11 +91,11 @@ public class Drag : MonoBehaviour
     {
         isDragging = true;
         currentTouchId = fingerId;
+
     }
 
     private void FinishDrag()
     {
-        numberOfClicks++;
         isDragging = false;
         currentTouchId = -1;
         line.gameObject.SetActive(false);

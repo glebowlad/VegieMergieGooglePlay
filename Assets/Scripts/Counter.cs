@@ -10,14 +10,11 @@ public class Counter : MonoBehaviour
     [SerializeField] private ParticleSystem jackpotParticles;
     private int displayedScore = 0;
     public static int totalScore = 0;
-    public static int totalMergedItems = 0;
-    
     private float duration = 0.5f;
     private Coroutine countCoroutine;
 
     private void Awake()
     {
-        //totalScore = 0;
         scoreTextInGame.text = "000000";
         Merge.Merged += OnVeggiesMerged;
         GameOverCheck.GameIsOver += ShowScoreOnFinish;

@@ -121,7 +121,7 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayDropSound() => PlayRandomSfx(dropSounds);
     public void PlayShakeSound() { if (shakeSound != null) SFXSource?.PlayOneShot(shakeSound); }
-    public void PlayFinishSound() { if (shakeSound != null) SFXSource?.PlayOneShot(finishSound); }
+    public void PlayFinishSound() { if (finishSound != null) SFXSource?.PlayOneShot(finishSound); }
     public void PlayEffectSound(AudioClip effect) { if (effect != null) SFXSource?.PlayOneShot(effect); }
     private void PlayRandomSfx(AudioClip[] clips)
     {

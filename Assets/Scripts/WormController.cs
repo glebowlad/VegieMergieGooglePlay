@@ -15,7 +15,6 @@ public class WormController : MonoBehaviour
     [Header("Speed")]
     public float chaseSpeed = 700f;
     public float restoreSpeed = 650f;
-    public float returnSpeed = 250f;
 
     [Header("Delays")]
     public float pauseInputLockTime = 1f;   // после открытия паузы игнор касаний
