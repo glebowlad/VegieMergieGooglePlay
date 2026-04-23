@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 public class Vegetable : MonoBehaviour
 {
-    public enum VegetableType {Default, Ice, Giant, Magic, Radiation, Reaper, Mutant, Warning, Virus, Enchanted}
+    public enum VegetableType { Default, Ice, Giant, Magic, Radiation, Reaper, Mutant, Warning, Virus, Enchanted }
 
     [Header("Состояние")]
     public VegetableType specialType = VegetableType.Default;
     public bool isActionReady;
     public bool IsImmune { get; set; }
-    
+
     [Header("Настройки")]
     [HideInInspector] public Color currentTargetColor;
     public float radiusOffset = 0f;
@@ -20,12 +20,12 @@ public class Vegetable : MonoBehaviour
     public static Action OnVegetableDropped;
     // Ссылки на компоненты и логику
     public object currentTimer;
-    public Rigidbody2D rb {  get;private  set; }
+    public Rigidbody2D rb { get; private set; }
     private VegetableVisual visual;
     private Hazard hazard;
     private Drag drag;
     // Кэш для сброса к дефолту
-    private float originalMass; 
+    private float originalMass;
     private SpriteRenderer[] renderers;
     private Color[] originalColors;
     [Header("Масштабирование")]
@@ -35,23 +35,20 @@ public class Vegetable : MonoBehaviour
     private float initialBase;
     private Collider2D collider2D;
 
-
-
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        collider2D=GetComponent<Collider2D>();
-        if (rb != null) originalMass = rb.mass; 
+        collider2D = GetComponent<Collider2D>();
+        if (rb != null) originalMass = rb.mass;
 
         visual = GetComponent<VegetableVisual>();
-        hazard = gameObject.AddComponent<Hazard>(); 
+        hazard = gameObject.AddComponent<Hazard>();
         rb.simulated = false;
 
         // Сбор спрайтов для масок (твоя логика)
         SpriteRenderer[] allRenderers = GetComponentsInChildren<SpriteRenderer>();
         List<SpriteRenderer> tempMain = new List<SpriteRenderer>();
-        foreach (var r in allRenderers) 
+        foreach (var r in allRenderers)
         {
             if (visual != null && r != visual.specialMask) tempMain.Add(r);
         }
@@ -84,8 +81,8 @@ public class Vegetable : MonoBehaviour
 
     private void Drop()
     {
-       dropCount++;
-        OnVegetableDropped?.Invoke(); 
+        dropCount++;
+        OnVegetableDropped?.Invoke();
 
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
@@ -93,24 +90,24 @@ public class Vegetable : MonoBehaviour
 
         // Обновляем визуал и физику при броске
         if (visual != null) visual.UpdateVisuals(specialType);
-        
+
         if (AudioManager.Instance != null) AudioManager.Instance.PlayDropSound();
-        
+
         // Отписываемся от событий, чтобы не двигать упавший овощ
-        if (drag != null) 
-        { 
-            drag.WhileDrag -= Move; 
-            drag.OnDragFinished -= Drop; 
+        if (drag != null)
+        {
+            drag.WhileDrag -= Move;
+            drag.OnDragFinished -= Drop;
         }
     }
-    
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (isActionReady)
         {
-            isActionReady = false; 
+            isActionReady = false;
             if (TryGetEffectData(out var data) && data.effectLogic != null)
-            { 
+            {
                 if (AudioManager.Instance != null && data.effectSound != null) AudioManager.Instance.PlayEffectSound(data.effectSound);
 
                 data.effectLogic.OnImpact(this, collision);
@@ -121,11 +118,11 @@ public class Vegetable : MonoBehaviour
     public void ApplyEffectSettings(VegetableEffectData data)
     {
         if (data == null || rb == null) return;
-        float multiplier = data.scaleMultiplier; 
+        float multiplier = data.scaleMultiplier;
         transform.localScale = Vector3.one * (currentBaseScale * multiplier);
         rb.useAutoMass = false;
         rb.mass = (data.fixedMass > 0) ? data.fixedMass : originalMass;
-        
+
         rb.gravityScale = data.gravityScale;
         rb.drag = data.linearDrag;
         rb.angularDrag = 0.2f;
@@ -136,14 +133,14 @@ public class Vegetable : MonoBehaviour
         specialType = type;
         dropCountAtSpawn = dropCount;
         // Сбрасываем триггер, если он был включен ранее
-        if(collider2D != null)
-        collider2D.isTrigger = false;
+        if (collider2D != null)
+            collider2D.isTrigger = false;
 
         currentBaseScale = transform.localScale.x;
         if (type == VegetableType.Default)
         {
             SoftReset();
-            return; 
+            return;
         }
         if (visual != null) visual.UpdateVisuals(specialType);
         if (TryGetEffectData(out var data) && data.effectLogic != null)
@@ -207,9 +204,9 @@ public class Vegetable : MonoBehaviour
         return false;
     }
 
-    public VegetableEffectData CurrentEffectData 
+    public VegetableEffectData CurrentEffectData
     {
-        get 
+        get
         {
             TryGetEffectData(out var data);
             return data;
@@ -217,16 +214,15 @@ public class Vegetable : MonoBehaviour
     }
     public void LoadState(VegetableType type)
     {
-        
+
         rb.simulated = true;
-        
-       // transform.SetParent(null);
-       
+
+        // transform.SetParent(null);
+
         SetSpecialType(type);
-       
+
         isActionReady = false;
     }
-
 
     // Методы-прослойки для зоны геймовера (чтобы не менять другие скрипты)
     public void UpdateHazardVisuals(float p) => hazard.UpdateHazard(p);
@@ -235,43 +231,5 @@ public class Vegetable : MonoBehaviour
     public bool IsInHazardZone() => hazard.IsInHazardZone();
 
     public float hazardTimer { get => hazard.hazardTimer; set => hazard.hazardTimer = value; }
-    public void StartWarningLogic()
-    {
-        initialBase = currentBaseScale;
-        startDropCount = Vegetable.dropCount;
 
-        // Отписываемся на всякий случай перед новой подпиской, чтобы не дублировать
-        Vegetable.OnVegetableDropped -= HandleWarningDrop;
-        Vegetable.OnVegetableDropped += HandleWarningDrop;
-    }
-
-    private void HandleWarningDrop()
-    {
-        if (this == null || specialType != Vegetable.VegetableType.Warning)
-        {
-            Vegetable.OnVegetableDropped -= HandleWarningDrop;
-            return;
-        }
-
-        int dropsSinceSpawn = Vegetable.dropCount - startDropCount;
-
-        if (dropsSinceSpawn >= 3)
-        {
-            float minLimit = initialBase * 0.8f;
-            float reductionStep = 0.08f;
-
-            if (currentBaseScale > minLimit)
-            {
-                currentBaseScale -= reductionStep;
-                if (currentBaseScale < minLimit) currentBaseScale = minLimit;
-
-                float multiplier = (CurrentEffectData != null) ? CurrentEffectData.scaleMultiplier : 1f;
-                transform.localScale = Vector3.one * (currentBaseScale * multiplier);
-            }
-        }
-    }
-    private void OnDestroy()
-    {
-        Vegetable.OnVegetableDropped -= HandleWarningDrop;
-    }
 }
