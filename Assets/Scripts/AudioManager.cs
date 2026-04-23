@@ -50,14 +50,25 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-   
-
-    public void InitLoadedSettings(float mVol, float sVol, bool mMuted, bool sMuted)
+    private void OnEnable()
     {
-        MusicVolume = mVol;
-        SFXVolume = sVol;
-        isMusicMuted = mMuted;
-        isSFXMuted = sMuted;
+        SaveManager.OnDataLoaded += InitLoadedSettings;
+    }
+
+
+    private void OnDisable()
+    {
+        SaveManager.OnDataLoaded -= InitLoadedSettings;
+    }
+
+  
+
+    public void InitLoadedSettings(SaveManager.GameSaveData data)
+    {
+        MusicVolume = data.mVol;
+        SFXVolume = data.sVol;
+        isMusicMuted = data.mMuted;
+        isSFXMuted = data.sMuted;
 
         ApplySettings();
         SettingsLoaded?.Invoke(); // Уведомляем SoundImage, что нужно обновить слайдеры

@@ -6,8 +6,8 @@ using UnityEngine;
 public class SaveManager : MonoBehaviour
 {
     private string savePath;
+    public static Action<GameSaveData> OnDataLoaded;
 
-   
     [System.Serializable]
     public class GameSaveData
     {
@@ -19,40 +19,28 @@ public class SaveManager : MonoBehaviour
     private void Awake()
     {
         savePath = Application.persistentDataPath + "/save.json";
-        // «агружаем звук максимально рано
-        PreloadAudioSettings();
+       
+    }
+    void Start()
+    {
+        LoadAndNotify();
     }
 
-    private void PreloadAudioSettings()
+    private void LoadAndNotify()
     {
         if (!File.Exists(savePath)) return;
 
         string json = File.ReadAllText(savePath);
         GameSaveData data = JsonUtility.FromJson<GameSaveData>(json);
-
-        // ≈сли AudioManager еще не проснулс€, ищем его принудительно
-        var audioMan = AudioManager.Instance != null ? AudioManager.Instance : FindObjectOfType<AudioManager>();
-
-        if (audioMan != null)
-        {
-            audioMan.InitLoadedSettings(data.mVol, data.sVol, data.mMuted, data.sMuted);
-        }
+        OnDataLoaded?.Invoke(data);
     }
 
-    private void Start()
+    public GameSaveData GetSavedData()
     {
-        LoadGameSettings();
-    }
-
-    private void LoadGameSettings()
-    {
-        if (!File.Exists(savePath)) return;
-
+        if (!File.Exists(savePath)) return null;
         string json = File.ReadAllText(savePath);
-        GameSaveData data = JsonUtility.FromJson<GameSaveData>(json);
-
+        return JsonUtility.FromJson<GameSaveData>(json);
     }
-
     public void SaveGame()
     {
         GameSaveData data = new GameSaveData();
