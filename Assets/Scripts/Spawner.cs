@@ -45,11 +45,13 @@ public class Spawner : MonoBehaviour
     private void OnEnable()
     {
         InterstitialAds.OnAdClosed += ForceResetSpawning;
+        RewardedAds.OnRewardedAdClosed += ForceResetSpawning;
     }
 
     private void OnDisable()
     {
         InterstitialAds.OnAdClosed -= ForceResetSpawning;
+        RewardedAds.OnRewardedAdClosed -= ForceResetSpawning;
     }
     private Vegetable.VegetableType GetPseudoRandomEffectType()
     {

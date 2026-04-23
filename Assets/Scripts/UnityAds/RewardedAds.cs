@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
 public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
 {
     private string androidUnitID = "Rewarded_Android";
-
+    public static event Action OnRewardedAdClosed;
     public void LoadRewardedAd()
     {
         Advertisement.Load(androidUnitID, this);
@@ -25,6 +24,10 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
     public void OnUnityAdsShowClick(string placementId) { }
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState) 
     {
+        Time.timeScale = 1f;
+
+        // Если реклама досмотрена (награда получена) или пропущена
+        OnRewardedAdClosed?.Invoke();
         LoadRewardedAd();
         if (placementId==androidUnitID && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
         {
