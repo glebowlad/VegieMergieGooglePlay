@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance = null;
+    public static AudioManager Instance { get; private set; }
     [Header("Sources")]
     [SerializeField] private AudioSource MusicSource;
     [SerializeField] private AudioSource SFXSource;
@@ -65,6 +65,7 @@ public class AudioManager : MonoBehaviour
 
     public void InitLoadedSettings(SaveManager.GameSaveData data)
     {
+        if (data == null) return;
         MusicVolume = data.mVol;
         SFXVolume = data.sVol;
         isMusicMuted = data.mMuted;
