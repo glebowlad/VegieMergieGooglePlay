@@ -29,9 +29,14 @@ public class Vegetable : MonoBehaviour
     private SpriteRenderer[] renderers;
     private Color[] originalColors;
     [Header("Масштабирование")]
-    public float currentBaseScale = 1.25f; 
+    public float currentBaseScale = 1.25f;
 
-    
+    private int startDropCount;
+    private float initialBase;
+
+
+
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -224,5 +229,45 @@ public class Vegetable : MonoBehaviour
     public void OnZoneEnter() => hazard.OnZoneEnter();
     public void OnZoneExit() => hazard.OnZoneExit();
     public bool IsInHazardZone() => hazard.IsInHazardZone();
+
     public float hazardTimer { get => hazard.hazardTimer; set => hazard.hazardTimer = value; }
+    public void StartWarningLogic()
+    {
+        initialBase = currentBaseScale;
+        startDropCount = Vegetable.dropCount;
+
+        // Отписываемся на всякий случай перед новой подпиской, чтобы не дублировать
+        Vegetable.OnVegetableDropped -= HandleWarningDrop;
+        Vegetable.OnVegetableDropped += HandleWarningDrop;
+    }
+
+    private void HandleWarningDrop()
+    {
+        if (this == null || specialType != Vegetable.VegetableType.Warning)
+        {
+            Vegetable.OnVegetableDropped -= HandleWarningDrop;
+            return;
+        }
+
+        int dropsSinceSpawn = Vegetable.dropCount - startDropCount;
+
+        if (dropsSinceSpawn >= 3)
+        {
+            float minLimit = initialBase * 0.8f;
+            float reductionStep = 0.08f;
+
+            if (currentBaseScale > minLimit)
+            {
+                currentBaseScale -= reductionStep;
+                if (currentBaseScale < minLimit) currentBaseScale = minLimit;
+
+                float multiplier = (CurrentEffectData != null) ? CurrentEffectData.scaleMultiplier : 1f;
+                transform.localScale = Vector3.one * (currentBaseScale * multiplier);
+            }
+        }
+    }
+    private void OnDestroy()
+    {
+        Vegetable.OnVegetableDropped -= HandleWarningDrop;
+    }
 }
