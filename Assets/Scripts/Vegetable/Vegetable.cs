@@ -20,7 +20,7 @@ public class Vegetable : MonoBehaviour
     public static Action OnVegetableDropped;
     // Ссылки на компоненты и логику
     public object currentTimer;
-    private Rigidbody2D rb;
+    public Rigidbody2D rb {  get;private  set; }
     private VegetableVisual visual;
     private Hazard hazard;
     private Drag drag;

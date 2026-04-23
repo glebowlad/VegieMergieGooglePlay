@@ -37,7 +37,7 @@ public class MagicAction : EffectAction
 
     private void ApplyEnchanted(Vegetable v)
     {
-        if (v.GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Static)
+        if (v.rb != null && v.rb.bodyType == RigidbodyType2D.Static)
         {
             v.SetSpecialType(Vegetable.VegetableType.Default);
         }
