@@ -66,7 +66,7 @@ public class GameOverCheck : MonoBehaviour
         isGameOver = true;
 
         if (gameOverPanel != null) gameOverPanel.SetActive(true);
-        AudioManager.Instance.PlayFinishSound();
+        AudioManager.Instance?.PlayFinishSound();
         if (drag != null) drag.enabled = false;
 
       

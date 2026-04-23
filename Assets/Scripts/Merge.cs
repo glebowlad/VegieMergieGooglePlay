@@ -73,8 +73,8 @@ public class Merge : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
        
             var data = sourceVeg.CurrentEffectData;
-            EffectManager.Instance.ShowFlash(transform.position, data.auraSprite, data.auraColor, data.auraRadius, data.animType);
-            AudioManager.Instance.PlayEffectSound(data.effectSound);
+            EffectManager.Instance?.ShowFlash(transform.position, data.auraSprite, data.auraColor, data.auraRadius, data.animType);
+            AudioManager.Instance?.PlayEffectSound(data.effectSound);
             pool.Release(collidedItem);
             pool.Release(gameObject);
             isMerging = false;
@@ -82,15 +82,7 @@ public class Merge : MonoBehaviour
     }
     private IEnumerator CreateNewItem()
     {
-        yield return new WaitForSeconds(0.15f);
-        //if (isReaperEffect)
-        //{
-        //    var data = myVeg.CurrentEffectData;
-        //    EffectManager.Instance.ShowFlash(transform.position, data.auraSprite, data.auraColor, data.auraRadius, data.animType);
-        //    AudioManager.Instance.PlayEffectSound(data.effectSound);
-        //}
-        //else
-        //{
+            yield return new WaitForSeconds(0.15f);
             GameObject newItem = pool.Get();
             // ОБЯЗАТЕЛЬНО: Чистим новый уровень овоща
             var newVeg = newItem.GetComponent<Vegetable>();
@@ -104,7 +96,6 @@ public class Merge : MonoBehaviour
 
             newItem.GetComponentInChildren<ParticleSystem>().Play();
             newItem.GetComponent<Rigidbody2D>().simulated = true;
-       // }
         pool.Release(collidedItem);
         pool.Release(gameObject);
         isMerging = false;

@@ -46,9 +46,16 @@ public class Shaker : MonoBehaviour
         }
         else
         {
-            AdsManager.Instance.RewardedAds.ShowRewardedAd();
-            currentShakeCount += maxShakes;
-            UpdateCounter();
+            if (AdsManager.Instance != null && AdsManager.Instance.RewardedAds != null)
+            {
+                AdsManager.Instance.RewardedAds.ShowRewardedAd();
+                currentShakeCount += maxShakes;
+                UpdateCounter();
+            }
+            else
+            {
+                Debug.LogWarning("AdsManager или RewardedAds не найдены на сцене!");
+            }
         }
 
     }
@@ -91,7 +98,7 @@ public class Shaker : MonoBehaviour
     IEnumerator Shake()
     {
         isShaking = true;
-        AudioManager.Instance.PlayShakeSound();
+        AudioManager.Instance?.PlayShakeSound();
         originalPosition = rectTransform.localPosition;
         originalRotation = rectTransform.localRotation;
         
