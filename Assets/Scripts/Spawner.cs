@@ -32,7 +32,7 @@ public class Spawner : MonoBehaviour
 
     private void Awake()
     {
-        spawnerRect = gameObject.GetComponent<RectTransform>();
+        spawnerRect = GetComponent<RectTransform>();
         gameOverPanel.SetActive(false);
         nextItemImage.enabled = false;
 
@@ -95,11 +95,10 @@ public class Spawner : MonoBehaviour
         IsSpawned = false;
         yield return new WaitForSecondsRealtime(0.35f);
 
-        // 1. Получаем объект из пула или используем заготовленный
+        // 1. Настройка текущего овоща (itemToSpawn)
         if (nextItemToSpawn == null)
         {
             itemToSpawn = pool.GetRandom();
-            itemToSpawn.GetComponent<Vegetable>().HardResetForPool();
         }
         else
         {
@@ -107,48 +106,52 @@ public class Spawner : MonoBehaviour
             itemToSpawn.SetActive(true);
         }
 
-        // 2. Готовим СЛЕДУЮЩИЙ овощ (превью)
+        // КЭШИРУЕМ компоненты текущего овоща
+        var itemVeg = itemToSpawn.GetComponent<Vegetable>();
+        var itemRect = itemToSpawn.GetComponent<RectTransform>();
+
+        if (nextItemToSpawn == null) itemVeg.HardResetForPool();
+
+        // 2. Готовим СЛЕДУЮЩИЙ овощ (nextItemToSpawn)
         nextItemToSpawn = pool.GetRandom();
+
+        // КЭШИРУЕМ компоненты следующего овоща
         var nextVeg = nextItemToSpawn.GetComponent<Vegetable>();
-        
-        // Сначала полный сброс
+        var nextRenderer = nextItemToSpawn.GetComponent<SpriteRenderer>();
+
         nextVeg.HardResetForPool();
         nextItemToSpawn.SetActive(false);
 
-        // Шанс 30% на спецэффект
-        if (UnityEngine.Random.value <= currentEffectChance) //0.30f
+        // Логика спецэффекта
+        if (UnityEngine.Random.value <= currentEffectChance)
         {
-            nextVeg.SetSpecialType(GetPseudoRandomEffectType());  //Ice 1, Giant 2, Magic 3,  Radiation 4, Reaper 5,  Mutant 6, // Warning 7, Virus 8, Enchanted 9
+            nextVeg.SetSpecialType(GetPseudoRandomEffectType());
             currentEffectChance = baseEffectChance;
-            
         }
         else
         {
             currentEffectChance += chanceStep;
         }
 
-            // 3. Обновляем UI превью (БЕЗ ДУБЛИКАТОВ ПЕРЕМЕННЫХ)
-            var sRenderer = nextItemToSpawn.GetComponent<SpriteRenderer>(); // Используем короткое имя, чтобы не путаться
-        if (sRenderer != null)
+        // 3. Обновляем UI превью через кэшированный nextRenderer
+        if (nextRenderer != null)
         {
-            nextItemImage.sprite = sRenderer.sprite;
-            nextItemImage.color = sRenderer.color; // Подхватит цвет спецэффекта
+            nextItemImage.sprite = nextRenderer.sprite;
+            nextItemImage.color = nextRenderer.color;
             nextItemImage.enabled = true;
         }
 
-        // 4. Настраиваем текущий овощ для броска
+        // 4. Настраиваем текущий овощ для броска через кэшированный itemVeg и itemRect
         itemToSpawn.transform.SetParent(transform, false);
-        var itemVeg = itemToSpawn.GetComponent<Vegetable>();
         itemVeg.Initialize(drag);
-        itemVeg.EnableInput(); 
+        itemVeg.EnableInput();
 
-        itemWidth = itemToSpawn.GetComponent<RectTransform>().rect.width + itemVeg.radiusOffset;
+        itemWidth = itemRect.rect.width + itemVeg.radiusOffset;
         spawnerRect.sizeDelta = new Vector2(itemWidth, spawnerRect.sizeDelta.y);
-        
+
         IsSpawned = true;
         isSpawning = false;
     }
-
     public void ForceResetSpawning()
     {
         // Если корутина зависла из-за паузы рекламы, сбрасываем флаги
