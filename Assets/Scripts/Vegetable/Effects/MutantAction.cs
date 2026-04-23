@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "MutantAction", menuName = "Vegetable Effects/Mutant Logic")]
@@ -10,16 +11,25 @@ public class MutantAction : EffectAction
 
         int turns = self.CurrentEffectData != null ? self.CurrentEffectData.turnsToEvolve : 3;
 
-        new MutantTimer(self, turns);
+        var existingTimer = self.GetComponent<MutantTimer>();
+        if (existingTimer != null)
+        {
+            existingTimer.ResetTimer(turns); // Если есть — просто обновляем его
+        }
+        else
+        {
+            // Если нет — добавляем новый
+            self.gameObject.AddComponent<MutantTimer>().Initialize(self, turns);
+        }
     }
 }
 
-public class MutantTimer
+public class MutantTimer: MonoBehaviour
 {
     private Vegetable host;
     private int turnsLeft;
 
-    public MutantTimer(Vegetable v, int turns)
+    public void Initialize(Vegetable v, int turns)
     {
         host = v;
         turnsLeft = turns;
@@ -28,12 +38,14 @@ public class MutantTimer
 
     private void Tick()
     {
-        if (host == null || host.isActionReady) return; 
         if (host == null || host.specialType != Vegetable.VegetableType.Mutant)
         {
             Stop();
+            Destroy(this); // Если овощ еще жив, но тип сменился — удаляем компонент таймера
             return;
         }
+
+        if (host.isActionReady) return;
 
         turnsLeft--;
         if (turnsLeft <= 0)
@@ -46,5 +58,13 @@ public class MutantTimer
     private void Stop()
     {
         Vegetable.OnVegetableDropped -= Tick;
+    }
+    private void OnDestroy()
+    {
+        Stop();
+    }
+    public void ResetTimer(int turns)
+    {
+        turnsLeft = turns;
     }
 }
