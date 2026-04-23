@@ -27,7 +27,7 @@ MonoBehaviour:
   hasAura: 1
   auraRadius: 1.5
   auraSprite: {fileID: 21300000, guid: 87bbefba3a43a2246b4306d87be7c2f8, type: 3}
-  auraColor: {r: 1, g: 1, b: 1, a: 1}
+  auraColor: {r: 1, g: 1, b: 1, a: 0.52156866}
   animType: 2
   hasShake: 1
   shakeIntensity: 0.1
