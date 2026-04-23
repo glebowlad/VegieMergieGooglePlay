@@ -42,7 +42,15 @@ public class Spawner : MonoBehaviour
         Subscribe(drag);
         Spawn();
     }
+    private void OnEnable()
+    {
+        InterstitialAds.OnAdClosed += ForceResetSpawning;
+    }
 
+    private void OnDisable()
+    {
+        InterstitialAds.OnAdClosed -= ForceResetSpawning;
+    }
     private Vegetable.VegetableType GetPseudoRandomEffectType()
     {
         float totalWeight = 0f;
@@ -83,7 +91,7 @@ public class Spawner : MonoBehaviour
     {
         isSpawning = true;
         IsSpawned = false;
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSecondsRealtime(0.35f);
 
         // 1. Получаем объект из пула или используем заготовленный
         if (nextItemToSpawn == null)
@@ -139,7 +147,15 @@ public class Spawner : MonoBehaviour
         isSpawning = false;
     }
 
-
+    public void ForceResetSpawning()
+    {
+        // Если корутина зависла из-за паузы рекламы, сбрасываем флаги
+        isSpawning = false;
+        if (!IsSpawned)
+        {
+            Spawn();
+        }
+    }
     private void Subscribe(Drag _drag)
     {
         _drag = drag;

@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
 public class InterstitialAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
 {
     private string androidUnitID = "Interstitial_Android";
-
+    public static event Action OnAdClosed;
     public void LoadInterstitialAd()
     {
         Advertisement.Load(androidUnitID, this);
@@ -25,7 +24,9 @@ public class InterstitialAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSh
 
     public void OnUnityAdsShowClick(string placementId){  }
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
-    { 
+    {
+        Time.timeScale = 1f;
+        OnAdClosed?.Invoke();
         LoadInterstitialAd();
     }
 
