@@ -30,9 +30,6 @@ public class Vegetable : MonoBehaviour
     private Color[] originalColors;
     [Header("Масштабирование")]
     public float currentBaseScale = 1.25f;
-
-    private int startDropCount;
-    private float initialBase;
     private Collider2D collider2D;
 
     private void Awake()
