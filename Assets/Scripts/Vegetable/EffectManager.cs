@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EffectManager : MonoBehaviour
 {
-    public static EffectManager Instance; // Синглтон для быстрого доступа
+    public static EffectManager Instance { get; private set; } // Синглтон для быстрого доступа
 
     [Header("Настройки Пула")]
     public AuraEffect auraPrefab; // Твой созданный префаб
@@ -10,12 +10,24 @@ public class EffectManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-        // Создаем пул на 5 объектов (этого хватит для вспышек и радиации)
-        if (auraPrefab != null)
+        if (Instance == null)
         {
-            auraPool = new SimplePool<AuraEffect>(auraPrefab, 5);
+            Instance = this;
+            // Раскомментируйте строку ниже, если менеджер должен жить между всеми сценами
+            // DontDestroyOnLoad(gameObject); 
+
+            if (auraPrefab != null)
+            {
+                auraPool = new SimplePool<AuraEffect>(auraPrefab, 5);
+            }
         }
+        else
+        {
+            // Если менеджер уже существует на сцене — уничтожаем дубликат
+            Destroy(gameObject);
+            return;
+        }
+
     }
 
     // Главный метод, который будут вызывать Магия, Лёд или Радиация
