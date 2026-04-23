@@ -57,7 +57,15 @@ public class Drag : MonoBehaviour
                 {
                     if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
                     {
-                       
+                        if (spawner.IsSpawned && !line.gameObject.activeSelf)
+                        {
+                            line.gameObject.SetActive(true);
+                        }
+                        else if (!spawner.IsSpawned && line.gameObject.activeSelf)
+                        {
+                            line.gameObject.SetActive(false);
+                        }
+
                         MoveSpawner();
                         WhileDrag?.Invoke();
 
@@ -96,10 +104,10 @@ public class Drag : MonoBehaviour
     {
         isDragging = true;
         currentTouchId = fingerId;
-        if (spawner.IsSpawned)
-        {
-            line.gameObject.SetActive(true);
-        }
+        ////if (spawner.IsSpawned)
+        ////{
+        //    line.gameObject.SetActive(true);
+        ////}
     }
 
     private void FinishDrag()
@@ -113,9 +121,10 @@ public class Drag : MonoBehaviour
 
     private void MoveSpawner()
     {
+        Vector2 touchPosition = Input.GetTouch(currentTouchId).position;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvas.transform as RectTransform,
-            Input.mousePosition,
+            touchPosition,
             canvas.worldCamera,
             out Vector2 localPoint);
 
