@@ -35,8 +35,6 @@ public class GameOverCheck : MonoBehaviour
         for (int i = activeVegetables.Count - 1; i >= 0; i--)
         {
             var veg = activeVegetables[i];
-            
-            // Проверка на null (если овощ удалили при мердже)
             if (veg == null) {
                 activeVegetables.RemoveAt(i);
                 continue;

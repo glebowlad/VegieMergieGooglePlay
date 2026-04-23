@@ -84,17 +84,7 @@ public class Drag : MonoBehaviour
 
                 if (isInsideArea)
                 {
-                    //if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
-                    //{
-                    //    GameObject clickedObject = EventSystem.current.currentSelectedGameObject;
-                    //    if (clickedObject != null && clickedObject.CompareTag("Buttons"))
-                    //    {
-                    //        continue;
-                    //    }
-                    //}
-
                     StartDrag(touch.fingerId);
-                   
                 }
             }
         }
@@ -104,10 +94,6 @@ public class Drag : MonoBehaviour
     {
         isDragging = true;
         currentTouchId = fingerId;
-        ////if (spawner.IsSpawned)
-        ////{
-        //    line.gameObject.SetActive(true);
-        ////}
     }
 
     private void FinishDrag()

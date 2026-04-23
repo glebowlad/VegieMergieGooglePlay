@@ -69,7 +69,6 @@ public class Vegetable : MonoBehaviour
         drag.WhileDrag -= Move;
         drag.OnDragFinished -= Drop;
 
-        // Подписываемся заново
         drag.WhileDrag += Move;
         drag.OnDragFinished += Drop;
     }
