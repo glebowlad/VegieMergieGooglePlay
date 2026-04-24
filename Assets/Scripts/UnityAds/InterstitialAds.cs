@@ -12,6 +12,7 @@ public class InterstitialAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSh
     }
     public void ShowInterstitialAd()
     {
+        Time.timeScale = 0f;
         Advertisement.Show(androidUnitID, this);
     }
     public void OnUnityAdsAdLoaded(string placementId)

@@ -11823,7 +11823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1a98a355e541c543ade124fd4f9b914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenAds: 300
+  timeBetweenAds: 240
   minRestartCooldown: 100
 --- !u!4 &484178320
 Transform:

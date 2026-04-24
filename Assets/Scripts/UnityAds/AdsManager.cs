@@ -6,7 +6,7 @@ public class AdsManager : MonoBehaviour
     public static AdsManager Instance { get; private set; }
 
     [Header("Настройки таймеров")]
-    [SerializeField] private float timeBetweenAds = 180f;   
+    [SerializeField] private float timeBetweenAds;   
     [SerializeField] private float minRestartCooldown = 60f; 
 
     private InterstitialAds interstitialAds;
@@ -76,10 +76,7 @@ public class AdsManager : MonoBehaviour
         {
             interstitialAds.ShowInterstitialAd();
         }
-        else
-        {
-            Debug.LogWarning("<color=orange>[Ads]</color> Попытка показа провалена: SDK еще не инициализирован.");
-        }
+      
     }
 
 }

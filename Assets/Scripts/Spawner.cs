@@ -93,8 +93,8 @@ public class Spawner : MonoBehaviour
     {
         isSpawning = true;
         IsSpawned = false;
-        yield return new WaitForSecondsRealtime(0.35f);
-
+        yield return new WaitForSeconds(0.35f);
+        if (IsSpawned) yield break;
         // 1. Настройка текущего овоща (itemToSpawn)
         if (nextItemToSpawn == null)
         {
@@ -154,12 +154,7 @@ public class Spawner : MonoBehaviour
     }
     public void ForceResetSpawning()
     {
-        // Если корутина зависла из-за паузы рекламы, сбрасываем флаги
         isSpawning = false;
-        if (!IsSpawned)
-        {
-            Spawn();
-        }
     }
     private void Subscribe(Drag _drag)
     {
