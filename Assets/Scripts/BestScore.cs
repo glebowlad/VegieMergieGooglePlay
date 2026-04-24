@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -28,7 +25,7 @@ public class BestScore : MonoBehaviour
 
     private void ShowBestScore()
     {
-        bestScoreText.text = bestScore.ToString().PadLeft(5, '0');
+        bestScoreText.text = bestScore.ToString().PadLeft(6, '0');
         
     }
     private void SaveBestScore()
@@ -43,6 +40,11 @@ public class BestScore : MonoBehaviour
         PlayerPrefs.Save();
         ShowBestScore();
     }
+    public void UpdateBestScore()
+    {
+        CheckBestScore(); 
+    }
+
     public void CheckBestScore()
     {
         int currentScore = Counter.totalScore;

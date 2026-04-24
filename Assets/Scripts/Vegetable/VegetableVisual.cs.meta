@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: b7e9e17e6cd145f429104ebd960fed21
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - specialMask: {instanceID: 0}
+  - auraParticles: {instanceID: 0}
+  - iconIce: {fileID: 21300000, guid: deeae5bea98673746a154571b2441428, type: 3}
+  - iconGiant: {fileID: 21300000, guid: f82226927e990f5458c4518099d107d3, type: 3}
+  - iconRebirth: {fileID: 21300000, guid: a24c001fee32a0940b297e5abf8d1326, type: 3}
+  - iconToxic: {fileID: 21300000, guid: 87bbefba3a43a2246b4306d87be7c2f8, type: 3}
+  - iconGhost: {instanceID: 0}
+  - iconVirus: {instanceID: 0}
+  - statusDna: {instanceID: 0}
+  - statusWarning: {instanceID: 0}
+  - statusSparkle: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

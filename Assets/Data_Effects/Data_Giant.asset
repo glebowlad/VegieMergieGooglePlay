@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b302e0e7eae0db44b95ff34922ee86c7, type: 3}
+  m_Name: Data_Giant
+  m_EditorClassIdentifier: 
+  type: 2
+  icon: {fileID: 21300000, guid: f82226927e990f5458c4518099d107d3, type: 3}
+  maskColor: {r: 0.8, g: 0.3019608, b: 0, a: 0.9607843}
+  effectLogic: {fileID: 0}
+  effectSound: {fileID: 0}
+  scaleMultiplier: 1.3
+  gravityScale: 2
+  linearDrag: 0
+  fixedMass: 150
+  turnsToLive: 0
+  turnsToEvolve: 0
+  evolutionType: 0
+  hasAura: 0
+  auraRadius: 2.5
+  auraSprite: {fileID: 0}
+  auraColor: {r: 1, g: 1, b: 1, a: 1}
+  animType: 0
+  hasShake: 0
+  shakeIntensity: 0.05
+  maxParticles: 1
+  lifetime: 5
+  emissionRate: 5
+  size: 65
+  speed: 0
+  rotationEnabled: 0
+  rotationSpeed: {x: -1, y: 1}
+  disableShape: 1

@@ -3,110 +3,149 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance = null;
-    [SerializeField]
-    private AudioClip bgSound;
-    [SerializeField]
-    private AudioClip[] mergeSounds;
-    [SerializeField]
-    private AudioClip[] dropSounds;
+    public static AudioManager Instance { get; private set; }
+    [Header("Sources")]
+    [SerializeField] private AudioSource MusicSource;
+    [SerializeField] private AudioSource SFXSource;
 
-    [SerializeField] 
-    private AudioClip shakeSound;
-    [SerializeField] private Drag drag;
-    [SerializeField] 
-    private GameObject startPanel;
+    [Header("Clips")]
+    [SerializeField] private AudioClip bgSound;
+    [SerializeField]private AudioClip lastVegSound;
+    [SerializeField] private AudioClip finishSound;
+    [SerializeField] private AudioClip shakeSound;
+    [SerializeField] private AudioClip[] mergeSounds;
+    [SerializeField] private AudioClip[] dropSounds;
 
-    public static AudioSource source;
-    public static bool isMuted= false;
+    // Теперь храним реальную громкость
+    public float MusicVolume { get; private set; } 
+    public float SFXVolume { get; private set; }
+
+    public static bool isMusicMuted = false;
+    public static bool isSFXMuted = false;
+
     public static event Action Muted;
-    private static bool isStart = true;
-
-   
+    public static event Action SettingsLoaded;
     void Awake()
     {
-
         if (Instance == null)
-        { 
-            Instance = this; 
-        }
-        else 
-        { 
-            Destroy(gameObject); 
-            return; 
-        }
-        DontDestroyOnLoad(gameObject);
-
-        source = GetComponent<AudioSource>();
-        source.clip= bgSound;
-        Subscribe();
-    }
-    void Start()
-    {
-        startPanel.SetActive(isStart);
-        drag.enabled = false;
-        if(!isStart) { return; }
-        AudioListener.pause = true;
-        if (source.isPlaying) { source.Stop(); }
-    }
-
-    public void StartGame()
-    {
-        isStart = false;
-        AudioListener.pause = false;
-        if (!source.isPlaying)
         {
-            source.Play();
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            // Инициализация при самом первом запуске игры
+            MusicVolume = MusicSource != null ? MusicSource.volume : 1f;
+            SFXVolume = SFXSource != null ? SFXSource.volume : 1f;
+
+            if (MusicSource != null && bgSound != null)
+            {
+                MusicSource.clip = bgSound;
+                MusicSource.Play();
+            }
+            Subscribe();
         }
-        startPanel.SetActive(isStart);
-        drag.enabled = true;
-
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
-    private void Subscribe()
+    private void OnEnable()
     {
-        
-        Merge.Merged += PlayMergeSound;
+        SaveManager.OnDataLoaded += InitLoadedSettings;
     }
+
+
+    private void OnDisable()
+    {
+        SaveManager.OnDataLoaded -= InitLoadedSettings;
+    }
+
   
-    
-    public void Mute()
+
+    public void InitLoadedSettings(SaveManager.GameSaveData data)
     {
-        isMuted = !isMuted;
-        source.mute = isMuted;
+        if (data == null) return;
+        MusicVolume = data.mVol;
+        SFXVolume = data.sVol;
+        isMusicMuted = data.mMuted;
+        isSFXMuted = data.sMuted;
+
+        ApplySettings();
+        SettingsLoaded?.Invoke(); // Уведомляем SoundImage, что нужно обновить слайдеры
+    }
+
+    // Метод для изменения громкости музыки из слайдера
+    public void SetMusicVolume(float volume)
+    {
+        MusicVolume = volume;
+        if (!isMusicMuted && MusicSource != null)
+            MusicSource.volume = volume;
+    }
+
+    // Метод для изменения громкости эффектов из слайдера
+    public void SetSFXVolume(float volume)
+    {
+        SFXVolume = volume;
+        if (!isSFXMuted && SFXSource != null)
+            SFXSource.volume = volume;
+    }
+
+    public void ApplySettings()
+    {
+        if (MusicSource != null)
+        {
+            MusicSource.mute = isMusicMuted;
+            MusicSource.volume = isMusicMuted ? 0 : MusicVolume;
+        }
+        if (SFXSource != null)
+        {
+            SFXSource.mute = isSFXMuted;
+            SFXSource.volume = isSFXMuted ? 0 : SFXVolume;
+        }
+    }
+
+    public void MusicMute()
+    {
+        isMusicMuted = !isMusicMuted;
+        ApplySettings();
         Muted?.Invoke();
     }
 
+    public void SFXMute()
+    {
+        isSFXMuted = !isSFXMuted;
+        ApplySettings();
+        Muted?.Invoke();
+    }
+    public void PlayLastVegSound() { if (lastVegSound != null) SFXSource?.PlayOneShot(lastVegSound); }
     public void PlayMergeSound(int level)
     {
-        if (mergeSounds == null || mergeSounds.Length == 0)
+        if (level == 9)
         {
-            return;
+            PlayLastVegSound();
         }
-        AudioClip randomSound = mergeSounds[UnityEngine.Random.Range(0, mergeSounds.Length)];
-        source.PlayOneShot(randomSound);
+        else
+        {
+            PlayRandomSfx(mergeSounds);
+
+        }
+    }
+    public void PlayDropSound() => PlayRandomSfx(dropSounds);
+    public void PlayShakeSound() { if (shakeSound != null) SFXSource?.PlayOneShot(shakeSound); }
+    public void PlayFinishSound() { if (finishSound != null) SFXSource?.PlayOneShot(finishSound); }
+    public void PlayEffectSound(AudioClip effect) { if (effect != null) SFXSource?.PlayOneShot(effect); }
+    private void PlayRandomSfx(AudioClip[] clips)
+    {
+        if (clips == null || clips.Length == 0 || SFXSource == null || isSFXMuted) return;
+        AudioClip clip = clips[UnityEngine.Random.Range(0, clips.Length)];
+        SFXSource.PlayOneShot(clip, SFXVolume); // Проигрываем с учетом громкости
     }
 
-    public void PlayDropSound()
-    {
-        if (dropSounds == null || dropSounds.Length == 0)
-        {
-            return;
-        }
-        AudioClip randomSound = dropSounds[UnityEngine.Random.Range(0, dropSounds.Length)];
-        source.PlayOneShot(randomSound);
-    }
-    public void PlayShakeSound()
-    {
-        if (shakeSound == null )
-        {
-            return;
-        }
-        source.PlayOneShot(shakeSound);
-    }
+    private void Subscribe() => Merge.Merged += PlayMergeSound;
+
     private void OnDestroy()
     {
-        
-        Merge.Merged -= PlayMergeSound;
+        if (Instance == this) Merge.Merged -= PlayMergeSound;
     }
 }

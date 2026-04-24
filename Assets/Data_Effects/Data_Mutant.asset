@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b302e0e7eae0db44b95ff34922ee86c7, type: 3}
+  m_Name: Data_Mutant
+  m_EditorClassIdentifier: 
+  type: 6
+  icon: {fileID: 21300000, guid: 6df5cdbc1a4515844a836a5c0bbc188d, type: 3}
+  maskColor: {r: 0.6, g: 0, b: 0.101960786, a: 0.95686275}
+  effectLogic: {fileID: 11400000, guid: 332322b6ed877814cba9f8076027b4f5, type: 2}
+  effectSound: {fileID: 0}
+  scaleMultiplier: 1
+  gravityScale: 1
+  linearDrag: 0
+  fixedMass: 0
+  turnsToLive: 0
+  turnsToEvolve: 3
+  evolutionType: 8
+  hasAura: 0
+  auraRadius: 2.5
+  auraSprite: {fileID: 0}
+  auraColor: {r: 1, g: 1, b: 1, a: 1}
+  animType: 0
+  hasShake: 0
+  shakeIntensity: 0.05
+  maxParticles: 3
+  lifetime: 3
+  emissionRate: 0.5
+  size: 65
+  speed: 0.12
+  rotationEnabled: 0
+  rotationSpeed: {x: -1, y: 1}
+  disableShape: 0

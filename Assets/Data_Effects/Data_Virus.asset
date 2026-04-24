@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b302e0e7eae0db44b95ff34922ee86c7, type: 3}
+  m_Name: Data_Virus
+  m_EditorClassIdentifier: 
+  type: 8
+  icon: {fileID: 21300000, guid: 4a50d56256ceba040b58ee6b3a134eaf, type: 3}
+  maskColor: {r: 0.85882354, g: 0.7528134, b: 0.17254902, a: 0.68235296}
+  effectLogic: {fileID: 11400000, guid: e1a9508d64d5bfd41a1d713ba9e34b89, type: 2}
+  effectSound: {fileID: 0}
+  scaleMultiplier: 1.12
+  gravityScale: 1
+  linearDrag: 0
+  fixedMass: 0
+  turnsToLive: 0
+  turnsToEvolve: 3
+  evolutionType: 0
+  hasAura: 0
+  auraRadius: 2.5
+  auraSprite: {fileID: 0}
+  auraColor: {r: 1, g: 1, b: 1, a: 1}
+  animType: 0
+  hasShake: 1
+  shakeIntensity: 0.05
+  maxParticles: 4
+  lifetime: 1
+  emissionRate: 5
+  size: 55
+  speed: 1
+  rotationEnabled: 1
+  rotationSpeed: {x: -0.4, y: 0.4}
+  disableShape: 0
