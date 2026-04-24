@@ -115,7 +115,7 @@ public class Shaker : MonoBehaviour
             float z = Random.Range(-1f, 1f) * (magnitude * 0.5f);
             rectTransform.localRotation = Quaternion.Euler(0, 0, originalRotation.eulerAngles.z + z);
 
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             yield return null;
         }
 
