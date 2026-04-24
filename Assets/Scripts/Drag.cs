@@ -46,39 +46,37 @@ public class Drag : MonoBehaviour
         for (int i = 0; i < Input.touchCount; i++)
         {
             Touch touch = Input.GetTouch(i);
-            
-            if (isDragging)
+
+            if (isDragging && touch.fingerId == currentTouchId)
             {
-                if (touch.fingerId == currentTouchId)
+                if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
                 {
-                    if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
+                    // Обновляем состояние линии
+                    bool shouldShowLine = spawner.IsSpawned;
+                    if (line.gameObject.activeSelf != shouldShowLine)
                     {
-                        if (spawner.IsSpawned && !line.gameObject.activeSelf)
-                        {
-                            line.gameObject.SetActive(true);
-                        }
-                        else if (!spawner.IsSpawned && line.gameObject.activeSelf)
-                        {
-                            line.gameObject.SetActive(false);
-                        }
-
-                        MoveSpawner();
-                        WhileDrag?.Invoke();
-
+                        line.gameObject.SetActive(shouldShowLine);
                     }
 
-                    if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
-                    {
-                        FinishDrag();
-                    }
+                    // ПЕРЕДАЕМ touch напрямую, чтобы не искать его снова
+                    MoveSpawner(touch.position);
+                    WhileDrag?.Invoke();
                 }
-            }
-            
-            if (touch.phase == TouchPhase.Began)
-            {
-                bool isInsideArea = RectTransformUtility.RectangleContainsScreenPoint(touchArea, touch.position, canvas.worldCamera);
 
-                if (isInsideArea)
+                if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
+                {
+                    FinishDrag();
+                }
+
+                // Если мы нашли наш палец и обработали его, 
+                // переходить к проверке TouchPhase.Began для него же не всегда нужно,
+                // но для мультитача цикл продолжит работу.
+                continue;
+            }
+
+            if (touch.phase == TouchPhase.Began && !isDragging)
+            {
+                if (RectTransformUtility.RectangleContainsScreenPoint(touchArea, touch.position, canvas.worldCamera))
                 {
                     StartDrag(touch.fingerId);
                 }
@@ -101,12 +99,14 @@ public class Drag : MonoBehaviour
         OnDragFinished?.Invoke();
     }
 
-    private void MoveSpawner()
+    private void MoveSpawner(Vector2 screenPosition)
     {
-        Vector2 touchPosition = Input.GetTouch(currentTouchId).position;
+        // УДАЛЯЕМ СТРОКУ: Vector2 touchPosition = Input.GetTouch(currentTouchId).position;
+        // Используем screenPosition, который пришел из Update
+
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvas.transform as RectTransform,
-            touchPosition,
+            screenPosition, // Используем переданный аргумент
             canvas.worldCamera,
             out Vector2 localPoint);
 
