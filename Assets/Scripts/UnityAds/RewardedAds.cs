@@ -6,12 +6,14 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
 {
     private string androidUnitID = "Rewarded_Android";
     public static event Action OnRewardedAdClosed;
+    private Action onRewardGranted;
     public void LoadRewardedAd()
     {
         Advertisement.Load(androidUnitID, this);
     }
-    public void ShowRewardedAd()
+    public void ShowRewardedAd(Action rewardCallback)
     {
+        onRewardGranted=rewardCallback;
         Advertisement.Show(androidUnitID, this);
        
     }
@@ -24,15 +26,21 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
     public void OnUnityAdsShowClick(string placementId) { }
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState) 
     {
-        Time.timeScale = 1f;
-
-        // Если реклама досмотрена (награда получена) или пропущена
-        OnRewardedAdClosed?.Invoke();
-        LoadRewardedAd();
-        if (placementId==androidUnitID && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
+        if (placementId == androidUnitID)
         {
-            Debug.Log("Reward");
-        } 
+            if (showCompletionState == UnityAdsShowCompletionState.COMPLETED)
+            {
+                Debug.Log("Reward granted");
+
+                onRewardGranted?.Invoke();
+                onRewardGranted = null; 
+            }
+
+            OnRewardedAdClosed?.Invoke();
+
+          
+            LoadRewardedAd();
+        }
     }
 
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message) { }

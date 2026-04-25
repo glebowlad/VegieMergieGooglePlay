@@ -48,9 +48,10 @@ public class Shaker : MonoBehaviour
         {
             if (AdsManager.Instance != null && AdsManager.Instance.RewardedAds != null)
             {
-                AdsManager.Instance.RewardedAds.ShowRewardedAd();
-                currentShakeCount += maxShakes;
-                UpdateCounter();
+
+                AdsManager.Instance.RewardedAds.ShowRewardedAd(OnRewardGranted);
+                //currentShakeCount += maxShakes;
+                //UpdateCounter();
             }
             else
             {
@@ -60,6 +61,11 @@ public class Shaker : MonoBehaviour
 
     }
 
+    private void OnRewardGranted()
+    {
+        currentShakeCount += maxShakes;
+        UpdateCounter();
+    }
     private void UpdateCounter()
     {
         if (shakeCounterText != null)
