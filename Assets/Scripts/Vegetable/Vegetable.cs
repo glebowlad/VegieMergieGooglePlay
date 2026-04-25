@@ -30,12 +30,12 @@ public class Vegetable : MonoBehaviour
     private Color[] originalColors;
     [Header("Масштабирование")]
     public float currentBaseScale = 1.25f;
-    private Collider2D collider2D;
+    private Collider2D col2D;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        collider2D = GetComponent<Collider2D>();
+        col2D = GetComponent<Collider2D>();
         if (rb != null) originalMass = rb.mass;
 
         visual = GetComponent<VegetableVisual>();
@@ -130,8 +130,8 @@ public class Vegetable : MonoBehaviour
         specialType = type;
         dropCountAtSpawn = dropCount;
         // Сбрасываем триггер, если он был включен ранее
-        if (collider2D != null)
-            collider2D.isTrigger = false;
+        if (col2D != null)
+            col2D.isTrigger = false;
 
         currentBaseScale = transform.localScale.x;
         if (type == VegetableType.Default)
