@@ -11362,6 +11362,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LunarConsole
       objectReference: {fileID: 0}
+    - target: {fileID: 183544, guid: 6d0acc00cc82d436b9d11446d2ddfef6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 406632, guid: 6d0acc00cc82d436b9d11446d2ddfef6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -11823,7 +11827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1a98a355e541c543ade124fd4f9b914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenAds: 300
+  timeBetweenAds: 240
   minRestartCooldown: 100
 --- !u!4 &484178320
 Transform:
