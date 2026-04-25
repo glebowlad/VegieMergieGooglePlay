@@ -93,9 +93,9 @@ public class VirusController : MonoBehaviour
             var emission = ps.emission;
             var rot = ps.rotationOverLifetime;
 
-            main.maxParticles = 3;
+            main.maxParticles = 2;
             main.startLifetime = 2.5f;
-            main.startSize = 40f;
+            main.startSize = 35f;
             main.startSpeed = 0.1f;
             
             emission.rateOverTime = 1.5f;
