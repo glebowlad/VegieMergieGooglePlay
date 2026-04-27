@@ -11364,7 +11364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 183544, guid: 6d0acc00cc82d436b9d11446d2ddfef6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 406632, guid: 6d0acc00cc82d436b9d11446d2ddfef6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11880,7 +11880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd711078b26938e4ab63c7d4dc1ca28a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTesting: 1
+  isTesting: 0
 --- !u!1 &511610952
 GameObject:
   m_ObjectHideFlags: 0
