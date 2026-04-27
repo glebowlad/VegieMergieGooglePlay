@@ -31,6 +31,10 @@ public class InterstitialAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSh
         LoadInterstitialAd();
     }
 
-    public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message){  }
+    public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message){
+        Debug.LogError($"Ошибка показа: {message}");
+        Time.timeScale = 1f;
+        LoadInterstitialAd(); 
+    }
     public void OnUnityAdsShowStart(string placementId){  }
 }

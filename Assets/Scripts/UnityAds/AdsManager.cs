@@ -71,10 +71,16 @@ public class AdsManager : MonoBehaviour
 
     private void ShowSmartInterstitial()
     {
-        lastAdShowTime = Time.realtimeSinceStartup;
         if (UnityEngine.Advertisements.Advertisement.isInitialized && interstitialAds != null)
         {
+            lastAdShowTime = Time.realtimeSinceStartup;
             interstitialAds.ShowInterstitialAd();
+        }
+        else
+        {
+            Debug.LogWarning("Реклама не готова к показу. Пропускаем цикл.");
+            // Сбрасываем таймер, чтобы не пытаться показывать каждый кадр при ошибке
+            lastAdShowTime = Time.realtimeSinceStartup;
         }
       
     }
