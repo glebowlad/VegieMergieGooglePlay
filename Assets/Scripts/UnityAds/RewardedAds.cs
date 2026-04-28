@@ -37,7 +37,7 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
             }
 
             OnRewardedAdClosed?.Invoke();
-
+            AdsManager.Instance.lastAdShowTime = Time.realtimeSinceStartup;
           
             LoadRewardedAd();
         }

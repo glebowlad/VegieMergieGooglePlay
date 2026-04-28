@@ -154,7 +154,10 @@ public class Spawner : MonoBehaviour
     }
     public void ForceResetSpawning()
     {
+        Debug.Log("<color=cyan>[Spawner]</color> Принудительный сброс спавна после рекламы");
+        StopAllCoroutines(); // Останавливаем зависшие корутины таймера
         isSpawning = false;
+        // Если после рекламы овощ исчез и не появился новый, можно вызвать Spawn()
     }
     private void Subscribe(Drag _drag)
     {
@@ -164,5 +167,7 @@ public class Spawner : MonoBehaviour
     private void OnDestroy()
     {
         drag.OnDragFinished -= Spawn;
+        InterstitialAds.OnAdClosed -= ForceResetSpawning;
+        RewardedAds.OnRewardedAdClosed -= ForceResetSpawning;
     }
 }

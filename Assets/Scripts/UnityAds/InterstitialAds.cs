@@ -12,7 +12,6 @@ public class InterstitialAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSh
     }
     public void ShowInterstitialAd()
     {
-        Time.timeScale = 0f;
         Advertisement.Show(androidUnitID, this);
     }
     public void OnUnityAdsAdLoaded(string placementId)
@@ -29,6 +28,7 @@ public class InterstitialAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSh
         Time.timeScale = 1f;
         OnAdClosed?.Invoke();
         LoadInterstitialAd();
+        AdsManager.Instance.lastAdShowTime = Time.realtimeSinceStartup;
     }
 
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message){
@@ -36,5 +36,9 @@ public class InterstitialAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSh
         Time.timeScale = 1f;
         LoadInterstitialAd(); 
     }
-    public void OnUnityAdsShowStart(string placementId){  }
+    public void OnUnityAdsShowStart(string placementId)
+    {
+        Time.timeScale = 0f;
+        Debug.Log("Реклама началась, ставим игру на паузу");
+    }
 }

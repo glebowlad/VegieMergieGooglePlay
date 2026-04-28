@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Advertisements;
 
 public class AdsManager : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class AdsManager : MonoBehaviour
 
     public RewardedAds RewardedAds => rewardedAds;
 
-    private float lastAdShowTime;
+    public float lastAdShowTime;
 
     private void Awake()
     {
@@ -71,10 +72,10 @@ public class AdsManager : MonoBehaviour
 
     private void ShowSmartInterstitial()
     {
-        if (UnityEngine.Advertisements.Advertisement.isInitialized && interstitialAds != null)
+        if (Advertisement.isInitialized && interstitialAds != null)
         {
-            lastAdShowTime = Time.realtimeSinceStartup;
             interstitialAds.ShowInterstitialAd();
+            //lastAdShowTime = Time.realtimeSinceStartup;
         }
         else
         {
