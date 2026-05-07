@@ -21,7 +21,10 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
     {
         Debug.Log("Rewarded Ad loaded");
     }
-    public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message) { }
+    public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message) 
+    {
+        Debug.Log("Ошибка загрузки рекламы за награду");
+    }
 
     public void OnUnityAdsShowClick(string placementId) { }
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState) 
@@ -43,7 +46,10 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
         }
     }
 
-    public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message) { }
+    public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message) 
+    {
+        Debug.LogError($"Ошибка показа за награду: {message}");
+    }
     public void OnUnityAdsShowStart(string placementId) { }
 }
 

@@ -20,7 +20,9 @@ public class InterstitialAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSh
         
     }
 
-    public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message){  }
+    public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message){
+        Debug.Log("Ошибка загрузки межстраничной рекламы ");
+    }
 
     public void OnUnityAdsShowClick(string placementId){  }
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
