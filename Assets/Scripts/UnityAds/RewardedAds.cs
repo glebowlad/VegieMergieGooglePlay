@@ -43,7 +43,15 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
         }
     }
 
-    public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message) { }
+    public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message) 
+    {
+        Debug.Log("Ошибка показа рекламы за награду ,Reward granted");
+        onRewardGranted?.Invoke();
+        onRewardGranted = null;
+        OnRewardedAdClosed?.Invoke();
+        LoadRewardedAd();
+
+    }
     public void OnUnityAdsShowStart(string placementId) { }
 }
 
