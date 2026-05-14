@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using TMPro;
+using UnityEngine.UI;
 
 
 public class Shaker : MonoBehaviour
@@ -22,6 +23,11 @@ public class Shaker : MonoBehaviour
     private Quaternion originalRotation;
     private RectTransform rectTransform;
 
+    [Header("Error window settings")]
+    [SerializeField]
+    private GameObject networkErrorWindow; // Ссылка на игровой объект всплывающего окна
+    [SerializeField]
+    private Button closeErrorWindowButton;
     void Start()
     {
         AddVideo.SetActive(false);
@@ -29,14 +35,24 @@ public class Shaker : MonoBehaviour
         shakeCounterText.enabled = true;
         rectTransform = GetComponent<RectTransform>();
         currentShakeCount = maxShakes;
-
-
+        // Если окно ошибки назначено, гарантированно скрываем его на старте
+        if (networkErrorWindow != null)
+        {
+            networkErrorWindow.SetActive(false);
+        }
+        if (closeErrorWindowButton != null)
+        {
+            closeErrorWindowButton.onClick.AddListener(HideNetworkErrorWindow);
+        }
         UpdateCounter();
     }
 
     public void OnButtonClick()
     {
         if (isShaking) {return;}
+        // Если окно ошибки сейчас открыто, не даем кликать по кастрюле сквозь него
+        if (networkErrorWindow != null && networkErrorWindow.activeSelf) { return; }
+
         UpdateCounter();
         if (currentShakeCount > 0)
         {
@@ -49,13 +65,22 @@ public class Shaker : MonoBehaviour
             if (AdsManager.Instance != null && AdsManager.Instance.RewardedAds != null)
             {
 
-                AdsManager.Instance.RewardedAds.ShowRewardedAd(OnRewardGranted);
-                //currentShakeCount += maxShakes;
-                //UpdateCounter();
+                // Проверяем доступность рекламы через созданный ранее метод IsAdAvailable
+                if (AdsManager.Instance.RewardedAds.IsAdAvailable())
+                {
+                    AdsManager.Instance.RewardedAds.ShowRewardedAd(OnRewardGranted);
+                }
+                else
+                {
+                    // Реклама не готова (нет сети, заблокировал VPN или AdBlock) — показываем попап
+                    ShowNetworkErrorWindow();
+                }
+
             }
             else
             {
                 Debug.LogWarning("AdsManager или RewardedAds не найдены на сцене!");
+                ShowNetworkErrorWindow();
             }
         }
 
@@ -94,6 +119,28 @@ public class Shaker : MonoBehaviour
         if (counterObject != null) counterObject.SetActive(true);
     }
 
+    private void ShowNetworkErrorWindow()
+    {
+        if (networkErrorWindow != null)
+        {
+            networkErrorWindow.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("Не назначено окно 'networkErrorWindow' в инспекторе скрипта Shaker!");
+        }
+    }
+    private void HideNetworkErrorWindow()
+    {
+        if (networkErrorWindow != null)
+        {
+            networkErrorWindow.SetActive(false);
+            if (AdsManager.Instance != null && AdsManager.Instance.RewardedAds != null)
+            {
+                AdsManager.Instance.RewardedAds.RetryLoadAd();
+            }
+        }
+    }
     public void StartShake()
     {
         if (rectTransform == null) return;
@@ -128,5 +175,12 @@ public class Shaker : MonoBehaviour
         rectTransform.localPosition = originalPosition;
         rectTransform.localRotation = originalRotation;
         isShaking=false;
+    }
+    private void OnDestroy()
+    {
+        if (closeErrorWindowButton != null)
+        {
+            closeErrorWindowButton.onClick.RemoveListener(HideNetworkErrorWindow);
+        }
     }
 }

@@ -31,16 +31,19 @@ public class AdsManager : MonoBehaviour
 
         interstitialAds = GetComponent<InterstitialAds>();
         rewardedAds = GetComponent<RewardedAds>();
+        InitializeAds.OnAdsInitialized += StartLoadingAds;
     }
 
-    private void Start()
+    private void StartLoadingAds()
     {
+        Debug.Log("<color=cyan>[AdsManager]</color> SDK готов, начинаем безопасную загрузку.");
+
         if (interstitialAds != null) interstitialAds.LoadInterstitialAd();
         if (rewardedAds != null) rewardedAds.LoadRewardedAd();
 
+        // Запускаем корутину авто-показа только теперь
         StartCoroutine(AutoAdRoutine());
     }
-
     private IEnumerator AutoAdRoutine()
     {
         while (true)
@@ -85,5 +88,9 @@ public class AdsManager : MonoBehaviour
         }
       
     }
-
+    private void OnDestroy()
+    {
+        // Обязательно отписываемся при уничтожении во избежание утечек памяти
+        InitializeAds.OnAdsInitialized -= StartLoadingAds;
+    }
 }
