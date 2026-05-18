@@ -8,7 +8,7 @@ public class AdsManager : MonoBehaviour
 
     [Header("Настройки таймеров")]
     [SerializeField] private float timeBetweenAds;   
-    [SerializeField] private float minRestartCooldown = 60f; 
+    [SerializeField] private float minRestartCooldown = 90f; 
 
     private InterstitialAds interstitialAds;
     private RewardedAds rewardedAds;
@@ -36,12 +36,12 @@ public class AdsManager : MonoBehaviour
 
     private void StartLoadingAds()
     {
-        Debug.Log("<color=cyan>[AdsManager]</color> SDK готов, начинаем безопасную загрузку.");
+        Debug.Log(" SDK готов, начинаем безопасную загрузку.");
 
         if (interstitialAds != null) interstitialAds.LoadInterstitialAd();
         if (rewardedAds != null) rewardedAds.LoadRewardedAd();
 
-        // Запускаем корутину авто-показа только теперь
+        
         StartCoroutine(AutoAdRoutine());
     }
     private IEnumerator AutoAdRoutine()

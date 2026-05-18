@@ -11594,7 +11594,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Ads error. \nPlease check your  network and turn off VPN"
+  m_text: "Ads error. \nPlease check network connection. "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d9e8357645500ac449e1ec5a23373f4b, type: 2}
   m_sharedMaterial: {fileID: -7888248235869057158, guid: d9e8357645500ac449e1ec5a23373f4b, type: 2}
@@ -11685,7 +11685,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 183544, guid: 6d0acc00cc82d436b9d11446d2ddfef6, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 406632, guid: 6d0acc00cc82d436b9d11446d2ddfef6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20773,7 +20773,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3846463859217495625, guid: a155455976abb894cb03a4a82569f59a, type: 3}
       propertyPath: maxShakes
-      value: 2
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3846463859217495625, guid: a155455976abb894cb03a4a82569f59a, type: 3}
       propertyPath: counterText
@@ -20783,6 +20783,10 @@ PrefabInstance:
       propertyPath: counterObject
       value: 
       objectReference: {fileID: 193448619}
+    - target: {fileID: 3846463859217495625, guid: a155455976abb894cb03a4a82569f59a, type: 3}
+      propertyPath: initializeAds
+      value: 
+      objectReference: {fileID: 484178323}
     - target: {fileID: 3846463859217495625, guid: a155455976abb894cb03a4a82569f59a, type: 3}
       propertyPath: shakeCounterText
       value: 

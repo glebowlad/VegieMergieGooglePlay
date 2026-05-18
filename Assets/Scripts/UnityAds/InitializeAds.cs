@@ -17,7 +17,12 @@ public class InitializeAds : MonoBehaviour, IUnityAdsInitializationListener
 
     void Awake()
     {
-        if(!Advertisement.isInitialized&& Advertisement.isSupported)
+        InitializeAd();
+    }
+
+    public void InitializeAd()
+    {
+        if (!Advertisement.isInitialized && Advertisement.isSupported)
         {
             Advertisement.Initialize(androidID, isTesting, this);
         }
@@ -28,5 +33,4 @@ public class InitializeAds : MonoBehaviour, IUnityAdsInitializationListener
         }
     }
 
-  
 }

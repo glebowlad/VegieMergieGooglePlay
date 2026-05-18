@@ -1,6 +1,7 @@
-using UnityEngine;
 using System.Collections;
 using TMPro;
+using UnityEngine;
+using UnityEngine.Advertisements;
 using UnityEngine.UI;
 
 
@@ -28,6 +29,9 @@ public class Shaker : MonoBehaviour
     private GameObject networkErrorWindow; // Ссылка на игровой объект всплывающего окна
     [SerializeField]
     private Button closeErrorWindowButton;
+    [SerializeField]
+    private InitializeAds initializeAds;
+
     void Start()
     {
         AddVideo.SetActive(false);
@@ -134,6 +138,7 @@ public class Shaker : MonoBehaviour
     {
         if (networkErrorWindow != null)
         {
+            initializeAds.InitializeAd();
             networkErrorWindow.SetActive(false);
             if (AdsManager.Instance != null && AdsManager.Instance.RewardedAds != null)
             {
@@ -182,5 +187,10 @@ public class Shaker : MonoBehaviour
         {
             closeErrorWindowButton.onClick.RemoveListener(HideNetworkErrorWindow);
         }
+    }
+    private void OnApplicationPause(bool pause)
+    {
+        if(pause)
+        HideNetworkErrorWindow();
     }
 }

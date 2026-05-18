@@ -66,7 +66,7 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
 
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message) 
     {
-        Debug.Log("Ошибка показа рекламы за награду ,Reward granted");
+        Debug.Log("Ошибка показа рекламы за награду");
         isAdLoaded = false;
         onRewardGranted = null;
         OnRewardedAdClosed?.Invoke();
