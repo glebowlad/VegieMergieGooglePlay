@@ -1,6 +1,7 @@
-using UnityEngine;
-using System.Collections;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
 
 
 public class Shaker : MonoBehaviour
@@ -11,7 +12,9 @@ public class Shaker : MonoBehaviour
     private GameObject AddVideo;
     [SerializeField]
     private GameObject counterObject;
-    
+    [SerializeField]
+    private AdsErrorManager errorManager;
+
     public float duration = 0.2f;
     public float magnitude = 10f;
     public int maxShakes = 10;
@@ -21,7 +24,6 @@ public class Shaker : MonoBehaviour
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private RectTransform rectTransform;
-
     void Start()
     {
         AddVideo.SetActive(false);
@@ -29,8 +31,6 @@ public class Shaker : MonoBehaviour
         shakeCounterText.enabled = true;
         rectTransform = GetComponent<RectTransform>();
         currentShakeCount = maxShakes;
-
-
         UpdateCounter();
     }
 
@@ -49,13 +49,22 @@ public class Shaker : MonoBehaviour
             if (AdsManager.Instance != null && AdsManager.Instance.RewardedAds != null)
             {
 
-                AdsManager.Instance.RewardedAds.ShowRewardedAd(OnRewardGranted);
-                //currentShakeCount += maxShakes;
-                //UpdateCounter();
+                // Проверяем доступность рекламы через созданный ранее метод IsAdAvailable
+                if (AdsManager.Instance.RewardedAds.IsAdAvailable())
+                {
+                    AdsManager.Instance.RewardedAds.ShowRewardedAd(OnRewardGranted);
+                }
+                else
+                {
+                    // Реклама не готова (нет сети, заблокировал VPN или AdBlock) — показываем попап
+                    errorManager.ShowNetworkErrorWindow();
+                }
+
             }
             else
             {
                 Debug.LogWarning("AdsManager или RewardedAds не найдены на сцене!");
+                errorManager.ShowNetworkErrorWindow();
             }
         }
 
@@ -94,6 +103,8 @@ public class Shaker : MonoBehaviour
         if (counterObject != null) counterObject.SetActive(true);
     }
 
+ 
+   
     public void StartShake()
     {
         if (rectTransform == null) return;
@@ -129,4 +140,6 @@ public class Shaker : MonoBehaviour
         rectTransform.localRotation = originalRotation;
         isShaking=false;
     }
+    
+    
 }

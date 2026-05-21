@@ -75,9 +75,21 @@ public class IceTimer
 
         if (remainingTurns <= 0)
         {
-            Vegetable.OnVegetableDropped -= Tick; // Отписываемся
-            target.currentTimer = null; 
-            target.SetSpecialType(Vegetable.VegetableType.Default); // Размораживаем
+           
+            Unfreeze();
         }
+    }
+    private void Unfreeze()
+    {
+        Vegetable.OnVegetableDropped -= Tick; // Отписываемся
+        target.currentTimer = null;
+        target.rb.bodyType = RigidbodyType2D.Dynamic;
+        target.SetSpecialType(Vegetable.VegetableType.Default); // Размораживаем
+        if(target.rb.mass>9f)
+            target.rb.AddRelativeForce(Vector2.up*25f, ForceMode2D.Impulse);
+        else if (target.rb.mass <2f)
+            target.rb.AddRelativeForce(Vector2.up * 1f, ForceMode2D.Impulse);
+        else
+            target.rb.AddRelativeForce(Vector2.up * 5f, ForceMode2D.Impulse);
     }
 }
