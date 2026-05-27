@@ -1,4 +1,5 @@
 using System;
+using YG;
 using UnityEngine;
 
 public class Drag : MonoBehaviour
@@ -97,12 +98,13 @@ public class Drag : MonoBehaviour
         currentTouchId = -1;
         line.gameObject.SetActive(false);
         OnDragFinished?.Invoke();
+        YG2.InterstitialAdvShow();
+
     }
 
     private void MoveSpawner(Vector2 screenPosition)
     {
-        // ”ƒјЋя≈ћ —“–ќ ”: Vector2 touchPosition = Input.GetTouch(currentTouchId).position;
-        // »спользуем screenPosition, который пришел из Update
+        
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvas.transform as RectTransform,

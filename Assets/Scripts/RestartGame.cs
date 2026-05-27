@@ -1,3 +1,4 @@
+using YG;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +10,8 @@ public class RestartGame : MonoBehaviour
     public void Restart()
     {
         if (bestScore != null) { bestScore.CheckBestScore(); }
-        AdsManager.Instance?.ShowAdOnRestart();
+        YG2.InterstitialAdvShow();
+        //AdsManager.Instance?.ShowAdOnRestart();
         Counter.totalScore = 0;
         saveManager.SaveGame();
         SceneManager.LoadScene(0);

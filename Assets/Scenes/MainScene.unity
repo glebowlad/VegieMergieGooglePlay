@@ -12112,7 +12112,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &484178319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20766,7 +20766,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3846463859217495625, guid: a155455976abb894cb03a4a82569f59a, type: 3}
       propertyPath: maxShakes
-      value: 15
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3846463859217495625, guid: a155455976abb894cb03a4a82569f59a, type: 3}
       propertyPath: counterText

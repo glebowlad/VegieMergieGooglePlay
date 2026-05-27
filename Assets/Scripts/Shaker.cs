@@ -1,6 +1,6 @@
 using TMPro;
+using YG;
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 
@@ -46,26 +46,28 @@ public class Shaker : MonoBehaviour
         }
         else
         {
-            if (AdsManager.Instance != null && AdsManager.Instance.RewardedAds != null)
-            {
+            string id = "shakes";
+            YG2.RewardedAdvShow(id,OnRewardGranted);
+            //if (AdsManager.Instance != null && AdsManager.Instance.RewardedAds != null)
+            //{
 
-                // Проверяем доступность рекламы через созданный ранее метод IsAdAvailable
-                if (AdsManager.Instance.RewardedAds.IsAdAvailable())
-                {
-                    AdsManager.Instance.RewardedAds.ShowRewardedAd(OnRewardGranted);
-                }
-                else
-                {
-                    // Реклама не готова (нет сети, заблокировал VPN или AdBlock) — показываем попап
-                    errorManager.ShowNetworkErrorWindow();
-                }
+            //    // Проверяем доступность рекламы через созданный ранее метод IsAdAvailable
+            //    if (AdsManager.Instance.RewardedAds.IsAdAvailable())
+            //    {
+            //        AdsManager.Instance.RewardedAds.ShowRewardedAd(OnRewardGranted);
+            //    }
+            //    else
+            //    {
+            //        // Реклама не готова (нет сети, заблокировал VPN или AdBlock) — показываем попап
+            //        errorManager.ShowNetworkErrorWindow();
+            //    }
 
-            }
-            else
-            {
-                Debug.LogWarning("AdsManager или RewardedAds не найдены на сцене!");
-                errorManager.ShowNetworkErrorWindow();
-            }
+            //}
+            //else
+            //{
+            //    Debug.LogWarning("AdsManager или RewardedAds не найдены на сцене!");
+            //    errorManager.ShowNetworkErrorWindow();
+            //}
         }
 
     }
