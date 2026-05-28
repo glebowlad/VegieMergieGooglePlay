@@ -73,12 +73,12 @@ public class WormController : MonoBehaviour
         if (!gameObject.activeInHierarchy) return;
         if (wormHead == null || pauseMenuRect == null || parentRect == null) return;
 
-#if UNITY_EDITOR || UNITY_STANDALONE
-        bool pressed = Input.GetMouseButton(0);
-        Vector2 fingerScreen = Input.mousePosition;
-#else
+#if UNITY_IOS || UNITY_ANDROID
         bool pressed = Input.touchCount > 0;
         Vector2 fingerScreen = pressed ? Input.GetTouch(0).position : Vector2.zero;
+#else
+        bool pressed = Input.GetMouseButton(0);
+        Vector2 fingerScreen = Input.mousePosition;
 #endif
 
         if (!inputUnlocked)
