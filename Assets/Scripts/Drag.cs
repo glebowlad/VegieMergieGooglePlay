@@ -1,6 +1,7 @@
 using System;
-using YG;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using YG;
 
 public class Drag : MonoBehaviour
 {
@@ -10,8 +11,8 @@ public class Drag : MonoBehaviour
     private Spawner spawner;
     public RectTransform leftWall;
     public RectTransform rightWall;
-    
-    public RectTransform touchArea; 
+
+    public RectTransform touchArea;
 
     public event Action WhileDrag;
     public event Action OnDragFinished;
@@ -44,6 +45,8 @@ public class Drag : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_IOS || UNITY_ANDROID
+
         for (int i = 0; i < Input.touchCount; i++)
         {
             Touch touch = Input.GetTouch(i);
@@ -83,6 +86,50 @@ public class Drag : MonoBehaviour
                 }
             }
         }
+#else
+
+        if (!spawner.IsSpawned) return;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            // Проверяем, кликнули ли мы по кнопкам
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                // Получаем объект, по которому кликнули
+                GameObject clickedObject = EventSystem.current.currentSelectedGameObject;
+
+                // Если кликнули по UI, и это НЕ наша зона ввода — игнорируем (выходим)
+                // Здесь замени "InputArea" на точное имя твоего объекта в иерархии
+                if (clickedObject != null && clickedObject.name != "InputArea")
+                {
+                    return;
+                }
+            }
+
+            isDragging = true;
+            line.gameObject.SetActive(true);
+        }
+
+        if (isDragging && Input.GetMouseButton(0))
+        {
+            MoveSpawner(Input.mousePosition);
+            WhileDrag?.Invoke();
+        }
+
+        if (isDragging && Input.GetMouseButtonUp(0))
+        {
+            //numberOfClicks++;
+            isDragging = false;
+            line.gameObject.SetActive(false);
+            //if (numberOfClicks != 0 && numberOfClicks % 30 == 0)
+            //{
+            //    YG2.InterstitialAdvShow();
+            //}
+            OnDragFinished?.Invoke();
+            AudioManager.Instance.PlayDropSound();
+        }
+#endif
+
     }
 
     private void StartDrag(int fingerId)
