@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using YG;
 
 public class BestScore : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class BestScore : MonoBehaviour
     {
         PlayerPrefs.SetInt("BestScore", bestScore);
         PlayerPrefs.Save();
+        YG2.SetLeaderboard("Leaderboard", bestScore);
     }
     // метод для сброса рекорда для тестов
     public void ResetScore()
